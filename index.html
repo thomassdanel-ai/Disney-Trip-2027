@@ -4,979 +4,2680 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Disney World 2027 — Trip HQ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap');
+/* ============================================================
+   CSS CUSTOM PROPERTIES
+   ============================================================ */
+:root {
+  --bg: #0b0d11;
+  --surface: #14161d;
+  --elevated: #1c1f28;
+  --border: rgba(255,255,255,0.06);
+  --border-hover: rgba(255,255,255,0.12);
+  --text: #eeeef0;
+  --text-secondary: #7c8091;
+  --text-muted: #4a4d5c;
+  --accent: #3b82f6;
+  --accent-glow: rgba(59,130,246,0.15);
+  --gold: #f59e0b;
+  --gold-glow: rgba(245,158,11,0.12);
+  --mk: #3b82f6;
+  --mk-dim: rgba(59,130,246,0.12);
+  --hs: #ef4444;
+  --hs-dim: rgba(239,68,68,0.12);
+  --ak: #22c55e;
+  --ak-dim: rgba(34,197,94,0.12);
+  --ep: #a855f7;
+  --ep-dim: rgba(168,85,247,0.12);
+  --rest: #06b6d4;
+  --rest-dim: rgba(6,182,212,0.12);
+  --travel: #64748b;
+  --travel-dim: rgba(100,116,139,0.12);
+  --pink: #ec4899;
+  --green-check: #22c55e;
+  --red-check: #ef4444;
+  --yellow-check: #eab308;
+  --radius: 12px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --font-display: 'Outfit', sans-serif;
+  --font-body: 'Plus Jakarta Sans', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --shadow-glow: 0 0 40px rgba(59,130,246,0.08);
+  --shadow-card: 0 2px 8px rgba(0,0,0,0.3), 0 1px 3px rgba(0,0,0,0.2);
+  --shadow-elevated: 0 8px 30px rgba(0,0,0,0.4), 0 2px 8px rgba(0,0,0,0.3);
+}
 
-  :root {
-    --bg: #fafafa;
-    --surface: #ffffff;
-    --surface-raised: #ffffff;
-    --border: rgba(0,0,0,0.06);
-    --border-strong: rgba(0,0,0,0.1);
-    --text-primary: #1a1a2e;
-    --text-secondary: #5a5a72;
-    --text-muted: #8e8ea0;
-    --accent: #4f46e5;
-    --accent-light: #eef2ff;
-    --mk: #2563eb;
-    --mk-bg: #eff6ff;
-    --hs: #dc2626;
-    --hs-bg: #fef2f2;
-    --ak: #16a34a;
-    --ak-bg: #f0fdf4;
-    --ep: #7c3aed;
-    --ep-bg: #f5f3ff;
-    --gold: #d97706;
-    --gold-bg: #fffbeb;
-    --pink: #db2777;
-    --teal: #0891b2;
-    --radius: 12px;
-    --radius-lg: 20px;
-    --shadow-sm: 0 1px 2px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.06);
-    --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -2px rgba(0,0,0,0.05);
-    --shadow-lg: 0 10px 25px -3px rgba(0,0,0,0.06), 0 4px 10px -4px rgba(0,0,0,0.04);
-    --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  }
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
 
-  body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    background: var(--bg);
-    color: var(--text-primary);
-    line-height: 1.65;
-    -webkit-font-smoothing: antialiased;
-  }
+/* Subtle noise overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+}
 
-  /* === HERO === */
-  .hero {
-    position: relative;
-    padding: 80px 24px 70px;
-    text-align: center;
-    background: linear-gradient(160deg, #1e1b4b 0%, #312e81 35%, #4338ca 70%, #6366f1 100%);
-    color: white;
-    overflow: hidden;
-  }
-  .hero::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(ellipse 600px 400px at 30% 20%, rgba(255,255,255,0.08) 0%, transparent 70%),
-                radial-gradient(ellipse 500px 300px at 70% 80%, rgba(99,102,241,0.3) 0%, transparent 70%);
-    pointer-events: none;
-  }
-  .hero::after {
-    content: '';
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-  }
-  .hero-inner { position: relative; max-width: 640px; margin: 0 auto; }
-  .hero-eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 0.8em;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    opacity: 0.7;
-    margin-bottom: 20px;
-  }
-  .hero h1 {
-    font-family: 'Playfair Display', Georgia, serif;
-    font-size: clamp(2.2em, 5vw, 3.4em);
-    font-weight: 700;
-    line-height: 1.15;
-    letter-spacing: -0.02em;
-    margin-bottom: 12px;
-  }
-  .hero .subtitle {
-    font-size: 1.1em;
-    font-weight: 300;
-    opacity: 0.75;
-    margin-bottom: 32px;
-  }
-  .hero-pills {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-  .hero-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 8px 18px;
-    background: rgba(255,255,255,0.1);
-    border: 1px solid rgba(255,255,255,0.12);
-    border-radius: 100px;
-    font-size: 0.85em;
-    font-weight: 500;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-  }
+a { color: var(--accent); text-decoration: none; transition: color 0.2s var(--ease); }
+a:hover { color: #60a5fa; }
 
-  /* === NAV === */
-  .nav {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background: rgba(255,255,255,0.85);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 0;
-    padding: 0 12px;
-  }
-  .nav a {
-    padding: 14px 18px;
-    text-decoration: none;
-    color: var(--text-secondary);
-    font-size: 0.82em;
-    font-weight: 500;
-    letter-spacing: 0.01em;
-    transition: color var(--transition);
-    position: relative;
-  }
-  .nav a::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 18px;
-    right: 18px;
-    height: 2px;
-    background: var(--accent);
-    border-radius: 2px;
-    transform: scaleX(0);
-    transition: transform var(--transition);
-  }
-  .nav a:hover { color: var(--text-primary); }
-  .nav a:hover::after { transform: scaleX(1); }
+/* ============================================================
+   TOP NAV
+   ============================================================ */
+.topnav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  background: rgba(11,13,17,0.82);
+  backdrop-filter: blur(24px) saturate(1.4);
+  -webkit-backdrop-filter: blur(24px) saturate(1.4);
+  border-bottom: 1px solid var(--border);
+  transition: background 0.3s var(--ease);
+}
 
-  /* === LAYOUT === */
-  .container { max-width: 960px; margin: 0 auto; padding: 0 24px; }
-  .section {
-    padding: 56px 24px;
-    max-width: 960px;
-    margin: 0 auto;
-  }
-  .section + .section { padding-top: 0; }
-  .section-header {
-    margin-bottom: 32px;
-    display: flex;
-    align-items: baseline;
-    gap: 12px;
-  }
-  .section-title {
-    font-family: 'Playfair Display', Georgia, serif;
-    font-size: 1.6em;
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    color: var(--text-primary);
-  }
-  .section-subtitle {
-    font-size: 0.85em;
-    color: var(--text-muted);
-    font-weight: 400;
-  }
+.topnav-brand {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.1em;
+  letter-spacing: -0.03em;
+  color: var(--text);
+  margin-right: 8px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
 
-  /* === SCHEDULE === */
-  .schedule-list { display: flex; flex-direction: column; gap: 10px; }
-  .day-card {
-    display: flex;
-    align-items: flex-start;
-    gap: 18px;
-    padding: 20px 24px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    transition: box-shadow var(--transition), border-color var(--transition);
-  }
-  .day-card:hover {
-    box-shadow: var(--shadow-md);
-    border-color: var(--border-strong);
-  }
-  .day-card.featured {
-    border: 1.5px solid var(--gold);
-    background: linear-gradient(135deg, var(--gold-bg) 0%, var(--surface) 100%);
-  }
-  .day-dot {
-    flex-shrink: 0;
-    width: 48px;
-    height: 48px;
-    border-radius: 14px;
+.topnav-brand span {
+  background: linear-gradient(135deg, var(--accent), var(--ep));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.topnav-links {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  margin-left: auto;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.topnav-links::-webkit-scrollbar { display: none; }
+
+.nav-link {
+  font-family: var(--font-body);
+  font-size: 0.82em;
+  font-weight: 500;
+  color: var(--text-secondary);
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s var(--ease);
+  white-space: nowrap;
+  position: relative;
+  user-select: none;
+  border: none;
+  background: none;
+}
+.nav-link:hover {
+  color: var(--text);
+  background: rgba(255,255,255,0.04);
+}
+.nav-link.active {
+  color: var(--text);
+  background: rgba(59,130,246,0.1);
+}
+.nav-link.active::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 16px;
+  height: 2px;
+  background: var(--accent);
+  border-radius: 2px;
+}
+
+/* Mobile hamburger */
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--text);
+  cursor: pointer;
+  padding: 8px;
+  margin-left: auto;
+}
+.nav-toggle svg { width: 22px; height: 22px; }
+
+/* ============================================================
+   PAGE CONTAINER & TRANSITIONS
+   ============================================================ */
+.app { padding-top: 60px; }
+
+.page {
+  display: none;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.35s var(--ease), transform 0.35s var(--ease);
+  min-height: calc(100vh - 60px);
+  padding: 32px 24px 80px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.page.active {
+  display: block;
+}
+.page.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ============================================================
+   OVERVIEW PAGE
+   ============================================================ */
+.overview-hero {
+  text-align: center;
+  padding: 48px 0 40px;
+  position: relative;
+}
+
+.overview-castle {
+  position: relative;
+  width: 120px;
+  height: 100px;
+  margin: 0 auto 24px;
+}
+
+/* CSS Castle Silhouette */
+.castle-svg {
+  width: 120px;
+  height: 100px;
+  opacity: 0.15;
+  filter: drop-shadow(0 0 20px var(--accent));
+}
+
+.overview-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.78em;
+  font-weight: 500;
+  color: var(--accent);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.overview-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.2em, 5vw, 3.6em);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+  margin-bottom: 8px;
+  background: linear-gradient(160deg, #fff 30%, var(--text-secondary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.overview-subtitle {
+  font-size: 1.05em;
+  color: var(--text-secondary);
+  font-weight: 300;
+  margin-bottom: 28px;
+}
+
+.overview-pills {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.overview-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  font-family: var(--font-mono);
+  font-size: 0.75em;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+/* Countdown */
+.countdown-section {
+  margin: 40px 0 48px;
+}
+
+.countdown-label {
+  font-family: var(--font-display);
+  font-size: 0.9em;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.countdown {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.countdown-unit {
+  text-align: center;
+  min-width: 80px;
+}
+
+.countdown-num {
+  font-family: var(--font-display);
+  font-size: 2.8em;
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  background: linear-gradient(180deg, var(--text) 0%, var(--text-secondary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.countdown-text {
+  font-family: var(--font-mono);
+  font-size: 0.68em;
+  font-weight: 500;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-top: 4px;
+}
+
+/* Stats Grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+  margin-bottom: 36px;
+}
+
+.stat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  text-align: center;
+  transition: all 0.25s var(--ease);
+}
+.stat-card:hover {
+  border-color: var(--border-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-glow);
+}
+
+.stat-icon { font-size: 1.5em; margin-bottom: 8px; }
+
+.stat-value {
+  font-family: var(--font-display);
+  font-size: 1.8em;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--text);
+}
+
+.stat-label {
+  font-size: 0.78em;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+/* Quick Links */
+.quick-links {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
+  margin-top: 36px;
+}
+
+.quick-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all 0.25s var(--ease);
+  user-select: none;
+}
+.quick-link:hover {
+  border-color: var(--border-hover);
+  background: var(--elevated);
+  transform: translateX(4px);
+}
+
+.quick-link-icon { font-size: 1.3em; flex-shrink: 0; }
+.quick-link-text {
+  font-size: 0.88em;
+  font-weight: 600;
+  color: var(--text);
+}
+.quick-link-arrow {
+  margin-left: auto;
+  color: var(--text-muted);
+  font-size: 0.8em;
+  transition: transform 0.2s var(--ease);
+}
+.quick-link:hover .quick-link-arrow { transform: translateX(3px); }
+
+/* Deadline Highlight */
+.next-deadline-card {
+  background: linear-gradient(135deg, rgba(245,158,11,0.08) 0%, rgba(239,68,68,0.06) 100%);
+  border: 1px solid rgba(245,158,11,0.2);
+  border-radius: var(--radius-lg);
+  padding: 24px 28px;
+  margin-bottom: 36px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.next-deadline-icon {
+  font-size: 2em;
+  flex-shrink: 0;
+}
+
+.next-deadline-label {
+  font-family: var(--font-mono);
+  font-size: 0.7em;
+  font-weight: 600;
+  color: var(--gold);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 4px;
+}
+
+.next-deadline-text {
+  font-size: 0.92em;
+  color: var(--text);
+  font-weight: 500;
+}
+
+.next-deadline-date {
+  font-family: var(--font-mono);
+  font-size: 0.78em;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+
+/* Progress Section */
+.progress-section {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 24px 28px;
+  margin-bottom: 36px;
+}
+
+.progress-ring-container {
+  flex-shrink: 0;
+  position: relative;
+  width: 72px;
+  height: 72px;
+}
+
+.progress-ring {
+  transform: rotate(-90deg);
+  width: 72px;
+  height: 72px;
+}
+
+.progress-ring-bg {
+  fill: none;
+  stroke: var(--elevated);
+  stroke-width: 6;
+}
+
+.progress-ring-fill {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 6;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.8s var(--ease);
+}
+
+.progress-percent {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 1.1em;
+  font-weight: 800;
+  color: var(--text);
+}
+
+.progress-info h3 {
+  font-family: var(--font-display);
+  font-size: 1em;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.progress-info p {
+  font-size: 0.84em;
+  color: var(--text-secondary);
+}
+
+/* ============================================================
+   CALENDAR PAGE
+   ============================================================ */
+.page-header {
+  margin-bottom: 32px;
+}
+
+.page-title {
+  font-family: var(--font-display);
+  font-size: 1.8em;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin-bottom: 4px;
+}
+
+.page-subtitle {
+  font-size: 0.88em;
+  color: var(--text-secondary);
+}
+
+/* Week Strip */
+.week-strip {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 28px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.week-strip::-webkit-scrollbar { display: none; }
+
+.day-pill {
+  flex: 1;
+  min-width: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 14px 12px;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all 0.25s var(--ease);
+  user-select: none;
+}
+.day-pill:hover {
+  border-color: var(--border-hover);
+  transform: translateY(-2px);
+}
+.day-pill.active {
+  border-color: var(--accent);
+  background: var(--accent-glow);
+  box-shadow: 0 0 20px rgba(59,130,246,0.1);
+}
+
+.day-pill-dow {
+  font-family: var(--font-mono);
+  font-size: 0.68em;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+}
+.day-pill.active .day-pill-dow { color: var(--accent); }
+
+.day-pill-date {
+  font-family: var(--font-display);
+  font-size: 1.5em;
+  font-weight: 800;
+  color: var(--text);
+}
+
+.day-pill-label {
+  font-size: 0.7em;
+  font-weight: 600;
+  padding: 2px 10px;
+  border-radius: 100px;
+  white-space: nowrap;
+}
+
+/* Day Detail Panel */
+.day-detail {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  animation: slideUp 0.35s var(--ease);
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.day-detail-header {
+  padding: 28px 28px 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.day-detail-header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.08;
+  pointer-events: none;
+}
+
+.day-detail-title {
+  font-family: var(--font-display);
+  font-size: 1.4em;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-bottom: 4px;
+}
+
+.day-detail-meta {
+  font-family: var(--font-mono);
+  font-size: 0.78em;
+  color: var(--text-secondary);
+}
+
+.day-detail-desc {
+  font-size: 0.9em;
+  color: var(--text-secondary);
+  margin-top: 12px;
+  line-height: 1.7;
+}
+
+.day-detail-desc a {
+  color: var(--accent);
+  border-bottom: 1px solid rgba(59,130,246,0.3);
+  transition: border-color 0.2s;
+}
+.day-detail-desc a:hover { border-color: var(--accent); }
+
+/* Activity Timeline */
+.timeline {
+  padding: 0 28px 28px;
+}
+
+.timeline-title {
+  font-family: var(--font-display);
+  font-size: 0.88em;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 16px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+
+.activity-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 16px 18px;
+  background: var(--elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: all 0.2s var(--ease);
+}
+.activity-card:hover {
+  border-color: var(--border-hover);
+  background: rgba(255,255,255,0.04);
+}
+.activity-card.expanded {
+  border-color: var(--accent);
+  background: rgba(59,130,246,0.04);
+}
+
+.activity-icon {
+  font-size: 1.4em;
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background: var(--surface);
+}
+
+.activity-body { flex: 1; min-width: 0; }
+
+.activity-name {
+  font-size: 0.9em;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 2px;
+}
+
+.activity-meta {
+  font-size: 0.78em;
+  color: var(--text-secondary);
+}
+
+.activity-tag {
+  font-family: var(--font-mono);
+  font-size: 0.68em;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 6px;
+  margin-left: auto;
+  flex-shrink: 0;
+  align-self: center;
+}
+
+.activity-expand {
+  margin-left: auto;
+  color: var(--text-muted);
+  font-size: 0.7em;
+  transition: transform 0.2s var(--ease);
+  flex-shrink: 0;
+  align-self: center;
+}
+.activity-card.expanded .activity-expand { transform: rotate(180deg); }
+
+.activity-detail {
+  display: none;
+  padding: 14px 18px;
+  margin: -4px 0 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-top: none;
+  border-radius: 0 0 var(--radius) var(--radius);
+  font-size: 0.86em;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  animation: slideUp 0.25s var(--ease);
+}
+.activity-detail.open { display: block; }
+
+.activity-detail-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 10px;
+  font-size: 0.9em;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.activity-detail-height {
+  font-family: var(--font-mono);
+  font-size: 0.88em;
+  padding: 2px 8px;
+  background: var(--elevated);
+  border-radius: 6px;
+  display: inline-block;
+  margin-top: 8px;
+}
+
+/* ============================================================
+   PARKS & RIDES PAGE
+   ============================================================ */
+
+/* Park Header Cards */
+.park-section { margin-bottom: 36px; }
+
+.park-header {
+  border-radius: var(--radius-lg);
+  padding: 32px 28px;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+.park-header::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.park-header-mk {
+  background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 50%, #3b82f6 100%);
+}
+.park-header-mk::after {
+  background:
+    radial-gradient(ellipse 200px 60px at 85% 80%, rgba(255,255,255,0.06) 0%, transparent 70%);
+}
+
+.park-header-hs {
+  background: linear-gradient(135deg, #450a0a 0%, #dc2626 50%, #ef4444 100%);
+}
+.park-header-hs::after {
+  background:
+    radial-gradient(circle 80px at 90% 30%, rgba(255,255,255,0.08) 0%, transparent 60%),
+    radial-gradient(circle 40px at 85% 40%, rgba(255,255,255,0.05) 0%, transparent 60%);
+}
+
+.park-header-ak {
+  background: linear-gradient(135deg, #052e16 0%, #16a34a 50%, #22c55e 100%);
+}
+.park-header-ak::after {
+  background:
+    radial-gradient(ellipse 160px 80px at 10% 70%, rgba(255,255,255,0.06) 0%, transparent 70%),
+    radial-gradient(ellipse 120px 60px at 90% 20%, rgba(255,255,255,0.04) 0%, transparent 70%);
+}
+
+.park-header-ep {
+  background: linear-gradient(135deg, #2e1065 0%, #7c3aed 50%, #a855f7 100%);
+}
+.park-header-ep::after {
+  background:
+    radial-gradient(circle 100px at 88% 50%, rgba(255,255,255,0.07) 0%, transparent 60%),
+    radial-gradient(circle 60px at 82% 50%, rgba(255,255,255,0.05) 0%, transparent 50%);
+}
+
+.park-header h2 {
+  font-family: var(--font-display);
+  font-size: 1.6em;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: white;
+  position: relative;
+  z-index: 1;
+}
+
+.park-header-day {
+  font-family: var(--font-mono);
+  font-size: 0.78em;
+  font-weight: 500;
+  color: rgba(255,255,255,0.7);
+  position: relative;
+  z-index: 1;
+  margin-top: 4px;
+}
+
+/* Ride Cards */
+.rides-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 10px;
+}
+
+.ride-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 18px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  transition: all 0.2s var(--ease);
+  cursor: pointer;
+}
+.ride-card:hover {
+  border-color: var(--border-hover);
+  background: var(--elevated);
+  transform: translateY(-1px);
+}
+.ride-card.expanded {
+  border-color: var(--accent);
+}
+
+.ride-icon { font-size: 1.3em; flex-shrink: 0; }
+
+.ride-info { flex: 1; min-width: 0; }
+
+.ride-name {
+  font-size: 0.88em;
+  font-weight: 700;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ride-height {
+  font-family: var(--font-mono);
+  font-size: 0.72em;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.ride-height-badge {
+  font-family: var(--font-mono);
+  font-size: 0.7em;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+.badge-clear { background: var(--ak-dim); color: var(--ak); }
+.badge-caution { background: rgba(234,179,8,0.12); color: var(--yellow-check); }
+.badge-restriction { background: var(--hs-dim); color: var(--hs); }
+.badge-none { background: rgba(255,255,255,0.04); color: var(--text-muted); }
+
+/* Ride Detail Expansion */
+.ride-detail-panel {
+  display: none;
+  grid-column: 1 / -1;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  animation: slideUp 0.25s var(--ease);
+}
+.ride-detail-panel.open { display: block; }
+
+.ride-detail-panel p {
+  font-size: 0.88em;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin-bottom: 12px;
+}
+
+.ride-kids-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.kid-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.78em;
+  font-weight: 600;
+}
+
+.kid-badge-yes { background: var(--ak-dim); color: var(--ak); }
+.kid-badge-maybe { background: rgba(234,179,8,0.12); color: var(--yellow-check); }
+.kid-badge-no { background: var(--hs-dim); color: var(--hs); }
+
+/* Height Matrix */
+.height-matrix-section {
+  margin-top: 48px;
+}
+
+.matrix-container {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.height-matrix {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.84em;
+  min-width: 600px;
+}
+
+.height-matrix thead {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.height-matrix th {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.85em;
+  padding: 14px 12px;
+  text-align: center;
+  background: var(--elevated);
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.height-matrix th:first-child {
+  text-align: left;
+  min-width: 180px;
+  position: sticky;
+  left: 0;
+  z-index: 3;
+  background: var(--elevated);
+}
+
+.height-matrix td {
+  padding: 10px 12px;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.15s;
+}
+
+.height-matrix td:first-child {
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.9em;
+  color: var(--text);
+  position: sticky;
+  left: 0;
+  background: var(--surface);
+  z-index: 1;
+}
+
+.height-matrix tr:hover td { background: rgba(255,255,255,0.02); }
+.height-matrix tr:hover td:first-child { background: var(--elevated); }
+
+.height-matrix .park-row td {
+  background: var(--elevated);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.82em;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 10px 12px;
+}
+
+.matrix-cell {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 2px solid var(--border);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 0.9em;
+  font-weight: 700;
+  transition: all 0.15s var(--ease);
+  user-select: none;
+}
+.matrix-cell:hover { transform: scale(1.1); }
+
+.matrix-cell.yes {
+  background: var(--ak-dim);
+  border-color: var(--ak);
+  color: var(--ak);
+}
+.matrix-cell.no {
+  background: var(--hs-dim);
+  border-color: var(--hs);
+  color: var(--hs);
+}
+.matrix-cell.maybe {
+  background: rgba(234,179,8,0.12);
+  border-color: var(--yellow-check);
+  color: var(--yellow-check);
+}
+.matrix-cell.na {
+  background: transparent;
+  border-color: var(--border);
+  color: var(--text-muted);
+}
+
+.matrix-legend {
+  display: flex;
+  gap: 16px;
+  margin-top: 12px;
+  font-size: 0.78em;
+  color: var(--text-secondary);
+  flex-wrap: wrap;
+}
+
+.matrix-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.matrix-legend-swatch {
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+  border: 2px solid;
+}
+
+/* ============================================================
+   DINING PAGE
+   ============================================================ */
+.dining-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 14px;
+}
+
+.dining-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 22px 24px;
+  transition: all 0.25s var(--ease);
+}
+.dining-card:hover {
+  border-color: var(--border-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-card);
+}
+
+.dining-card h3 {
+  font-family: var(--font-display);
+  font-size: 1em;
+  font-weight: 700;
+  margin-bottom: 14px;
+  letter-spacing: -0.01em;
+}
+
+.dining-card ul {
+  list-style: none;
+}
+
+.dining-card li {
+  padding: 8px 0;
+  font-size: 0.86em;
+  color: var(--text-secondary);
+  border-bottom: 1px solid var(--border);
+  line-height: 1.55;
+}
+.dining-card li:last-child { border: none; }
+
+.dining-card li a {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.dining-card li strong {
+  color: var(--text);
+}
+
+.dining-card p {
+  font-size: 0.86em;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.dining-card-accent {
+  border-top: 3px solid;
+}
+
+.dining-note {
+  font-size: 0.84em;
+  color: var(--pink);
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+/* ============================================================
+   CHECKLIST PAGE
+   ============================================================ */
+.checklist-progress-bar {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  margin-bottom: 28px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.checklist-progress-track {
+  flex: 1;
+  height: 8px;
+  background: var(--elevated);
+  border-radius: 100px;
+  overflow: hidden;
+}
+
+.checklist-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--ep));
+  border-radius: 100px;
+  transition: width 0.5s var(--ease);
+  min-width: 0;
+}
+
+.checklist-progress-text {
+  font-family: var(--font-mono);
+  font-size: 0.82em;
+  font-weight: 600;
+  color: var(--text);
+  min-width: 40px;
+  text-align: right;
+}
+
+.checklist-group {
+  margin-bottom: 32px;
+}
+
+.checklist-group-label {
+  font-family: var(--font-display);
+  font-size: 0.82em;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 10px;
+  padding-left: 4px;
+}
+
+.check-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  margin-bottom: 6px;
+  cursor: pointer;
+  transition: all 0.2s var(--ease);
+  user-select: none;
+}
+.check-item:hover {
+  border-color: var(--border-hover);
+  background: var(--elevated);
+}
+
+.check-box {
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  border: 2px solid var(--text-muted);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s var(--ease-bounce);
+  font-size: 0.7em;
+  color: transparent;
+}
+
+.check-item.checked .check-box {
+  background: var(--green-check);
+  border-color: var(--green-check);
+  color: white;
+}
+
+.check-item-text {
+  font-size: 0.88em;
+  color: var(--text-secondary);
+  transition: all 0.2s;
+}
+
+.check-item.checked .check-item-text {
+  text-decoration: line-through;
+  opacity: 0.4;
+}
+
+/* ============================================================
+   PACKING PAGE
+   ============================================================ */
+.packing-note {
+  font-size: 0.88em;
+  color: var(--text-secondary);
+  margin-bottom: 28px;
+  line-height: 1.7;
+}
+
+.packing-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 14px;
+}
+
+.packing-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 22px 24px;
+  transition: all 0.25s var(--ease);
+}
+.packing-card:hover {
+  border-color: var(--border-hover);
+}
+
+.packing-card h3 {
+  font-family: var(--font-display);
+  font-size: 1em;
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+
+.pack-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  user-select: none;
+}
+.pack-item:last-child { border: none; }
+
+.pack-check {
+  width: 18px;
+  height: 18px;
+  border-radius: 5px;
+  border: 2px solid var(--text-muted);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.6em;
+  transition: all 0.2s var(--ease-bounce);
+  color: transparent;
+}
+
+.pack-item.checked .pack-check {
+  background: var(--green-check);
+  border-color: var(--green-check);
+  color: white;
+}
+
+.pack-item-text {
+  font-size: 0.84em;
+  color: var(--text-secondary);
+  transition: all 0.2s;
+}
+
+.pack-item.checked .pack-item-text {
+  text-decoration: line-through;
+  opacity: 0.4;
+}
+
+.packing-progress {
+  font-family: var(--font-mono);
+  font-size: 0.72em;
+  color: var(--text-muted);
+  margin-top: 12px;
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.app-footer {
+  text-align: center;
+  padding: 48px 24px;
+  border-top: 1px solid var(--border);
+}
+
+.app-footer p {
+  font-size: 0.82em;
+  color: var(--text-muted);
+  line-height: 1.8;
+}
+
+/* ============================================================
+   UTILITY CLASSES
+   ============================================================ */
+.text-mk { color: var(--mk); }
+.text-hs { color: var(--hs); }
+.text-ak { color: var(--ak); }
+.text-ep { color: var(--ep); }
+.text-gold { color: var(--gold); }
+.text-pink { color: var(--pink); }
+.text-rest { color: var(--rest); }
+
+.bg-mk-dim { background: var(--mk-dim); color: var(--mk); }
+.bg-hs-dim { background: var(--hs-dim); color: var(--hs); }
+.bg-ak-dim { background: var(--ak-dim); color: var(--ak); }
+.bg-ep-dim { background: var(--ep-dim); color: var(--ep); }
+.bg-rest-dim { background: var(--rest-dim); color: var(--rest); }
+.bg-travel-dim { background: var(--travel-dim); color: var(--travel); }
+.bg-gold-dim { background: var(--gold-glow); color: var(--gold); }
+
+.section-divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 40px 0;
+}
+
+/* ============================================================
+   KIDS ROW (Overview)
+   ============================================================ */
+.kids-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.kid-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 14px;
+  text-align: center;
+  transition: all 0.25s var(--ease);
+}
+.kid-card:hover {
+  border-color: var(--border-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-glow);
+}
+
+.kid-card-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3em;
+  margin-bottom: 8px;
+}
+
+.kid-card-name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.92em;
+}
+
+.kid-card-meta {
+  font-size: 0.76em;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.kid-card-height {
+  font-family: var(--font-mono);
+  font-size: 0.72em;
+  color: var(--rest);
+  margin-top: 4px;
+  font-weight: 500;
+}
+
+.kid-card-interests {
+  font-size: 0.72em;
+  color: var(--text-secondary);
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+  grid-column: 1 / -1;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  text-align: center;
+}
+
+/* ============================================================
+   RESORT OVERVIEW (Overview page)
+   ============================================================ */
+.resort-banner {
+  background: linear-gradient(135deg, #1e1b4b 0%, #312e81 60%, #4338ca 100%);
+  border-radius: var(--radius-lg);
+  padding: 28px 28px 20px;
+  color: white;
+  margin-bottom: 14px;
+  position: relative;
+  overflow: hidden;
+}
+.resort-banner::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 400px 200px at 80% 30%, rgba(255,255,255,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.resort-banner h3 {
+  font-family: var(--font-display);
+  font-size: 1.25em;
+  font-weight: 800;
+  position: relative;
+  z-index: 1;
+  margin-bottom: 4px;
+}
+.resort-banner h3 a { color: white; border-bottom: 1px solid rgba(255,255,255,0.3); }
+.resort-banner h3 a:hover { color: white; border-bottom-color: white; }
+
+.resort-banner p {
+  font-size: 0.88em;
+  opacity: 0.75;
+  position: relative;
+  z-index: 1;
+}
+
+.resort-perks-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 16px;
+  position: relative;
+  z-index: 1;
+}
+
+.resort-perk-pill {
+  padding: 4px 12px;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 100px;
+  font-size: 0.76em;
+  font-weight: 500;
+}
+
+.resort-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 10px;
+}
+
+.resort-info-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+}
+
+.resort-info-card h4 {
+  font-family: var(--font-display);
+  font-size: 0.88em;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.resort-info-card li {
+  padding: 5px 0;
+  font-size: 0.82em;
+  color: var(--text-secondary);
+  border-bottom: 1px solid var(--border);
+  line-height: 1.5;
+  list-style: none;
+}
+.resort-info-card li:last-child { border: none; }
+.resort-info-card li strong { color: var(--text); }
+
+/* ============================================================
+   DEADLINES LIST (Checklist page)
+   ============================================================ */
+.deadline-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 8px;
+  transition: all 0.2s var(--ease);
+}
+.deadline-item:hover {
+  border-color: var(--border-hover);
+  background: var(--elevated);
+}
+
+.deadline-badge {
+  flex-shrink: 0;
+  padding: 5px 14px;
+  border-radius: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.72em;
+  font-weight: 700;
+  text-align: center;
+  min-width: 90px;
+  letter-spacing: 0.02em;
+}
+
+.deadline-badge-now { background: rgba(245,158,11,0.15); color: var(--gold); }
+.deadline-badge-soon { background: rgba(59,130,246,0.1); color: var(--accent); }
+.deadline-badge-critical { background: rgba(239,68,68,0.12); color: var(--hs); }
+.deadline-badge-later { background: rgba(168,85,247,0.1); color: var(--ep); }
+
+.deadline-text {
+  font-size: 0.86em;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+.deadline-text strong { color: var(--text); }
+
+/* ============================================================
+   STAGGER ANIMATION
+   ============================================================ */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.stagger > * {
+  opacity: 0;
+  animation: fadeInUp 0.4s var(--ease) forwards;
+}
+.stagger > *:nth-child(1) { animation-delay: 0.04s; }
+.stagger > *:nth-child(2) { animation-delay: 0.08s; }
+.stagger > *:nth-child(3) { animation-delay: 0.12s; }
+.stagger > *:nth-child(4) { animation-delay: 0.16s; }
+.stagger > *:nth-child(5) { animation-delay: 0.20s; }
+.stagger > *:nth-child(6) { animation-delay: 0.24s; }
+.stagger > *:nth-child(7) { animation-delay: 0.28s; }
+.stagger > *:nth-child(8) { animation-delay: 0.32s; }
+.stagger > *:nth-child(9) { animation-delay: 0.36s; }
+.stagger > *:nth-child(10) { animation-delay: 0.40s; }
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 768px) {
+  .topnav { padding: 0 16px; }
+  .topnav-brand { font-size: 0.95em; }
+  .topnav-links.mobile-hidden { display: none; }
+  .topnav-links.mobile-visible {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-weight: 700;
-    font-size: 1.15em;
-    line-height: 1;
-  }
-  .day-dot .dow {
-    font-size: 0.5em;
-    font-weight: 600;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    opacity: 0.85;
-    margin-bottom: 2px;
-  }
-  .day-body { flex: 1; min-width: 0; }
-  .day-body h3 {
-    font-size: 0.95em;
-    font-weight: 700;
-    margin-bottom: 4px;
-    letter-spacing: -0.01em;
-  }
-  .day-body p {
-    font-size: 0.87em;
-    color: var(--text-secondary);
-    line-height: 1.6;
-  }
-  .day-tag {
-    display: inline-block;
-    padding: 3px 10px;
-    border-radius: 6px;
-    font-size: 0.7em;
-    font-weight: 600;
-    margin-top: 8px;
-    letter-spacing: 0.02em;
-  }
-  .tag-mk { background: var(--mk-bg); color: var(--mk); }
-  .tag-hs { background: var(--hs-bg); color: var(--hs); }
-  .tag-ak { background: var(--ak-bg); color: var(--ak); }
-  .tag-ep { background: var(--ep-bg); color: var(--ep); }
-  .tag-rest { background: #f0fdfa; color: var(--teal); }
-  .tag-travel { background: #f1f5f9; color: #475569; }
-  .tag-vip { background: linear-gradient(135deg, var(--ep-bg), var(--mk-bg)); color: var(--accent); }
-  .bg-mk { background: var(--mk); }
-  .bg-hs { background: var(--hs); }
-  .bg-ak { background: var(--ak); }
-  .bg-ep { background: var(--ep); }
-  .bg-rest { background: var(--teal); }
-  .bg-travel { background: #64748b; }
-  .bg-vip { background: linear-gradient(135deg, var(--ep), var(--mk)); }
-
-  /* === LINKS === */
-  a.dl {
-    color: var(--accent);
-    text-decoration: none;
-    font-weight: 500;
-    transition: color var(--transition);
-  }
-  a.dl:hover { color: #4338ca; text-decoration: underline; }
-
-  /* === RESORT === */
-  .resort-hero {
-    border-radius: var(--radius-lg);
-    background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
-    color: white;
-    padding: 36px 32px;
-    margin-bottom: 20px;
-  }
-  .resort-hero h3 {
-    font-family: 'Playfair Display', Georgia, serif;
-    font-size: 1.3em;
-    margin-bottom: 6px;
-  }
-  .resort-hero p { opacity: 0.75; font-size: 0.9em; }
-  .resort-perks {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 20px;
-  }
-  .perk {
-    padding: 5px 14px;
-    background: rgba(255,255,255,0.1);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 100px;
-    font-size: 0.78em;
-    font-weight: 500;
-  }
-
-  /* === CARDS GRID === */
-  .grid { display: grid; gap: 14px; }
-  .grid-2 { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
-  .grid-3 { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
-  .card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 22px 24px;
-    transition: box-shadow var(--transition), border-color var(--transition);
-  }
-  .card:hover {
-    box-shadow: var(--shadow-md);
-    border-color: var(--border-strong);
-  }
-  .card h3 {
-    font-size: 0.88em;
-    font-weight: 700;
-    margin-bottom: 14px;
-    letter-spacing: -0.01em;
-    color: var(--text-primary);
-  }
-  .card ul { list-style: none; }
-  .card li {
-    padding: 7px 0;
-    font-size: 0.85em;
-    color: var(--text-secondary);
+    position: fixed;
+    top: 60px;
+    left: 0;
+    right: 0;
+    background: rgba(11,13,17,0.96);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    padding: 12px;
     border-bottom: 1px solid var(--border);
-    line-height: 1.5;
+    gap: 4px;
+    z-index: 999;
   }
-  .card li:last-child { border: none; }
-  .card p { font-size: 0.85em; color: var(--text-secondary); line-height: 1.6; }
-  .card-accent {
-    border-top: 3px solid var(--accent);
-  }
+  .nav-toggle { display: flex; }
 
-  /* === KIDS === */
-  .kids-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 12px;
-  }
-  .kid {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 20px 16px;
-    text-align: center;
-    transition: box-shadow var(--transition), border-color var(--transition);
-  }
-  .kid:hover { box-shadow: var(--shadow-md); border-color: var(--border-strong); }
-  .kid-avatar {
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.3em;
-    margin-bottom: 10px;
-  }
-  .kid-name { font-weight: 700; font-size: 0.92em; }
-  .kid-meta { font-size: 0.78em; color: var(--text-muted); margin-top: 2px; }
-  .kid-height { font-size: 0.75em; color: var(--teal); margin-top: 4px; font-weight: 500; }
+  .page { padding: 24px 16px 60px; }
+  .overview-title { font-size: 2em; }
+  .countdown-num { font-size: 2em; }
+  .countdown-unit { min-width: 60px; }
 
-  /* === EXPERIENCES === */
-  .exp {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-left: 3px solid var(--gold);
-    border-radius: var(--radius);
-    padding: 20px 24px;
-    margin-bottom: 10px;
-    transition: box-shadow var(--transition);
-  }
-  .exp:hover { box-shadow: var(--shadow-md); }
-  .exp h4 { font-size: 0.92em; font-weight: 700; margin-bottom: 4px; }
-  .exp p { font-size: 0.84em; color: var(--text-secondary); }
-  .exp-when {
-    display: inline-block;
-    margin-top: 8px;
-    font-size: 0.76em;
-    font-weight: 600;
-    color: var(--accent);
-    letter-spacing: 0.01em;
-  }
+  .week-strip { gap: 6px; }
+  .day-pill { min-width: 80px; padding: 10px 8px; }
+  .day-pill-date { font-size: 1.2em; }
 
-  /* === DEADLINES === */
-  .deadline {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    padding: 16px 20px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    margin-bottom: 8px;
-    transition: box-shadow var(--transition);
-  }
-  .deadline:hover { box-shadow: var(--shadow-sm); }
-  .deadline-badge {
-    flex-shrink: 0;
-    padding: 6px 14px;
-    border-radius: 8px;
-    font-size: 0.75em;
-    font-weight: 700;
-    text-align: center;
-    min-width: 80px;
-    letter-spacing: 0.02em;
-  }
-  .badge-now { background: #fef3c7; color: #92400e; }
-  .badge-soon { background: #fef3c7; color: #92400e; }
-  .badge-critical { background: #fee2e2; color: #991b1b; }
-  .badge-later { background: #e0f2fe; color: #075985; }
-  .deadline-text { font-size: 0.87em; color: var(--text-secondary); }
-  .deadline-text strong { color: var(--text-primary); }
+  .rides-grid { grid-template-columns: 1fr; }
+  .dining-grid { grid-template-columns: 1fr; }
+  .packing-grid { grid-template-columns: 1fr; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .quick-links { grid-template-columns: 1fr; }
+  .kids-row { grid-template-columns: repeat(2, 1fr); }
+  .resort-info-grid { grid-template-columns: 1fr; }
+  .deadline-item { flex-direction: column; align-items: flex-start; gap: 8px; }
 
-  /* === CHECKLIST === */
-  .checklist-group { margin-bottom: 28px; }
-  .checklist-label {
-    font-size: 0.78em;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    margin-bottom: 10px;
-    padding-left: 2px;
-  }
-  .check {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 10px 16px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    margin-bottom: 6px;
-    font-size: 0.87em;
-    color: var(--text-secondary);
-    transition: box-shadow var(--transition);
-  }
-  .check:hover { box-shadow: var(--shadow-sm); }
-  .check-icon {
-    width: 20px;
-    height: 20px;
-    border-radius: 6px;
-    border: 2px solid #d4d4d8;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.65em;
-  }
-  .check-icon.done {
-    background: var(--ak);
-    border-color: var(--ak);
-    color: white;
-  }
-  .check.done-item {
-    opacity: 0.45;
-  }
-  .check.done-item span { text-decoration: line-through; }
+  .day-detail-header { padding: 20px 18px 16px; }
+  .timeline { padding: 0 18px 18px; }
+  .park-header { padding: 24px 20px; }
 
-  /* === PACKING === */
-  .packing-note {
-    font-size: 0.87em;
-    color: var(--text-secondary);
-    margin-bottom: 24px;
-    line-height: 1.6;
-  }
+  .progress-section { flex-direction: column; text-align: center; }
+  .next-deadline-card { flex-direction: column; text-align: center; }
+}
 
-  /* === FOOTER === */
-  .footer {
-    text-align: center;
-    padding: 48px 24px;
-    border-top: 1px solid var(--border);
-    margin-top: 20px;
-  }
-  .footer p { font-size: 0.82em; color: var(--text-muted); line-height: 1.8; }
-  .footer a { color: var(--accent); text-decoration: none; }
-  .footer a:hover { text-decoration: underline; }
+@media (max-width: 480px) {
+  .overview-pills { gap: 6px; }
+  .overview-pill { font-size: 0.68em; padding: 4px 10px; }
+  .countdown { gap: 8px; }
+  .stats-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+}
 
-  /* === RESPONSIVE === */
-  @media (max-width: 640px) {
-    .hero { padding: 56px 20px 50px; }
-    .hero h1 { font-size: 2em; }
-    .section { padding: 40px 16px; }
-    .day-card { flex-direction: column; gap: 10px; padding: 16px 18px; }
-    .day-dot { width: 100%; height: auto; flex-direction: row; gap: 8px; padding: 8px 14px; border-radius: 8px; font-size: 0.9em; }
-    .day-dot .dow { margin-bottom: 0; }
-    .nav a { padding: 12px 12px; font-size: 0.76em; }
-    .grid-2, .grid-3 { grid-template-columns: 1fr; }
-    .kids-grid { grid-template-columns: repeat(2, 1fr); }
-    .resort-hero { padding: 28px 22px; }
-    .section-header { flex-direction: column; gap: 4px; }
-    .hero-pills { gap: 6px; }
-    .hero-pill { padding: 6px 12px; font-size: 0.78em; }
-    .deadline { flex-direction: column; align-items: flex-start; gap: 8px; }
-  }
+/* Print styles */
+@media print {
+  body { background: white; color: black; }
+  .topnav, .nav-toggle { display: none !important; }
+  .page { display: block !important; opacity: 1 !important; transform: none !important; padding-top: 0; }
+  .app { padding-top: 0; }
+  * { color: black !important; background: white !important; border-color: #ccc !important; }
+}
 </style>
 </head>
 <body>
 
-<!-- HERO -->
-<div class="hero">
-  <div class="hero-inner">
-    <div class="hero-eyebrow">February 6 &ndash; 12, 2027</div>
-    <h1>Walt Disney World 2027</h1>
-    <div class="subtitle">The Danel &amp; Friends Magical Adventure</div>
-    <div class="hero-pills">
-      <span class="hero-pill">2 Families</span>
-      <span class="hero-pill">4 Adults</span>
-      <span class="hero-pill">5 Kids</span>
-      <span class="hero-pill">6 Nights</span>
-    </div>
+<!-- ============================================================
+     TOP NAV
+     ============================================================ -->
+<nav class="topnav">
+  <div class="topnav-brand"><span>Disney</span> Trip HQ</div>
+  <div class="topnav-links mobile-hidden" id="navLinks">
+    <button class="nav-link active" data-page="overview">Overview</button>
+    <button class="nav-link" data-page="calendar">Calendar</button>
+    <button class="nav-link" data-page="parks">Parks &amp; Rides</button>
+    <button class="nav-link" data-page="dining">Dining</button>
+    <button class="nav-link" data-page="checklist">Checklist</button>
+    <button class="nav-link" data-page="packing">Packing</button>
   </div>
-</div>
+  <button class="nav-toggle" id="navToggle" aria-label="Menu">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <line x1="3" y1="6" x2="21" y2="6"/>
+      <line x1="3" y1="12" x2="21" y2="12"/>
+      <line x1="3" y1="18" x2="21" y2="18"/>
+    </svg>
+  </button>
+</nav>
 
-<!-- NAV -->
-<div class="nav">
-  <a href="#schedule">Schedule</a>
-  <a href="#resort">Resort</a>
-  <a href="#kids">The Kids</a>
-  <a href="#experiences">Experiences</a>
-  <a href="#parks">Park Guides</a>
-  <a href="#dining">Dining</a>
-  <a href="#deadlines">Deadlines</a>
-  <a href="#todos">To-Do</a>
-  <a href="#packing">Packing</a>
-</div>
+<!-- ============================================================
+     APP CONTAINER
+     ============================================================ -->
+<div class="app">
 
-<!-- SCHEDULE -->
-<div class="section" id="schedule">
-  <div class="section-header">
-    <div class="section-title">Trip Schedule</div>
-    <div class="section-subtitle">Day by day</div>
-  </div>
-
-  <div class="schedule-list">
-    <div class="day-card">
-      <div class="day-dot bg-travel"><span class="dow">Sat</span>6</div>
-      <div class="day-body">
-        <h3>Arrival Day</h3>
-        <p>Drive to Orlando, check in at <a class="dl" href="https://disneyworld.disney.go.com/resorts/bay-lake-tower-at-contemporary/" target="_blank">Bay Lake Tower</a>. Settle in, explore the resort, hit the pool.</p>
-        <p style="margin-top:6px;"><strong>Evening flex:</strong> Quick jaunt to <a class="dl" href="https://disneyworld.disney.go.com/destinations/magic-kingdom/" target="_blank">Magic Kingdom</a> for a few rides under the lights <em>or</em> dinner at <a class="dl" href="https://disneyworld.disney.go.com/dining/polynesian-village-resort/ohana/" target="_blank">'Ohana</a> + fireworks from the beach.</p>
-        <span class="day-tag tag-travel">Arrival</span>
+  <!-- ========== OVERVIEW PAGE ========== -->
+  <div class="page active" id="page-overview">
+    <div class="overview-hero">
+      <svg class="castle-svg" viewBox="0 0 120 100" fill="currentColor" style="color:var(--accent);">
+        <rect x="54" y="5" width="12" height="30" rx="2"/>
+        <rect x="58" y="0" width="4" height="8" rx="1"/>
+        <rect x="30" y="25" width="10" height="25" rx="2"/>
+        <rect x="33" y="18" width="4" height="10" rx="1"/>
+        <rect x="80" y="25" width="10" height="25" rx="2"/>
+        <rect x="83" y="18" width="4" height="10" rx="1"/>
+        <rect x="18" y="40" width="84" height="35" rx="4"/>
+        <rect x="10" y="55" width="100" height="25" rx="4"/>
+        <rect x="5" y="72" width="110" height="28" rx="6"/>
+        <rect x="50" y="75" width="20" height="25" rx="10 10 0 0"/>
+      </svg>
+      <div class="overview-eyebrow">February 6 &ndash; 12, 2027</div>
+      <h1 class="overview-title">Walt Disney World 2027</h1>
+      <div class="overview-subtitle">The Danel &amp; Friends Magical Adventure</div>
+      <div class="overview-pills">
+        <span class="overview-pill">2 Families</span>
+        <span class="overview-pill">4 Adults</span>
+        <span class="overview-pill">5 Kids</span>
+        <span class="overview-pill">6 Nights</span>
       </div>
     </div>
 
-    <div class="day-card">
-      <div class="day-dot bg-mk"><span class="dow">Sun</span>7</div>
-      <div class="day-body">
-        <h3>Magic Kingdom</h3>
-        <p><a class="dl" href="https://disneyworld.disney.go.com/shops/magic-kingdom/bibbidi-bobbidi-boutique/" target="_blank">Bibbidi Bobbidi Boutique</a> for the girls while the dads take Michael on rides. Fantasyland, Adventureland, Tomorrowland. Evening fireworks from inside the park.</p>
-        <span class="day-tag tag-mk">Magic Kingdom</span>
+    <!-- Countdown -->
+    <div class="countdown-section">
+      <div class="countdown-label">Countdown to Magic</div>
+      <div class="countdown" id="countdown">
+        <div class="countdown-unit"><div class="countdown-num" id="cd-days">---</div><div class="countdown-text">Days</div></div>
+        <div class="countdown-unit"><div class="countdown-num" id="cd-hours">--</div><div class="countdown-text">Hours</div></div>
+        <div class="countdown-unit"><div class="countdown-num" id="cd-mins">--</div><div class="countdown-text">Minutes</div></div>
+        <div class="countdown-unit"><div class="countdown-num" id="cd-secs">--</div><div class="countdown-text">Seconds</div></div>
       </div>
     </div>
 
-    <div class="day-card">
-      <div class="day-dot bg-hs"><span class="dow">Mon</span>8</div>
-      <div class="day-body">
-        <h3>Hollywood Studios</h3>
-        <p><a class="dl" href="https://disneyworld.disney.go.com/shops/hollywood-studios/droid-depot/" target="_blank">Droid Depot</a> for Michael (scheduled during <a class="dl" href="https://disneyworld.disney.go.com/entertainment/hollywood-studios/for-the-first-time-in-forever-frozen-sing-along/" target="_blank">Frozen Sing-Along</a> for the girls). <a class="dl" href="https://disneyworld.disney.go.com/destinations/hollywood-studios/toy-story-land/" target="_blank">Toy Story Land</a>, <a class="dl" href="https://disneyworld.disney.go.com/destinations/hollywood-studios/star-wars-galaxys-edge/" target="_blank">Galaxy's Edge</a>, and the Mandalorian mission on <a class="dl" href="https://disneyworld.disney.go.com/attractions/hollywood-studios/millennium-falcon-smugglers-run/" target="_blank">Millennium Falcon</a>.</p>
-        <span class="day-tag tag-hs">Hollywood Studios</span>
+    <!-- Next Deadline -->
+    <div class="next-deadline-card" id="nextDeadline"></div>
+
+    <!-- Progress -->
+    <div class="progress-section" id="overviewProgress"></div>
+
+    <!-- Stats -->
+    <div class="stats-grid stagger">
+      <div class="stat-card"><div class="stat-icon">&#x1F3F0;</div><div class="stat-value">4</div><div class="stat-label">Park Days</div></div>
+      <div class="stat-card"><div class="stat-icon">&#x1F3A2;</div><div class="stat-value">35+</div><div class="stat-label">Rides &amp; Attractions</div></div>
+      <div class="stat-card"><div class="stat-icon">&#x1F9D2;</div><div class="stat-value">5</div><div class="stat-label">Kids (Ages 5&ndash;9)</div></div>
+      <div class="stat-card"><div class="stat-icon">&#x2728;</div><div class="stat-value">4</div><div class="stat-label">Special Experiences</div></div>
+      <div class="stat-card"><div class="stat-icon">&#x1F3E8;</div><div class="stat-value">6</div><div class="stat-label">Nights at BLT</div></div>
+      <div class="stat-card"><div class="stat-icon">&#x1F37D;</div><div class="stat-value">4</div><div class="stat-label">Character Dining Options</div></div>
+    </div>
+
+    <!-- The Crew -->
+    <div class="page-header" style="margin-top:8px;margin-bottom:20px;">
+      <h2 class="page-title" style="font-size:1.3em;">The Crew</h2>
+    </div>
+    <div class="kids-row stagger" id="kidsRow"></div>
+
+    <!-- Resort Quick Info -->
+    <div class="resort-overview" id="resortOverview" style="margin-top:36px;margin-bottom:36px;"></div>
+
+    <!-- Quick Links -->
+    <div class="quick-links stagger">
+      <div class="quick-link" data-goto="calendar"><span class="quick-link-icon">&#x1F4C5;</span><span class="quick-link-text">Interactive Calendar</span><span class="quick-link-arrow">&#x2192;</span></div>
+      <div class="quick-link" data-goto="parks"><span class="quick-link-icon">&#x1F3A2;</span><span class="quick-link-text">Parks &amp; Height Matrix</span><span class="quick-link-arrow">&#x2192;</span></div>
+      <div class="quick-link" data-goto="dining"><span class="quick-link-icon">&#x1F37D;</span><span class="quick-link-text">Dining Guide</span><span class="quick-link-arrow">&#x2192;</span></div>
+      <div class="quick-link" data-goto="checklist"><span class="quick-link-icon">&#x2705;</span><span class="quick-link-text">To-Do Checklist</span><span class="quick-link-arrow">&#x2192;</span></div>
+      <div class="quick-link" data-goto="packing"><span class="quick-link-icon">&#x1F9F3;</span><span class="quick-link-text">Packing List</span><span class="quick-link-arrow">&#x2192;</span></div>
+    </div>
+  </div>
+
+  <!-- ========== CALENDAR PAGE ========== -->
+  <div class="page" id="page-calendar">
+    <div class="page-header">
+      <h1 class="page-title">Trip Calendar</h1>
+      <p class="page-subtitle">Click a day to explore the full itinerary</p>
+    </div>
+    <div class="week-strip stagger" id="weekStrip"></div>
+    <div id="dayDetail"></div>
+  </div>
+
+  <!-- ========== PARKS & RIDES PAGE ========== -->
+  <div class="page" id="page-parks">
+    <div class="page-header">
+      <h1 class="page-title">Parks &amp; Rides</h1>
+      <p class="page-subtitle">Every attraction with height requirements and Disney links</p>
+    </div>
+    <div id="parkSections"></div>
+
+    <div class="height-matrix-section">
+      <div class="page-header">
+        <h2 class="page-title" style="font-size:1.4em;">Height Requirement Tracker</h2>
+        <p class="page-subtitle">Click cells to toggle status &middot; Saved automatically</p>
+      </div>
+      <div class="matrix-container">
+        <table class="height-matrix" id="heightMatrix"></table>
+      </div>
+      <div class="matrix-legend">
+        <div class="matrix-legend-item"><div class="matrix-legend-swatch" style="background:var(--ak-dim);border-color:var(--ak);"></div> Clears</div>
+        <div class="matrix-legend-item"><div class="matrix-legend-swatch" style="background:rgba(234,179,8,0.12);border-color:var(--yellow-check);"></div> Borderline</div>
+        <div class="matrix-legend-item"><div class="matrix-legend-swatch" style="background:var(--hs-dim);border-color:var(--hs);"></div> Too Short</div>
+        <div class="matrix-legend-item"><div class="matrix-legend-swatch" style="background:transparent;border-color:var(--text-muted);"></div> No Requirement</div>
       </div>
     </div>
+  </div>
 
-    <div class="day-card">
-      <div class="day-dot bg-rest"><span class="dow">Tue</span>9</div>
-      <div class="day-body">
-        <h3>Rest &amp; Pool Day</h3>
-        <p>Sleep in. Villa breakfast. Bay Cove Pool (zero-entry + 148-ft waterslide). Resort activities, tie-dye, crafts. Ride the monorail loop to explore the <a class="dl" href="https://disneyworld.disney.go.com/resorts/polynesian-village-resort/" target="_blank">Polynesian</a> and <a class="dl" href="https://disneyworld.disney.go.com/resorts/grand-floridian-resort-and-spa/" target="_blank">Grand Floridian</a>.</p>
-        <span class="day-tag tag-rest">Rest Day</span>
+  <!-- ========== DINING PAGE ========== -->
+  <div class="page" id="page-dining">
+    <div class="page-header">
+      <h1 class="page-title">Dining Guide</h1>
+      <p class="page-subtitle">Character meals, snack spots, and villa kitchen strategy</p>
+    </div>
+    <div class="dining-grid stagger" id="diningGrid"></div>
+  </div>
+
+  <!-- ========== CHECKLIST PAGE ========== -->
+  <div class="page" id="page-checklist">
+    <div class="page-header">
+      <h1 class="page-title">Shared To-Do List</h1>
+      <p class="page-subtitle">Click items to mark them done &middot; Progress saves automatically</p>
+    </div>
+    <div class="checklist-progress-bar">
+      <div class="checklist-progress-track"><div class="checklist-progress-fill" id="checklistFill"></div></div>
+      <div class="checklist-progress-text" id="checklistPercent">0%</div>
+    </div>
+    <div id="checklistGroups"></div>
+
+    <hr class="section-divider">
+
+    <div class="page-header">
+      <h2 class="page-title" style="font-size:1.4em;">Key Deadlines</h2>
+      <p class="page-subtitle">Booking windows and action items in chronological order</p>
+    </div>
+    <div id="deadlinesList"></div>
+  </div>
+
+  <!-- ========== PACKING PAGE ========== -->
+  <div class="page" id="page-packing">
+    <div class="page-header">
+      <h1 class="page-title">Packing Essentials</h1>
+      <p class="page-subtitle">February in Orlando: 50s&ndash;70&deg;F, possible rain &middot; Click items to check them off</p>
+    </div>
+    <div class="packing-grid stagger" id="packingGrid"></div>
+  </div>
+
+  <!-- Footer -->
+  <div class="app-footer">
+    <p>Last updated April 2026 &middot; <a href="https://disneyworld.disney.go.com/resorts/bay-lake-tower-at-contemporary/" target="_blank">Bay Lake Tower</a> &middot; Trip planning by T Dawg + Claude</p>
+    <p style="margin-top:6px;">Park details, hours, and availability subject to change. Always verify at <a href="https://disneyworld.disney.go.com" target="_blank">disneyworld.disney.go.com</a></p>
+  </div>
+</div>
+
+<!-- ============================================================
+     JAVASCRIPT
+     ============================================================ -->
+<script>
+(function() {
+'use strict';
+
+/* ==========================================================
+   DATA
+   ========================================================== */
+const TRIP_DATE = new Date('2027-02-06T00:00:00');
+
+const KIDS = [
+  { name: 'Clara', age: 5, height: 42, status: 'checking', family: 1, emoji: '\u{1F478}' },
+  { name: 'Michael', age: 6, height: 46, status: 'known', family: 1, emoji: '\u{1F680}' },
+  { name: 'Mia', age: 5, height: null, status: 'tbd', family: 2, emoji: '\u{1F451}' },
+  { name: 'Ava', age: 7, height: 48, status: 'likely', family: 2, emoji: '\u{2B50}' },
+  { name: 'Emma', age: 9, height: 48, status: 'likely', family: 2, emoji: '\u{1F3A0}' },
+];
+
+const PARKS = [
+  {
+    id: 'mk', name: 'Magic Kingdom', day: 'Sunday, Feb 7', color: 'mk',
+    url: 'https://disneyworld.disney.go.com/destinations/magic-kingdom/',
+    rides: [
+      { name: 'Seven Dwarfs Mine Train', height: 38, icon: '\u26CF', url: 'https://disneyworld.disney.go.com/attractions/magic-kingdom/seven-dwarfs-mine-train/', note: 'Family coaster through the diamond mine' },
+      { name: 'Big Thunder Mountain', height: 38, icon: '\u{1F3DC}', url: 'https://disneyworld.disney.go.com/attractions/magic-kingdom/big-thunder-mountain-railroad/', note: 'Newly refurbished wild west coaster' },
+      { name: "Tiana's Bayou Adventure", height: 40, icon: '\u{1F438}', url: 'https://disneyworld.disney.go.com/attractions/magic-kingdom/tianas-bayou-adventure/', note: 'Log flume through the bayou with Tiana' },
+      { name: 'Buzz Lightyear', height: 0, icon: '\u{1F52B}', url: 'https://disneyworld.disney.go.com/attractions/magic-kingdom/buzz-lightyear-space-ranger-spin/', note: 'Interactive shooting ride (just updated)' },
+      { name: 'Pirates of the Caribbean', height: 0, icon: '\u{1F3F4}', url: 'https://disneyworld.disney.go.com/attractions/magic-kingdom/pirates-of-the-caribbean/', note: 'Classic boat ride through pirate scenes' },
+      { name: 'Jungle Cruise', height: 0, icon: '\u{1F40A}', url: 'https://disneyworld.disney.go.com/attractions/magic-kingdom/jungle-cruise/', note: 'Boat tour with legendary skipper jokes' },
+      { name: 'Haunted Mansion', height: 0, icon: '\u{1F47B}', url: 'https://disneyworld.disney.go.com/attractions/magic-kingdom/haunted-mansion/', note: '999 happy haunts (not too scary for kids)' },
+      { name: "Peter Pan's Flight", height: 0, icon: '\u2728', url: 'https://disneyworld.disney.go.com/attractions/magic-kingdom/peter-pans-flight/', note: 'Fly over London to Neverland' },
+      { name: 'Under the Sea', height: 0, icon: '\u{1F41A}', url: 'https://disneyworld.disney.go.com/attractions/magic-kingdom/under-the-sea-journey-of-the-little-mermaid/', note: "Journey into Ariel's world" },
+      { name: "it's a small world", height: 0, icon: '\u{1F30D}', url: 'https://disneyworld.disney.go.com/attractions/magic-kingdom/its-a-small-world/', note: 'The timeless classic boat ride' },
+    ]
+  },
+  {
+    id: 'hs', name: 'Hollywood Studios', day: 'Monday, Feb 8', color: 'hs',
+    url: 'https://disneyworld.disney.go.com/destinations/hollywood-studios/',
+    rides: [
+      { name: 'Slinky Dog Dash', height: 38, icon: '\u{1F415}', url: 'https://disneyworld.disney.go.com/attractions/hollywood-studios/slinky-dog-dash/', note: 'Family coaster through Toy Story Land' },
+      { name: 'Millennium Falcon: Smugglers Run', height: 38, icon: '\u{1F680}', url: 'https://disneyworld.disney.go.com/attractions/hollywood-studios/millennium-falcon-smugglers-run/', note: 'Pilot the Falcon! Mando + Grogu mission' },
+      { name: 'Toy Story Mania!', height: 0, icon: '\u{1F3AF}', url: 'https://disneyworld.disney.go.com/attractions/hollywood-studios/toy-story-mania/', note: '3D interactive shooting game ride' },
+      { name: 'Alien Swirling Saucers', height: 32, icon: '\u{1F6F8}', url: 'https://disneyworld.disney.go.com/attractions/hollywood-studios/alien-swirling-saucers/', note: 'Whip-around ride in Toy Story Land' },
+      { name: 'Rise of the Resistance', height: 40, icon: '\u2694', url: 'https://disneyworld.disney.go.com/attractions/hollywood-studios/star-wars-rise-of-the-resistance/', note: 'Epic Star Wars experience (must-do!)' },
+      { name: "Mickey & Minnie's Runaway Railway", height: 0, icon: '\u{1F3AC}', url: 'https://disneyworld.disney.go.com/attractions/hollywood-studios/mickey-and-minnies-runaway-railway/', note: 'Trackless ride through a cartoon world' },
+      { name: 'Tower of Terror', height: 40, icon: '\u{1F5FC}', url: 'https://disneyworld.disney.go.com/attractions/hollywood-studios/twilight-zone-tower-of-terror/', note: 'Drop ride (check if kids are ok with drops)' },
+    ]
+  },
+  {
+    id: 'ak', name: 'Animal Kingdom', day: 'Wednesday, Feb 10', color: 'ak',
+    url: 'https://disneyworld.disney.go.com/destinations/animal-kingdom/',
+    rides: [
+      { name: 'Kilimanjaro Safaris', height: 0, icon: '\u{1F981}', url: 'https://disneyworld.disney.go.com/attractions/animal-kingdom/kilimanjaro-safaris/', note: 'Real African safari — go early for active animals!' },
+      { name: 'Gorilla Falls', height: 0, icon: '\u{1F98D}', url: 'https://disneyworld.disney.go.com/attractions/animal-kingdom/gorilla-falls-exploration-trail/', note: 'Walk-through trail with gorillas and more' },
+      { name: 'Avatar Flight of Passage', height: 44, icon: '\u{1F409}', url: 'https://disneyworld.disney.go.com/attractions/animal-kingdom/avatar-flight-of-passage/', note: 'Fly on a banshee over Pandora (incredible!)' },
+      { name: "Na'vi River Journey", height: 0, icon: '\u{1F332}', url: 'https://disneyworld.disney.go.com/attractions/animal-kingdom/navi-river-journey/', note: 'Gentle boat ride through bioluminescent forest' },
+      { name: 'Expedition Everest', height: 44, icon: '\u{1F3D4}', url: 'https://disneyworld.disney.go.com/attractions/animal-kingdom/expedition-everest/', note: 'Thrilling coaster with a backwards section' },
+      { name: 'Feathered Friends in Flight', height: 0, icon: '\u{1F99C}', url: 'https://disneyworld.disney.go.com/attractions/animal-kingdom/feathered-friends-in-flight/', note: 'Live bird show — amazing with animal-loving kids' },
+      { name: 'The Boneyard', height: 0, icon: '\u{1F9B4}', url: 'https://disneyworld.disney.go.com/attractions/animal-kingdom/the-boneyard/', note: 'Dig-site playground — kids can burn energy here' },
+    ]
+  },
+  {
+    id: 'ep', name: 'Epcot', day: 'Thursday, Feb 11 (VIP Day)', color: 'ep',
+    url: 'https://disneyworld.disney.go.com/destinations/epcot/',
+    rides: [
+      { name: 'Frozen Ever After', height: 0, icon: '\u2744', url: 'https://disneyworld.disney.go.com/attractions/epcot/frozen-ever-after/', note: 'Newly enhanced — the kids will lose their minds' },
+      { name: 'Journey of Water: Moana', height: 0, icon: '\u{1F30A}', url: 'https://disneyworld.disney.go.com/attractions/epcot/journey-of-water-inspired-by-moana/', note: 'Interactive walk-through water trail' },
+      { name: "Soarin' Across America", height: 40, icon: '\u{1F985}', url: 'https://disneyworld.disney.go.com/attractions/epcot/soarin-around-the-world/', note: 'Hang-glider simulator with new film' },
+      { name: 'Living with the Land', height: 0, icon: '\u{1F331}', url: 'https://disneyworld.disney.go.com/attractions/epcot/living-with-the-land/', note: 'Boat ride through working greenhouses' },
+      { name: 'The Seas with Nemo', height: 0, icon: '\u{1F420}', url: 'https://disneyworld.disney.go.com/attractions/epcot/the-seas-with-nemo-and-friends/', note: 'Ride + massive aquarium after' },
+      { name: 'Test Track', height: 40, icon: '\u{1F3CE}', url: 'https://disneyworld.disney.go.com/attractions/epcot/test-track/', note: 'Design a car and test it at 65mph (newly rethemed)' },
+      { name: "Remy's Ratatouille Adventure", height: 0, icon: '\u{1F400}', url: 'https://disneyworld.disney.go.com/attractions/epcot/remys-ratatouille-adventure/', note: 'Shrink to rat-size in a trackless ride through the kitchen' },
+    ]
+  },
+];
+
+const SCHEDULE = [
+  {
+    date: 'Feb 6', dow: 'Sat', num: 6, label: 'Arrival', color: 'travel', colorVar: '--travel',
+    title: 'Arrival Day',
+    meta: 'Saturday, February 6, 2027',
+    desc: 'Drive to Orlando, check in at <a href="https://disneyworld.disney.go.com/resorts/bay-lake-tower-at-contemporary/" target="_blank">Bay Lake Tower</a>. Settle in, explore the resort, hit the pool.',
+    activities: [
+      { icon: '\u{1F697}', name: 'Drive to Orlando', meta: 'Morning \u2013 Afternoon', detail: 'Pack the car the night before. Snacks, tablets charged, stops planned.', type: 'travel' },
+      { icon: '\u{1F3E8}', name: 'Check in at Bay Lake Tower', meta: 'Afternoon', detail: 'Online check-in available 30 days before. Room requests submitted. DVC One-Bedroom Resort View.', link: 'https://disneyworld.disney.go.com/resorts/bay-lake-tower-at-contemporary/', type: 'resort' },
+      { icon: '\u{1F3CA}', name: 'Bay Cove Pool', meta: 'Late Afternoon', detail: 'Zero-entry pool with 148-ft waterslide and mini-slide for little ones. Let the kids burn off car energy.', type: 'activity' },
+      { icon: '\u2753', name: 'Evening Flex: MK or \u2018Ohana', meta: 'Evening', detail: 'Option A: Quick jaunt to Magic Kingdom for a few rides under the lights. Option B: Dinner at \u2018Ohana at the Polynesian + watch fireworks from the beach.', link: 'https://disneyworld.disney.go.com/dining/polynesian-village-resort/ohana/', type: 'dining' },
+    ]
+  },
+  {
+    date: 'Feb 7', dow: 'Sun', num: 7, label: 'Magic Kingdom', color: 'mk', colorVar: '--mk',
+    title: 'Magic Kingdom',
+    meta: 'Sunday, February 7, 2027 \u00B7 Early Entry 8:30 AM',
+    desc: '<a href="https://disneyworld.disney.go.com/shops/magic-kingdom/bibbidi-bobbidi-boutique/" target="_blank">Bibbidi Bobbidi Boutique</a> for the girls while the dads take Michael on rides. Fantasyland, Adventureland, Tomorrowland. Evening fireworks from inside the park.',
+    activities: [
+      { icon: '\u{1F3F0}', name: 'Early Park Entry', meta: '8:30 AM \u2013 9:00 AM', detail: '30 minutes before regular guests. Hit Seven Dwarfs Mine Train or Peter Pan first.', link: 'https://disneyworld.disney.go.com/destinations/magic-kingdom/', type: 'ride', height: null },
+      { icon: '\u{1F478}', name: 'Bibbidi Bobbidi Boutique (Girls)', meta: 'Mid-Morning', detail: 'Princess makeovers for Clara, Mia, Ava & Emma. Royal hairstyling, makeup, costumes, and pixie dust. Book on Dec 8.', link: 'https://disneyworld.disney.go.com/shops/magic-kingdom/bibbidi-bobbidi-boutique/', type: 'experience' },
+      { icon: '\u{1F3A2}', name: 'Dads + Michael Ride Session', meta: 'Mid-Morning', detail: 'While girls are at BBB: Big Thunder Mountain, Buzz Lightyear, Tomorrowland Speedway, Space Mountain (dads only).', type: 'ride' },
+      { icon: '\u26CF', name: 'Seven Dwarfs Mine Train', meta: 'Lightning Lane', detail: 'Family coaster through the diamond mine. 38" height req \u2014 all kids ride!', link: 'https://disneyworld.disney.go.com/attractions/magic-kingdom/seven-dwarfs-mine-train/', type: 'ride', height: 38 },
+      { icon: '\u{1F47B}', name: 'Haunted Mansion + Adventureland', meta: 'Afternoon', detail: 'Haunted Mansion, Pirates, Jungle Cruise. Great for the whole group together.', link: 'https://disneyworld.disney.go.com/attractions/magic-kingdom/haunted-mansion/', type: 'ride' },
+      { icon: '\u{1F37D}', name: 'Dinner', meta: 'Evening', detail: 'Table service in park or quick service. Options: Columbia Harbour House, Pecos Bill, or table service at Liberty Tree Tavern.', type: 'dining' },
+      { icon: '\u{1F386}', name: 'Happily Ever After Fireworks', meta: '8:00 PM (approx)', detail: 'Castle projection show + fireworks. Stake out a spot on Main Street 30 min early. The grand finale of MK day.', link: 'https://disneyworld.disney.go.com/destinations/magic-kingdom/', type: 'show' },
+    ]
+  },
+  {
+    date: 'Feb 8', dow: 'Mon', num: 8, label: 'Hollywood Studios', color: 'hs', colorVar: '--hs',
+    title: 'Hollywood Studios',
+    meta: 'Monday, February 8, 2027 \u00B7 Early Entry 8:30 AM',
+    desc: '<a href="https://disneyworld.disney.go.com/shops/hollywood-studios/droid-depot/" target="_blank">Droid Depot</a> for Michael during <a href="https://disneyworld.disney.go.com/entertainment/hollywood-studios/for-the-first-time-in-forever-frozen-sing-along/" target="_blank">Frozen Sing-Along</a> for the girls. <a href="https://disneyworld.disney.go.com/destinations/hollywood-studios/toy-story-land/" target="_blank">Toy Story Land</a>, <a href="https://disneyworld.disney.go.com/destinations/hollywood-studios/star-wars-galaxys-edge/" target="_blank">Galaxy\'s Edge</a>, and the Mando mission on <a href="https://disneyworld.disney.go.com/attractions/hollywood-studios/millennium-falcon-smugglers-run/" target="_blank">Millennium Falcon</a>.',
+    activities: [
+      { icon: '\u{1F3AC}', name: 'Early Entry \u2014 Slinky Dog Dash', meta: '8:30 AM', detail: 'Hit Slinky Dog at rope drop. Shortest wait of the day.', link: 'https://disneyworld.disney.go.com/attractions/hollywood-studios/slinky-dog-dash/', type: 'ride', height: 38 },
+      { icon: '\u{1F916}', name: 'Droid Depot (Michael)', meta: 'Mid-Morning', detail: 'Michael builds his own custom R2-unit or BB-unit droid. Picks parts, assembles, takes home. Scheduled during Frozen Sing-Along for the girls.', link: 'https://disneyworld.disney.go.com/shops/hollywood-studios/droid-depot/', type: 'experience' },
+      { icon: '\u2744', name: 'Frozen Sing-Along (Girls)', meta: 'Mid-Morning', detail: 'The girls will love singing along to all the Frozen hits. Perfect timing while Michael does Droid Depot.', link: 'https://disneyworld.disney.go.com/entertainment/hollywood-studios/for-the-first-time-in-forever-frozen-sing-along/', type: 'show' },
+      { icon: '\u{1F680}', name: 'Galaxy\'s Edge', meta: 'Late Morning', detail: 'Millennium Falcon: Smugglers Run (Mando + Grogu mission!), Rise of the Resistance, explore the land.', link: 'https://disneyworld.disney.go.com/attractions/hollywood-studios/millennium-falcon-smugglers-run/', type: 'ride', height: 38 },
+      { icon: '\u{1F3AF}', name: 'Toy Story Land', meta: 'Afternoon', detail: 'Toy Story Mania (interactive shooting game), Alien Swirling Saucers, Woody\'s Lunch Box for totchos.', link: 'https://disneyworld.disney.go.com/attractions/hollywood-studios/toy-story-mania/', type: 'ride' },
+      { icon: '\u{1F5FC}', name: 'Tower of Terror', meta: 'If Kids Are Game', detail: '40" height req. Check if the kids are comfortable with drop rides first. Skip if not \u2014 no pressure.', link: 'https://disneyworld.disney.go.com/attractions/hollywood-studios/twilight-zone-tower-of-terror/', type: 'ride', height: 40 },
+    ]
+  },
+  {
+    date: 'Feb 9', dow: 'Tue', num: 9, label: 'Rest Day', color: 'rest', colorVar: '--rest',
+    title: 'Rest & Pool Day',
+    meta: 'Tuesday, February 9, 2027',
+    desc: 'Sleep in. Villa breakfast. Bay Cove Pool (zero-entry + 148-ft waterslide). Resort activities, tie-dye, crafts. Ride the monorail loop to explore the <a href="https://disneyworld.disney.go.com/resorts/polynesian-village-resort/" target="_blank">Polynesian</a> and <a href="https://disneyworld.disney.go.com/resorts/grand-floridian-resort-and-spa/" target="_blank">Grand Floridian</a>.',
+    activities: [
+      { icon: '\u{1F634}', name: 'Sleep In + Villa Breakfast', meta: 'Morning', detail: 'Use that full kitchen. Pancakes, eggs, fruit. No alarm clocks today.', type: 'rest' },
+      { icon: '\u{1F3CA}', name: 'Bay Cove Pool Day', meta: 'Late Morning \u2013 Afternoon', detail: 'Zero-entry pool, 148-ft waterslide, mini-slide for little ones. Poolside activities, tie-dye workshops.', type: 'activity' },
+      { icon: '\u{1F682}', name: 'Monorail Resort Hopping', meta: 'Afternoon', detail: 'Ride the monorail loop. Visit the Polynesian (Dole Whip at Pineapple Lanai!), Grand Floridian, and Contemporary.', type: 'activity' },
+      { icon: '\u{1F3AC}', name: 'Movies Under the Stars', meta: 'Evening Option', detail: 'BLT/Contemporary shows movies on an outdoor screen most nights. Bring blankets.', type: 'activity' },
+      { icon: '\u{1F525}', name: 'Campfire & Marshmallows', meta: 'Evening Option', detail: 'Campfire at Contemporary. Free marshmallow roasting and character appearances.', type: 'activity' },
+    ]
+  },
+  {
+    date: 'Feb 10', dow: 'Wed', num: 10, label: 'Animal Kingdom', color: 'ak', colorVar: '--ak',
+    title: 'Animal Kingdom',
+    meta: 'Wednesday, February 10, 2027 \u00B7 Early Entry 8:30 AM',
+    desc: 'Morning <a href="https://disneyworld.disney.go.com/attractions/animal-kingdom/kilimanjaro-safaris/" target="_blank">Kilimanjaro Safaris</a> (animals are most active early). <a href="https://disneyworld.disney.go.com/attractions/animal-kingdom/gorilla-falls-exploration-trail/" target="_blank">Gorilla Falls</a>, <a href="https://disneyworld.disney.go.com/attractions/animal-kingdom/navi-river-journey/" target="_blank">Na\'vi River Journey</a>, <a href="https://disneyworld.disney.go.com/attractions/animal-kingdom/avatar-flight-of-passage/" target="_blank">Flight of Passage</a>. Leave mid-afternoon.',
+    activities: [
+      { icon: '\u{1F981}', name: 'Kilimanjaro Safaris', meta: '8:30 AM (Early Entry)', detail: 'Real African safari. Animals are most active in the cool morning. Go FIRST. This will be incredible for the animal-loving kids.', link: 'https://disneyworld.disney.go.com/attractions/animal-kingdom/kilimanjaro-safaris/', type: 'ride' },
+      { icon: '\u{1F98D}', name: 'Gorilla Falls + Trails', meta: 'Mid-Morning', detail: 'Walk-through trail with gorillas, hippos, exotic birds. Take your time here \u2014 the kids will love it.', link: 'https://disneyworld.disney.go.com/attractions/animal-kingdom/gorilla-falls-exploration-trail/', type: 'activity' },
+      { icon: '\u{1F99C}', name: 'Feathered Friends in Flight', meta: 'Check Showtime', detail: 'Live bird show with hawks, macaws, and more flying right over the audience. Incredible.', link: 'https://disneyworld.disney.go.com/attractions/animal-kingdom/feathered-friends-in-flight/', type: 'show' },
+      { icon: '\u{1F409}', name: 'Flight of Passage', meta: 'Lightning Lane', detail: 'Fly on a banshee over Pandora. 44" req \u2014 Clara borderline, Michael clears. Top 3 ride at Disney.', link: 'https://disneyworld.disney.go.com/attractions/animal-kingdom/avatar-flight-of-passage/', type: 'ride', height: 44 },
+      { icon: '\u{1F332}', name: "Na'vi River Journey", meta: 'Afternoon', detail: 'Gentle boat ride through bioluminescent Pandora forest. Beautiful and calm. All ages.', link: 'https://disneyworld.disney.go.com/attractions/animal-kingdom/navi-river-journey/', type: 'ride' },
+      { icon: '\u{1F3D4}', name: 'Expedition Everest', meta: 'If Time', detail: '44" height req. Thrilling coaster with backward section. For the bigger kids and dads.', link: 'https://disneyworld.disney.go.com/attractions/animal-kingdom/expedition-everest/', type: 'ride', height: 44 },
+    ]
+  },
+  {
+    date: 'Feb 11', dow: 'Thu', num: 11, label: 'VIP Tour', color: 'gold', colorVar: '--gold',
+    title: 'VIP Tour Day',
+    meta: 'Thursday, February 11, 2027 \u00B7 Park Hopper Day',
+    desc: '<strong>Morning:</strong> <a href="https://disneyworld.disney.go.com/destinations/epcot/" target="_blank">Epcot</a> \u2014 <a href="https://disneyworld.disney.go.com/attractions/epcot/frozen-ever-after/" target="_blank">Frozen Ever After</a>, <a href="https://disneyworld.disney.go.com/attractions/epcot/soarin-around-the-world/" target="_blank">Soarin\'</a>, <a href="https://disneyworld.disney.go.com/attractions/epcot/the-seas-with-nemo-and-friends/" target="_blank">Nemo</a>, maybe <a href="https://disneyworld.disney.go.com/attractions/epcot/test-track/" target="_blank">Test Track</a>.<br><strong>Evening:</strong> <a href="https://disneyworld.disney.go.com/destinations/magic-kingdom/" target="_blank">Magic Kingdom</a> \u2014 mop up anything missed, VIP parade + fireworks. Walk home to BLT.',
+    activities: [
+      { icon: '\u2744', name: 'Frozen Ever After', meta: 'Epcot Morning', detail: 'Newly enhanced! The kids (especially the Frozen fans) will flip. Priority #1 at Epcot.', link: 'https://disneyworld.disney.go.com/attractions/epcot/frozen-ever-after/', type: 'ride' },
+      { icon: '\u{1F985}', name: "Soarin' Across America", meta: 'Epcot Morning', detail: 'Hang-glider simulator with brand new film. 40" height requirement.', link: 'https://disneyworld.disney.go.com/attractions/epcot/soarin-around-the-world/', type: 'ride', height: 40 },
+      { icon: '\u{1F420}', name: 'The Seas with Nemo + Aquarium', meta: 'Epcot', detail: 'Ride through the reef, then explore one of the largest aquariums in the world.', link: 'https://disneyworld.disney.go.com/attractions/epcot/the-seas-with-nemo-and-friends/', type: 'ride' },
+      { icon: '\u{1F30A}', name: 'Journey of Water: Moana', meta: 'Epcot', detail: 'Interactive walk-through water trail inspired by Moana. Great for the kids.', link: 'https://disneyworld.disney.go.com/attractions/epcot/journey-of-water-inspired-by-moana/', type: 'activity' },
+      { icon: '\u{1F3CE}', name: 'Test Track', meta: 'Epcot (If Time)', detail: 'Design a car and test it at 65mph. 40" req. Newly rethemed, #1 Lightning Lane at Epcot.', link: 'https://disneyworld.disney.go.com/attractions/epcot/test-track/', type: 'ride', height: 40 },
+      { icon: '\u{1F3F0}', name: 'MK Evening \u2014 Cleanup Crew', meta: 'Afternoon/Evening', detail: 'Hop to Magic Kingdom. Hit anything missed from Sunday. VIP parade viewing spot. VIP fireworks spot.', link: 'https://disneyworld.disney.go.com/destinations/magic-kingdom/', type: 'ride' },
+      { icon: '\u{1F386}', name: 'VIP Fireworks + Walk Home', meta: 'Night', detail: 'VIP viewing for the fireworks. Then walk home to Bay Lake Tower. The perfect grand finale.', type: 'show' },
+    ]
+  },
+  {
+    date: 'Feb 12', dow: 'Fri', num: 12, label: 'Departure', color: 'travel', colorVar: '--travel',
+    title: 'Check Out & Drive Home',
+    meta: 'Friday, February 12, 2027',
+    desc: 'Pack up, one last villa breakfast, hit the road. Memories for a lifetime.',
+    activities: [
+      { icon: '\u{1F373}', name: 'Final Villa Breakfast', meta: 'Morning', detail: 'Use up remaining groceries. One last meal together before the drive.', type: 'dining' },
+      { icon: '\u{1F9F3}', name: 'Pack Up & Check Out', meta: 'Late Morning', detail: 'Online checkout via MDE app. Leave bags with Bell Services if you want to explore first.', type: 'travel' },
+      { icon: '\u{1F697}', name: 'Drive Home', meta: 'Afternoon', detail: 'Tablets charged, snacks packed, Disney playlist on. Memories for a lifetime.', type: 'travel' },
+    ]
+  },
+];
+
+const DEADLINES = [
+  { urgency: 'now', badge: 'NOW', color: '--gold', text: '<strong>Other family:</strong> Create My Disney Experience accounts, add kids, link to our account, and delegate booking authority. Everything else depends on this.' },
+  { urgency: 'soon', badge: 'SOON', color: '--gold', text: '<strong>Buy park tickets</strong> \u2014 prices keep going up (~15% increase in 2026). Considering 4-day base + 1-day hopper for VIP day.' },
+  { urgency: 'soon', badge: "SUMMER '26", color: '--accent', text: '<strong>Research VIP Tour</strong> pricing and availability. Build dining reservation priority list. Research babysitting services.' },
+  { urgency: 'soon', badge: "FALL '26", color: '--accent', text: '<strong>Height checks</strong> for Clara, Mia, Michael, Emma, and Ava. Determines which rides everyone can do.' },
+  { urgency: 'critical', badge: 'DEC 8, 2026', color: '--hs', text: '<strong>6:00 AM ET \u2014 Dining reservation blitz.</strong> Character meals, Bibbidi Bobbidi Boutique, and Droid Depot. These sell out in minutes. Be ready.' },
+  { urgency: 'later', badge: 'JAN 7', color: '--accent', text: '<strong>30 days out.</strong> Lightning Lane purchases, special experiences, Droid Depot (if not booked).' },
+  { urgency: 'later', badge: 'JAN 30', color: '--accent', text: '<strong>7 days out.</strong> Book Lightning Lane Multi Pass selections (DVC guests get 7-day advance window). Online check-in.' },
+];
+
+const CHECKLIST = [
+  {
+    label: 'Priority \u2014 Other Family Action Needed', color: '--pink',
+    items: [
+      { id: 'c1', text: 'Create My Disney Experience accounts (Mom + Dad)' },
+      { id: 'c2', text: 'Add Emma (9), Ava (7), and Mia (5) with correct birth dates' },
+      { id: 'c3', text: 'Link accounts and delegate booking authority' },
+      { id: 'c4', text: 'Download My Disney Experience app on all phones' },
+    ]
+  },
+  {
+    label: 'Both Families', color: '--mk',
+    items: [
+      { id: 'c5', text: 'Purchase park tickets and link to MDE' },
+      { id: 'c6', text: 'Set up MagicBand+ orders (or plan to bring your own)' },
+      { id: 'c7', text: 'Purchase travel insurance' },
+      { id: 'c8', text: 'Height check for all kids (fall 2026)' },
+      { id: 'c9', text: 'Set alarm for Dec 8 at 5:55 AM ET (dining reservations!)' },
+    ]
+  },
+  {
+    label: 'Done', color: '--ak',
+    items: [
+      { id: 'c10', text: 'Create MDE accounts (our family)', done: true },
+      { id: 'c11', text: 'Add wife and kids to MDE', done: true },
+      { id: 'c12', text: 'Book resort \u2014 Bay Lake Tower (both families)', done: true },
+    ]
+  },
+];
+
+const PACKING = [
+  {
+    title: 'Park Day Bag', icon: '\u{1F392}',
+    items: ['Backpack (lightweight, comfy)', 'Refillable water bottles (free ice water at any QS)', 'Ponchos for everyone (buy cheap before trip)', 'Portable phone chargers (2+ per family)', 'Sunscreen SPF 50+', 'Snacks (granola bars, goldfish, fruit snacks)', 'Wet wipes \u2014 essential with 5 kids', 'Autograph books + thick Sharpies', 'Glow sticks for evening magic'],
+  },
+  {
+    title: 'DVC Villa Essentials', icon: '\u{1F3E0}', note: 'DVC rental = limited housekeeping. Bring these:',
+    items: ['Laundry detergent pods (3\u20134 loads/villa)', 'Extra trash bags (13 gal, fills fast)', 'Paper towels (2+ rolls/villa)', 'Dish soap / dishwasher pods', 'Clorox wipes (counters, spills)', 'Extra toilet paper (2\u20133 rolls)', 'Hand soap refill', 'Ziplock bags (gallon + quart)'],
+  },
+  {
+    title: "Don't Forget", icon: '\u26A0',
+    items: ['Break in ALL shoes 2+ weeks before trip', 'Charge MagicBands night before departure', 'Download offline content to kids\u2019 tablets', 'Buy ponchos, glow sticks, autograph books before trip', 'Stroller for Clara and Mia (10+ miles/day)', 'Check weather forecast 3 days before'],
+  },
+];
+
+const DINING_CARDS = [
+  {
+    title: 'Character Dining Picks',
+    accent: '--gold',
+    items: [
+      { text: 'Chef Mickey\'s', desc: 'Breakfast, Mickey & friends, steps from villa', url: 'https://disneyworld.disney.go.com/dining/contemporary-resort/chef-mickeys/' },
+      { text: 'Cinderella\'s Royal Table', desc: 'Princesses, inside the castle', url: 'https://disneyworld.disney.go.com/dining/magic-kingdom/cinderella-royal-table/' },
+      { text: '1900 Park Fare', desc: 'Mirabel, Cinderella, Tiana (monorail ride away)', url: 'https://disneyworld.disney.go.com/dining/grand-floridian-resort-and-spa/1900-park-fare/' },
+      { text: '\u2018Ohana', desc: 'Lilo & Stitch breakfast, family-style feast dinner', url: 'https://disneyworld.disney.go.com/dining/polynesian-village-resort/ohana/' },
+    ]
+  },
+  {
+    title: 'Must-Try Snacks',
+    accent: '--pink',
+    items: [
+      { text: 'Dole Whip', desc: 'Aloha Isle (MK) or Pineapple Lanai (Polynesian)' },
+      { text: 'Corn Dog Nuggets', desc: 'Casey\'s Corner (MK)' },
+      { text: 'Mickey Premium Bar', desc: 'Everywhere!' },
+      { text: 'Turkey Legs', desc: 'Multiple locations' },
+      { text: 'Woody\'s Lunch Box Totchos', desc: 'Toy Story Land (HS)' },
+      { text: 'Les Halles Pastries', desc: 'France Pavilion (Epcot)' },
+    ]
+  },
+  {
+    title: 'Kid-Friendly Restaurants',
+    accent: '--accent',
+    items: [
+      { text: '50\'s Prime Time Cafe', desc: 'HS, comfort food, hilarious servers', url: 'https://disneyworld.disney.go.com/dining/hollywood-studios/50s-prime-time-cafe/' },
+      { text: 'Sci-Fi Dine-In Theater', desc: 'HS, eat in drive-in cars', url: 'https://disneyworld.disney.go.com/dining/hollywood-studios/sci-fi-dine-in-theater/' },
+      { text: 'Coral Reef', desc: 'Epcot, sit next to a giant aquarium', url: 'https://disneyworld.disney.go.com/dining/epcot/coral-reef-restaurant/' },
+      { text: 'Rainforest Cafe', desc: 'AK, jungle theming, animatronic animals', url: 'https://disneyworld.disney.go.com/dining/animal-kingdom/rainforest-cafe-animal-kingdom/' },
+    ]
+  },
+  {
+    title: 'Villa Kitchen Strategy',
+    accent: '--rest',
+    paragraphs: [
+      '<strong>Breakfast in the villa most mornings</strong> \u2014 saves time + money, get to parks for Early Entry',
+      '<strong>Grocery delivery on arrival day</strong> \u2014 Amazon Fresh, Instacart, or Garden Grocer',
+      '<strong>Pack snacks daily</strong> \u2014 PB&Js, granola bars, fruit. Park snacks add up fast with 9 people',
+    ]
+  },
+  {
+    title: 'Resort Dining',
+    accent: '--ep',
+    items: [
+      { text: 'Chef Mickey\'s', desc: 'Character dining (Mickey & friends)', url: 'https://disneyworld.disney.go.com/dining/contemporary-resort/chef-mickeys/' },
+      { text: 'Steakhouse 71', desc: 'Casual family dining', url: 'https://disneyworld.disney.go.com/dining/contemporary-resort/steakhouse-71/' },
+      { text: 'Contempo Cafe', desc: 'Quick service grab-and-go', url: 'https://disneyworld.disney.go.com/dining/contemporary-resort/contempo-cafe/' },
+      { text: 'Top of the World Lounge', desc: 'DVC exclusive, 16th floor views' },
+    ]
+  },
+  {
+    title: 'Special Experiences',
+    accent: '--gold',
+    items: [
+      { text: 'Bibbidi Bobbidi Boutique', desc: 'Princess makeovers \u2014 MK day (Sun Feb 7)', url: 'https://disneyworld.disney.go.com/shops/magic-kingdom/bibbidi-bobbidi-boutique/' },
+      { text: 'Droid Depot', desc: 'Build a custom droid \u2014 HS day (Mon Feb 8)', url: 'https://disneyworld.disney.go.com/shops/hollywood-studios/droid-depot/' },
+      { text: 'Festival of the Arts', desc: 'Special food booths + art activities at Epcot during our trip' },
+      { text: 'VIP Tour (Considering)', desc: 'Private guide, backstage access \u2014 Thu Feb 11' },
+    ]
+  },
+];
+
+/* ==========================================================
+   STATE MANAGEMENT (localStorage)
+   ========================================================== */
+const STATE_KEY = 'disneyTripHQ';
+
+function loadState() {
+  try {
+    return JSON.parse(localStorage.getItem(STATE_KEY)) || {};
+  } catch { return {}; }
+}
+
+function saveState(state) {
+  localStorage.setItem(STATE_KEY, JSON.stringify(state));
+}
+
+let appState = loadState();
+
+/* ==========================================================
+   SPA ROUTER
+   ========================================================== */
+const pages = document.querySelectorAll('.page');
+const navLinks = document.querySelectorAll('.nav-link');
+
+function navigateTo(pageId) {
+  pages.forEach(p => {
+    p.classList.remove('active', 'visible');
+  });
+  navLinks.forEach(n => n.classList.remove('active'));
+
+  const target = document.getElementById('page-' + pageId);
+  const link = document.querySelector(`.nav-link[data-page="${pageId}"]`);
+  if (target) {
+    target.classList.add('active');
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        target.classList.add('visible');
+      });
+    });
+  }
+  if (link) link.classList.add('active');
+
+  // Close mobile nav
+  document.getElementById('navLinks').classList.remove('mobile-visible');
+  document.getElementById('navLinks').classList.add('mobile-hidden');
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+navLinks.forEach(link => {
+  link.addEventListener('click', () => navigateTo(link.dataset.page));
+});
+
+// Quick links
+document.querySelectorAll('.quick-link').forEach(el => {
+  el.addEventListener('click', () => navigateTo(el.dataset.goto));
+});
+
+// Mobile toggle
+document.getElementById('navToggle').addEventListener('click', () => {
+  const nav = document.getElementById('navLinks');
+  nav.classList.toggle('mobile-hidden');
+  nav.classList.toggle('mobile-visible');
+});
+
+// Init first page
+requestAnimationFrame(() => {
+  document.getElementById('page-overview').classList.add('visible');
+});
+
+/* ==========================================================
+   COUNTDOWN TIMER
+   ========================================================== */
+function updateCountdown() {
+  const now = new Date();
+  const diff = TRIP_DATE - now;
+  if (diff <= 0) {
+    document.getElementById('cd-days').textContent = '0';
+    document.getElementById('cd-hours').textContent = '0';
+    document.getElementById('cd-mins').textContent = '0';
+    document.getElementById('cd-secs').textContent = '0';
+    return;
+  }
+  const days = Math.floor(diff / 86400000);
+  const hours = Math.floor((diff % 86400000) / 3600000);
+  const mins = Math.floor((diff % 3600000) / 60000);
+  const secs = Math.floor((diff % 60000) / 1000);
+  document.getElementById('cd-days').textContent = days;
+  document.getElementById('cd-hours').textContent = hours;
+  document.getElementById('cd-mins').textContent = mins;
+  document.getElementById('cd-secs').textContent = String(secs).padStart(2, '0');
+}
+updateCountdown();
+setInterval(updateCountdown, 1000);
+
+/* ==========================================================
+   NEXT DEADLINE (Overview)
+   ========================================================== */
+function renderNextDeadline() {
+  const dl = DEADLINES[0];
+  document.getElementById('nextDeadline').innerHTML = `
+    <div class="next-deadline-icon">\u26A0</div>
+    <div>
+      <div class="next-deadline-label">Next Priority</div>
+      <div class="next-deadline-text">${dl.text}</div>
+    </div>
+  `;
+}
+renderNextDeadline();
+
+/* ==========================================================
+   OVERVIEW PROGRESS
+   ========================================================== */
+function renderOverviewProgress() {
+  const total = CHECKLIST.reduce((sum, g) => sum + g.items.length, 0);
+  let done = 0;
+  CHECKLIST.forEach(g => {
+    g.items.forEach(item => {
+      if (item.done || (appState.checklist && appState.checklist[item.id])) done++;
+    });
+  });
+  const pct = Math.round((done / total) * 100);
+  const circumference = 2 * Math.PI * 30;
+  const offset = circumference - (pct / 100) * circumference;
+
+  document.getElementById('overviewProgress').innerHTML = `
+    <div class="progress-ring-container">
+      <svg class="progress-ring" viewBox="0 0 72 72">
+        <circle class="progress-ring-bg" cx="36" cy="36" r="30"/>
+        <circle class="progress-ring-fill" cx="36" cy="36" r="30"
+          stroke-dasharray="${circumference}"
+          stroke-dashoffset="${offset}"/>
+      </svg>
+      <div class="progress-percent">${pct}%</div>
+    </div>
+    <div class="progress-info">
+      <h3>Checklist Progress</h3>
+      <p>${done} of ${total} items complete. Keep going!</p>
+    </div>
+  `;
+}
+renderOverviewProgress();
+
+/* ==========================================================
+   CALENDAR
+   ========================================================== */
+let activeDay = 0;
+
+function renderWeekStrip() {
+  const strip = document.getElementById('weekStrip');
+  strip.innerHTML = SCHEDULE.map((day, i) => {
+    const colorClass = day.color === 'gold' ? 'bg-gold-dim' : `bg-${day.color}-dim`;
+    return `
+      <div class="day-pill ${i === activeDay ? 'active' : ''}" data-day="${i}">
+        <span class="day-pill-dow">${day.dow}</span>
+        <span class="day-pill-date">${day.num}</span>
+        <span class="day-pill-label ${colorClass}">${day.label}</span>
+      </div>
+    `;
+  }).join('');
+
+  strip.querySelectorAll('.day-pill').forEach(pill => {
+    pill.addEventListener('click', () => {
+      activeDay = parseInt(pill.dataset.day);
+      renderWeekStrip();
+      renderDayDetail();
+    });
+  });
+}
+
+function renderDayDetail() {
+  const day = SCHEDULE[activeDay];
+  const container = document.getElementById('dayDetail');
+  const colorStyle = `color: var(${day.colorVar})`;
+
+  container.innerHTML = `
+    <div class="day-detail">
+      <div class="day-detail-header" style="background: linear-gradient(135deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.01) 100%);">
+        <div class="day-detail-title" style="${colorStyle}">${day.title}</div>
+        <div class="day-detail-meta">${day.meta}</div>
+        <div class="day-detail-desc">${day.desc}</div>
+      </div>
+      ${day.activities.length ? `
+        <div class="timeline">
+          <div class="timeline-title">Day Timeline</div>
+          ${day.activities.map((act, i) => `
+            <div class="activity-card" data-activity="${i}">
+              <div class="activity-icon">${act.icon}</div>
+              <div class="activity-body">
+                <div class="activity-name">${act.name}</div>
+                <div class="activity-meta">${act.meta}</div>
+              </div>
+              <span class="activity-expand">\u25BC</span>
+            </div>
+            <div class="activity-detail" data-activity-detail="${i}">
+              <p>${act.detail}</p>
+              ${act.height ? `<div class="activity-detail-height">Height: ${act.height}"</div>` : ''}
+              ${act.link ? `<a class="activity-detail-link" href="${act.link}" target="_blank">View on Disney World \u2192</a>` : ''}
+            </div>
+          `).join('')}
+        </div>
+      ` : ''}
+    </div>
+  `;
+
+  container.querySelectorAll('.activity-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const idx = card.dataset.activity;
+      const detail = container.querySelector(`[data-activity-detail="${idx}"]`);
+      const wasOpen = detail.classList.contains('open');
+      container.querySelectorAll('.activity-detail').forEach(d => d.classList.remove('open'));
+      container.querySelectorAll('.activity-card').forEach(c => c.classList.remove('expanded'));
+      if (!wasOpen) {
+        detail.classList.add('open');
+        card.classList.add('expanded');
+      }
+    });
+  });
+}
+
+renderWeekStrip();
+renderDayDetail();
+
+/* ==========================================================
+   PARKS & RIDES
+   ========================================================== */
+function renderParks() {
+  const container = document.getElementById('parkSections');
+  container.innerHTML = PARKS.map(park => `
+    <div class="park-section">
+      <div class="park-header park-header-${park.id}">
+        <h2><a href="${park.url}" target="_blank" style="color:white;text-decoration:none;">${park.name}</a></h2>
+        <div class="park-header-day">${park.day}</div>
+      </div>
+      <div class="rides-grid">
+        ${park.rides.map(ride => {
+          let badge = '';
+          if (ride.height === 0) badge = '<span class="ride-height-badge badge-none">No Req</span>';
+          else if (ride.height <= 38) badge = `<span class="ride-height-badge badge-clear">${ride.height}"</span>`;
+          else if (ride.height <= 42) badge = `<span class="ride-height-badge badge-caution">${ride.height}"</span>`;
+          else badge = `<span class="ride-height-badge badge-restriction">${ride.height}"</span>`;
+
+          return `
+            <a href="${ride.url}" target="_blank" style="text-decoration:none;color:inherit;">
+              <div class="ride-card">
+                <span class="ride-icon">${ride.icon}</span>
+                <div class="ride-info">
+                  <div class="ride-name">${ride.name}</div>
+                  <div class="ride-height">${ride.note}</div>
+                </div>
+                ${badge}
+              </div>
+            </a>
+          `;
+        }).join('')}
       </div>
     </div>
+  `).join('');
+}
+renderParks();
 
-    <div class="day-card">
-      <div class="day-dot bg-ak"><span class="dow">Wed</span>10</div>
-      <div class="day-body">
-        <h3>Animal Kingdom</h3>
-        <p>Morning <a class="dl" href="https://disneyworld.disney.go.com/attractions/animal-kingdom/kilimanjaro-safaris/" target="_blank">Kilimanjaro Safaris</a> (animals are most active early). <a class="dl" href="https://disneyworld.disney.go.com/attractions/animal-kingdom/gorilla-falls-exploration-trail/" target="_blank">Gorilla Falls</a>, <a class="dl" href="https://disneyworld.disney.go.com/attractions/animal-kingdom/navi-river-journey/" target="_blank">Na'vi River Journey</a>, <a class="dl" href="https://disneyworld.disney.go.com/attractions/animal-kingdom/avatar-flight-of-passage/" target="_blank">Flight of Passage</a>. Leave mid-afternoon.</p>
-        <span class="day-tag tag-ak">Animal Kingdom</span>
+/* ==========================================================
+   HEIGHT MATRIX
+   ========================================================== */
+function getDefaultHeightStatus(kidHeight, rideHeight) {
+  if (rideHeight === 0) return 'na';
+  if (kidHeight === null) return 'maybe';
+  if (kidHeight >= rideHeight) return 'yes';
+  if (kidHeight >= rideHeight - 2) return 'maybe';
+  return 'no';
+}
+
+function cycleStatus(current) {
+  const order = ['yes', 'maybe', 'no', 'na'];
+  const idx = order.indexOf(current);
+  return order[(idx + 1) % order.length];
+}
+
+const statusSymbols = { yes: '\u2713', maybe: '?', no: '\u2717', na: '\u2013' };
+
+function renderHeightMatrix() {
+  if (!appState.heightMatrix) appState.heightMatrix = {};
+
+  const allRides = [];
+  PARKS.forEach(park => {
+    allRides.push({ parkName: park.name, parkId: park.id, isHeader: true });
+    park.rides.forEach(ride => {
+      if (ride.height > 0) {
+        allRides.push({ ...ride, parkId: park.id });
+      }
+    });
+  });
+
+  const table = document.getElementById('heightMatrix');
+  let html = '<thead><tr><th>Ride</th>';
+  KIDS.forEach(kid => {
+    html += `<th>${kid.name}<br><span style="font-family:var(--font-mono);font-size:0.85em;font-weight:500;color:var(--text-secondary);">${kid.height ? kid.height + '"' : 'TBD'}</span></th>`;
+  });
+  html += '</tr></thead><tbody>';
+
+  allRides.forEach(ride => {
+    if (ride.isHeader) {
+      html += `<tr class="park-row"><td colspan="${KIDS.length + 1}" style="color:var(--${ride.parkId});">${ride.parkName}</td></tr>`;
+      return;
+    }
+    html += `<tr><td>${ride.name} <span style="font-family:var(--font-mono);font-size:0.85em;color:var(--text-muted);">(${ride.height}")</span></td>`;
+    KIDS.forEach(kid => {
+      const key = `${ride.name}__${kid.name}`;
+      const status = appState.heightMatrix[key] || getDefaultHeightStatus(kid.height, ride.height);
+      html += `<td><div class="matrix-cell ${status}" data-key="${key}" data-status="${status}">${statusSymbols[status]}</div></td>`;
+    });
+    html += '</tr>';
+  });
+
+  html += '</tbody>';
+  table.innerHTML = html;
+
+  table.querySelectorAll('.matrix-cell').forEach(cell => {
+    cell.addEventListener('click', () => {
+      const key = cell.dataset.key;
+      const current = cell.dataset.status;
+      const next = cycleStatus(current);
+      cell.dataset.status = next;
+      cell.className = `matrix-cell ${next}`;
+      cell.textContent = statusSymbols[next];
+      appState.heightMatrix[key] = next;
+      saveState(appState);
+    });
+  });
+}
+renderHeightMatrix();
+
+/* ==========================================================
+   DINING
+   ========================================================== */
+function renderDining() {
+  const grid = document.getElementById('diningGrid');
+  grid.innerHTML = DINING_CARDS.map(card => {
+    let content = '';
+    if (card.items) {
+      content = '<ul>' + card.items.map(item => {
+        const link = item.url ? `<a href="${item.url}" target="_blank">${item.text}</a>` : `<strong>${item.text}</strong>`;
+        return `<li>${link} \u2014 ${item.desc}</li>`;
+      }).join('') + '</ul>';
+    }
+    if (card.paragraphs) {
+      content = card.paragraphs.map(p => `<p style="margin-bottom:8px;">${p}</p>`).join('');
+    }
+    return `
+      <div class="dining-card dining-card-accent" style="border-top-color:var(${card.accent});">
+        <h3>${card.title}</h3>
+        ${content}
+      </div>
+    `;
+  }).join('');
+}
+renderDining();
+
+/* ==========================================================
+   CHECKLIST
+   ========================================================== */
+if (!appState.checklist) appState.checklist = {};
+
+function renderChecklist() {
+  const container = document.getElementById('checklistGroups');
+  const total = CHECKLIST.reduce((sum, g) => sum + g.items.length, 0);
+  let done = 0;
+
+  container.innerHTML = CHECKLIST.map(group => {
+    const items = group.items.map(item => {
+      const isDone = item.done || appState.checklist[item.id];
+      if (isDone) done++;
+      return `
+        <div class="check-item ${isDone ? 'checked' : ''}" data-id="${item.id}" ${item.done ? 'data-locked="true"' : ''}>
+          <div class="check-box">${isDone ? '\u2713' : ''}</div>
+          <span class="check-item-text">${item.text}</span>
+        </div>
+      `;
+    }).join('');
+
+    return `
+      <div class="checklist-group">
+        <div class="checklist-group-label" style="color:var(${group.color});">${group.label}</div>
+        ${items}
+      </div>
+    `;
+  }).join('');
+
+  const pct = Math.round((done / total) * 100);
+  document.getElementById('checklistFill').style.width = pct + '%';
+  document.getElementById('checklistPercent').textContent = pct + '%';
+
+  container.querySelectorAll('.check-item').forEach(item => {
+    if (item.dataset.locked) return;
+    item.addEventListener('click', () => {
+      const id = item.dataset.id;
+      appState.checklist[id] = !appState.checklist[id];
+      saveState(appState);
+      renderChecklist();
+      renderOverviewProgress();
+    });
+  });
+}
+renderChecklist();
+
+/* ==========================================================
+   PACKING
+   ========================================================== */
+if (!appState.packing) appState.packing = {};
+
+function renderPacking() {
+  const grid = document.getElementById('packingGrid');
+  grid.innerHTML = PACKING.map((section, si) => {
+    const total = section.items.length;
+    let checked = 0;
+    const items = section.items.map((item, ii) => {
+      const key = `p${si}_${ii}`;
+      const isDone = appState.packing[key];
+      if (isDone) checked++;
+      return `
+        <div class="pack-item ${isDone ? 'checked' : ''}" data-key="${key}">
+          <div class="pack-check">${isDone ? '\u2713' : ''}</div>
+          <span class="pack-item-text">${item}</span>
+        </div>
+      `;
+    }).join('');
+
+    return `
+      <div class="packing-card">
+        <h3>${section.icon} ${section.title}</h3>
+        ${section.note ? `<div class="dining-note">${section.note}</div>` : ''}
+        ${items}
+        <div class="packing-progress">${checked}/${total} packed</div>
+      </div>
+    `;
+  }).join('');
+
+  grid.querySelectorAll('.pack-item').forEach(item => {
+    item.addEventListener('click', () => {
+      const key = item.dataset.key;
+      appState.packing[key] = !appState.packing[key];
+      saveState(appState);
+      renderPacking();
+    });
+  });
+}
+renderPacking();
+
+/* ==========================================================
+   KIDS ROW (Overview)
+   ========================================================== */
+function renderKids() {
+  const row = document.getElementById('kidsRow');
+  const avatarColors = ['#2a1a3e', '#1a2a3e', '#2a1a3e', '#3e2a1a', '#1a2a3e'];
+  row.innerHTML = KIDS.map((kid, i) => `
+    <div class="kid-card">
+      <div class="kid-card-avatar" style="background:${avatarColors[i]};">${kid.emoji}</div>
+      <div class="kid-card-name">${kid.name}</div>
+      <div class="kid-card-meta">Age ${kid.age} &middot; Family ${kid.family}</div>
+      <div class="kid-card-height">${kid.height ? '~' + kid.height + '"' : 'TBD'}${kid.status === 'checking' ? ' (checking fall \u201926)' : kid.status === 'tbd' ? ' (checking fall \u201926)' : kid.status === 'likely' ? ' (likely)' : ''}</div>
+    </div>
+  `).join('') + `
+    <div class="kid-card-interests">
+      <strong style="color:var(--text);">They Love:</strong> Frozen &middot; Moana &middot; WALL-E &middot; Demon Slayer &middot; Animals &middot; Nighttime Magic
+    </div>
+  `;
+}
+renderKids();
+
+/* ==========================================================
+   RESORT OVERVIEW
+   ========================================================== */
+function renderResort() {
+  document.getElementById('resortOverview').innerHTML = `
+    <div class="resort-banner">
+      <h3><a href="https://disneyworld.disney.go.com/resorts/bay-lake-tower-at-contemporary/" target="_blank">Bay Lake Tower at Disney\u2019s Contemporary Resort</a></h3>
+      <p>Deluxe DVC Villas &middot; One-Bedroom Resort View &middot; Both families, same resort</p>
+      <div class="resort-perks-row">
+        <span class="resort-perk-pill">Walk to MK (10 min)</span>
+        <span class="resort-perk-pill">Monorail Access</span>
+        <span class="resort-perk-pill">30-Min Early Entry</span>
+        <span class="resort-perk-pill">Extended Evening Hours</span>
+        <span class="resort-perk-pill">Full Kitchen</span>
+        <span class="resort-perk-pill">Washer/Dryer</span>
+        <span class="resort-perk-pill">Zero-Entry Pool + Waterslide</span>
+        <span class="resort-perk-pill">7-Day LL Booking (DVC)</span>
       </div>
     </div>
-
-    <div class="day-card featured">
-      <div class="day-dot bg-vip"><span class="dow">Thu</span>11</div>
-      <div class="day-body">
-        <h3>VIP Tour Day</h3>
-        <p><strong>Morning:</strong> <a class="dl" href="https://disneyworld.disney.go.com/destinations/epcot/" target="_blank">Epcot</a> &mdash; <a class="dl" href="https://disneyworld.disney.go.com/attractions/epcot/frozen-ever-after/" target="_blank">Frozen Ever After</a>, <a class="dl" href="https://disneyworld.disney.go.com/attractions/epcot/soarin-around-the-world/" target="_blank">Soarin'</a>, <a class="dl" href="https://disneyworld.disney.go.com/attractions/epcot/living-with-the-land/" target="_blank">Living with the Land</a>, <a class="dl" href="https://disneyworld.disney.go.com/attractions/epcot/the-seas-with-nemo-and-friends/" target="_blank">Nemo</a>, maybe <a class="dl" href="https://disneyworld.disney.go.com/attractions/epcot/test-track/" target="_blank">Test Track</a>.</p>
-        <p style="margin-top:6px;"><strong>Afternoon/Evening:</strong> <a class="dl" href="https://disneyworld.disney.go.com/destinations/magic-kingdom/" target="_blank">Magic Kingdom</a> &mdash; mop up anything missed, VIP parade viewing, VIP fireworks spot. Walk home to Bay Lake Tower.</p>
-        <span class="day-tag tag-vip">VIP Tour &middot; Park Hopper</span>
+    <div class="resort-info-grid">
+      <div class="resort-info-card">
+        <h4>Transportation</h4>
+        <ul>
+          <li><strong>Magic Kingdom:</strong> Walk (10 min) or Monorail</li>
+          <li><strong>Epcot:</strong> Monorail (~22 min via TTC)</li>
+          <li><strong>Hollywood Studios:</strong> Bus (~22 min)</li>
+          <li><strong>Animal Kingdom:</strong> Bus (~25 min)</li>
+        </ul>
+      </div>
+      <div class="resort-info-card">
+        <h4>Fireworks from the Resort</h4>
+        <ul>
+          <li><strong>4th Floor Deck</strong> \u2014 Contemporary concourse, open to all</li>
+          <li><strong>5th Floor Bridge</strong> \u2014 BLT to Contemporary, great views</li>
+          <li><strong>Electrical Water Pageant</strong> \u2014 Nightly on Bay Lake</li>
+        </ul>
+      </div>
+      <div class="resort-info-card">
+        <h4>Pool & Activities</h4>
+        <ul>
+          <li><strong>Bay Cove Pool:</strong> Zero-entry, 148-ft slide</li>
+          <li>Tie-dye workshops, poolside activities</li>
+          <li>Movies Under the Stars</li>
+          <li>Campfire + marshmallow roasting</li>
+        </ul>
       </div>
     </div>
+  `;
+}
+renderResort();
 
-    <div class="day-card">
-      <div class="day-dot bg-travel"><span class="dow">Fri</span>12</div>
-      <div class="day-body">
-        <h3>Check Out &amp; Drive Home</h3>
-        <p>Pack up, one last villa breakfast, hit the road. Memories for a lifetime.</p>
-        <span class="day-tag tag-travel">Departure</span>
+/* ==========================================================
+   DEADLINES LIST (Checklist page)
+   ========================================================== */
+function renderDeadlines() {
+  document.getElementById('deadlinesList').innerHTML = DEADLINES.map(dl => {
+    let badgeClass = 'deadline-badge-soon';
+    if (dl.urgency === 'now') badgeClass = 'deadline-badge-now';
+    if (dl.urgency === 'critical') badgeClass = 'deadline-badge-critical';
+    if (dl.urgency === 'later') badgeClass = 'deadline-badge-later';
+    return `
+      <div class="deadline-item">
+        <div class="deadline-badge ${badgeClass}">${dl.badge}</div>
+        <div class="deadline-text">${dl.text}</div>
       </div>
-    </div>
-  </div>
-</div>
+    `;
+  }).join('');
+}
+renderDeadlines();
 
-<!-- RESORT -->
-<div class="section" id="resort">
-  <div class="section-header">
-    <div class="section-title">Our Resort</div>
-  </div>
-
-  <div class="resort-hero">
-    <h3><a href="https://disneyworld.disney.go.com/resorts/bay-lake-tower-at-contemporary/" target="_blank" style="color:white;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.3);">Bay Lake Tower at Disney's Contemporary Resort</a></h3>
-    <p>Deluxe DVC Villas &middot; One-Bedroom Resort View &middot; Both families, same resort</p>
-    <div class="resort-perks">
-      <span class="perk">Walk to Magic Kingdom (10 min)</span>
-      <span class="perk">Monorail Access</span>
-      <span class="perk">30-Min Early Park Entry</span>
-      <span class="perk">Extended Evening Hours</span>
-      <span class="perk">Full Kitchen</span>
-      <span class="perk">Washer/Dryer</span>
-      <span class="perk">Zero-Entry Pool + Waterslide</span>
-      <span class="perk">7-Day Lightning Lane Booking</span>
-    </div>
-  </div>
-
-  <div class="grid grid-2">
-    <div class="card">
-      <h3>Transportation</h3>
-      <ul>
-        <li><strong>Magic Kingdom:</strong> Walk (10 min) or Monorail (2 min to station)</li>
-        <li><strong>Epcot:</strong> Monorail (~22 min with transfer at TTC)</li>
-        <li><strong>Hollywood Studios:</strong> Bus (~22 min)</li>
-        <li><strong>Animal Kingdom:</strong> Bus (~25 min)</li>
-      </ul>
-    </div>
-    <div class="card">
-      <h3>Resort Dining</h3>
-      <ul>
-        <li><a class="dl" href="https://disneyworld.disney.go.com/dining/contemporary-resort/chef-mickeys/" target="_blank">Chef Mickey's</a> &mdash; Character dining (Mickey &amp; friends)</li>
-        <li><a class="dl" href="https://disneyworld.disney.go.com/dining/contemporary-resort/steakhouse-71/" target="_blank">Steakhouse 71</a> &mdash; Casual family dining</li>
-        <li><a class="dl" href="https://disneyworld.disney.go.com/dining/contemporary-resort/contempo-cafe/" target="_blank">Contempo Cafe</a> &mdash; Quick service grab-and-go</li>
-        <li><strong>Top of the World Lounge</strong> &mdash; DVC exclusive, 16th floor views</li>
-      </ul>
-    </div>
-    <div class="card">
-      <h3>Fireworks from the Resort</h3>
-      <ul>
-        <li><strong>4th Floor Deck</strong> &mdash; Contemporary Grand Canyon Concourse, open to all guests</li>
-        <li><strong>5th Floor Bridge</strong> &mdash; Connects BLT to Contemporary, great views</li>
-        <li><strong>Electrical Water Pageant</strong> &mdash; Nightly illuminated floats on Bay Lake</li>
-      </ul>
-    </div>
-    <div class="card">
-      <h3>Pool &amp; Activities</h3>
-      <ul>
-        <li><strong>Bay Cove Pool:</strong> Zero-entry, 148-ft waterslide, mini-slide for little ones</li>
-        <li>Tie-dye workshops, poolside activities</li>
-        <li>Movies Under the Stars</li>
-        <li>Campfire with marshmallow roasting</li>
-        <li>Marina boat rentals on Bay Lake</li>
-      </ul>
-    </div>
-  </div>
-</div>
-
-<!-- KIDS -->
-<div class="section" id="kids">
-  <div class="section-header">
-    <div class="section-title">The Crew</div>
-    <div class="section-subtitle">5 kids, ages 5&ndash;9</div>
-  </div>
-
-  <div class="kids-grid">
-    <div class="kid">
-      <div class="kid-avatar" style="background:#fce7f3;">&#x1F478;</div>
-      <div class="kid-name">Clara</div>
-      <div class="kid-meta">Age 5</div>
-      <div class="kid-height">~42" (checking fall '26)</div>
-    </div>
-    <div class="kid">
-      <div class="kid-avatar" style="background:#dbeafe;">&#x1F680;</div>
-      <div class="kid-name">Michael</div>
-      <div class="kid-meta">Age 6</div>
-      <div class="kid-height">~46" &mdash; clears most rides</div>
-    </div>
-    <div class="kid">
-      <div class="kid-avatar" style="background:#fce7f3;">&#x1F451;</div>
-      <div class="kid-name">Mia</div>
-      <div class="kid-meta">Age 5</div>
-      <div class="kid-height">TBD (checking fall '26)</div>
-    </div>
-    <div class="kid">
-      <div class="kid-avatar" style="background:#fef3c7;">&#x2B50;</div>
-      <div class="kid-name">Ava</div>
-      <div class="kid-meta">Age 7</div>
-      <div class="kid-height">Likely clears 48"</div>
-    </div>
-    <div class="kid">
-      <div class="kid-avatar" style="background:#ede9fe;">&#x1F3A0;</div>
-      <div class="kid-name">Emma</div>
-      <div class="kid-meta">Age 9</div>
-      <div class="kid-height">Likely clears 48"</div>
-    </div>
-  </div>
-
-  <div class="card" style="margin-top:16px;">
-    <h3>What They Love</h3>
-    <p>Frozen &middot; Moana &middot; WALL-E &middot; Demon Slayer &middot; Animals (obsessed!) &middot; The whole group is all about the nighttime magic &mdash; lights, fireworks, the castle glowing.</p>
-  </div>
-</div>
-
-<!-- EXPERIENCES -->
-<div class="section" id="experiences">
-  <div class="section-header">
-    <div class="section-title">Special Experiences</div>
-  </div>
-
-  <div class="exp" style="border-left-color:#db2777;">
-    <h4><a class="dl" href="https://disneyworld.disney.go.com/shops/magic-kingdom/bibbidi-bobbidi-boutique/" target="_blank">Bibbidi Bobbidi Boutique</a></h4>
-    <p>Princess makeovers for Clara, Mia, Ava &amp; Emma. Royal hairstyling, makeup, costumes, and a sprinkle of pixie dust.</p>
-    <span class="exp-when">Magic Kingdom Day (Sunday, Feb 7) &middot; While dads take Michael on rides</span>
-  </div>
-
-  <div class="exp" style="border-left-color:#2563eb;">
-    <h4><a class="dl" href="https://disneyworld.disney.go.com/shops/hollywood-studios/droid-depot/" target="_blank">Droid Depot</a></h4>
-    <p>Michael builds his own custom R2-unit or BB-unit droid at Galaxy's Edge. Picks the parts, assembles it, takes it home.</p>
-    <span class="exp-when">Hollywood Studios Day (Monday, Feb 8) &middot; During Frozen Sing-Along for the girls</span>
-  </div>
-
-  <div class="exp" style="border-left-color:#d97706;">
-    <h4>Character Dining (1&ndash;2 meals)</h4>
-    <p>Top picks: <a class="dl" href="https://disneyworld.disney.go.com/dining/contemporary-resort/chef-mickeys/" target="_blank">Chef Mickey's</a> breakfast (steps from our villa) and <a class="dl" href="https://disneyworld.disney.go.com/dining/magic-kingdom/cinderella-royal-table/" target="_blank">Cinderella's Royal Table</a> or <a class="dl" href="https://disneyworld.disney.go.com/dining/grand-floridian-resort-and-spa/1900-park-fare/" target="_blank">1900 Park Fare</a> for a princess dining experience.</p>
-    <span class="exp-when">Book on Dec 8 at 6:00 AM ET (60-day window)</span>
-  </div>
-
-  <div class="exp" style="border-left-color:#7c3aed;">
-    <h4>VIP Tour (Considering)</h4>
-    <p>Private guide for the group. Backstage entrances, priority ride access, custom itinerary. Plan: Epcot morning hits, then Magic Kingdom evening with VIP parade + fireworks viewing. Walk home to Bay Lake Tower as the grand finale.</p>
-    <span class="exp-when">Thursday, Feb 11 &middot; Researching pricing &amp; logistics</span>
-  </div>
-</div>
-
-<!-- PARK GUIDES -->
-<div class="section" id="parks">
-  <div class="section-header">
-    <div class="section-title">Park Day Highlights</div>
-    <div class="section-subtitle">Rides, height reqs &amp; links</div>
-  </div>
-
-  <div class="grid grid-2">
-    <div class="card" style="border-top:3px solid var(--mk);">
-      <h3>Magic Kingdom (Sunday)</h3>
-      <ul>
-        <li><a class="dl" href="https://disneyworld.disney.go.com/attractions/magic-kingdom/seven-dwarfs-mine-train/" target="_blank">Seven Dwarfs Mine Train</a> &mdash; 38" (all kids ride!)</li>
-        <li><a class="dl" href="https://disneyworld.disney.go.com/attractions/magic-kingdom/big-thunder-mountain-railroad/" target="_blank">Big Thunder Mountain</a> &mdash; 38" (newly refurbed)</li>
-        <li><a class="dl" href="https://disneyworld.disney.go.com/attractions/magic-kingdom/tianas-bayou-adventure/" target="_blank">Tiana's Bayou Adventure</a> &mdash; 40"</li>
-        <li><a class="dl" href="https://disneyworld.disney.go.com/attractions/magic-kingdom/buzz-lightyear-space-ranger-spin/" target="_blank">Buzz Lightyear</a> &mdash; No height req (just updated)</li>
-        <li><a class="dl" href="https://disneyworld.disney.go.com/attractions/magic-kingdom/pirates-of-the-caribbean/" target="_blank">Pirates of the Caribbean</a> &mdash; No height req</li>
-        <li><a class="dl" href="https://disneyworld.disney.go.com/attractions/magic-kingdom/jungle-cruise/" target="_blank">Jungle Cruise</a> &mdash; No height req</li>
-        <li><a class="dl" href="https://disneyworld.disney.go.com/attractions/magic-kingdom/haunted-mansion/" target="_blank">Haunted Mansion</a> &mdash; No height req</li>
-        <li><a class="dl" href="https://disneyworld.disney.go.com/attractions/magic-kingdom/peter-pans-flight/" target="_blank">Peter Pan's Flight</a> &mdash; No height req</li>
-        <li><a class="dl" href="https://disneyworld.disney.go.com/attractions/magic-kingdom/under-the-sea-journey-of-the-little-mermaid/" target="_blank">Under the Sea</a> &mdash; No height req</li>
-        <li><a class="dl" href="https://disneyworld.disney.go.com/attractions/magic-kingdom/its-a-small-world/" target="_blank">it's a small world</a> &mdash; No height req</li>
-      </ul>
-    </div>
-    <div class="card" style="border-top:3px solid var(--hs);">
-      <h3>Hollywood Studios (Monday)</h3>
-      <ul>
-        <li><a class="dl" href="https://disneyworld.disney.go.com/attractions/hollywood-studios/slinky-dog-dash/" target="_blank">Slinky Dog Dash</a> &mdash; 38"</li>
-        <li><a class="dl" href="https://disneyworld.disney.go.com/attractions/hollywood-studios/millennium-falcon-smugglers-run/" target="_blank">Millennium Falcon: Smugglers Run</a> &mdash; 38" (Mando + Grogu mission)</li>
-        <li><a class="dl" href="https://disneyworld.disney.go.com/attractions/hollywood-studios/toy-story-mania/" target="_blank">Toy Story Mania!</a> &mdash; No height req</li>
-        <li><a class="dl" href="https://disneyworld.disney.go.com/attractions/hollywood-studios/alien-swirling-saucers/" target="_blank">Alien Swirling Saucers</a> &mdash; 32"</li>
-        <li><a class="dl" href="https://disneyworld.disney.go.com/attractions/hollywood-studios/star-wars-rise-of-the-resistance/" target="_blank">Rise of the Resistance</a> &mdash; 40"</li>
-        <li><a class="dl" href="https://disneyworld.disney.go.com/attractions/hollywood-studios/mickey-and-minnies-runaway-railway/" target="_blank">Mickey &amp; Minnie's Runaway Railway</a> &mdash; No height req</li>
-        <li><a class="dl" href="https://disneyworld.disney.go.com/attractions/hollywood-studios/twilight-zone-tower-of-terror/" target="_blank">Tower of Terror</a> &mdash; 40" (check if kids are ok with drops)</li>
-      </ul>
-    </div>
-    <div class="card" style="border-top:3px solid var(--ak);">
-      <h3>Animal Kingdom (Wednesday)</h3>
-      <ul>
-        <li><a class="dl" href="https://disneyworld.disney.go.com/attractions/animal-kingdom/kilimanjaro-safaris/" target="_blank">Kilimanjaro Safaris</a> &mdash; No height req (go early!)</li>
-        <li><a class="dl" href="https://disneyworld.disney.go.com/attractions/animal-kingdom/gorilla-falls-exploration-trail/" target="_blank">Gorilla Falls Exploration Trail</a> &mdash; Walk-through</li>
-        <li><a class="dl" href="https://disneyworld.disney.go.com/attractions/animal-kingdom/avatar-flight-of-passage/" target="_blank">Avatar Flight of Passage</a> &mdash; 44" (Clara borderline, Michael clears)</li>
-        <li><a class="dl" href="https://disneyworld.disney.go.com/attractions/animal-kingdom/navi-river-journey/" target="_blank">Na'vi River Journey</a> &mdash; No height req</li>
-        <li><a class="dl" href="https://disneyworld.disney.go.com/attractions/animal-kingdom/expedition-everest/" target="_blank">Expedition Everest</a> &mdash; 44"</li>
-        <li><a class="dl" href="https://disneyworld.disney.go.com/attractions/animal-kingdom/feathered-friends-in-flight/" target="_blank">Feathered Friends in Flight</a> &mdash; Live bird show</li>
-        <li><a class="dl" href="https://disneyworld.disney.go.com/attractions/animal-kingdom/the-boneyard/" target="_blank">The Boneyard</a> &mdash; Dig-site playground</li>
-      </ul>
-    </div>
-    <div class="card" style="border-top:3px solid var(--ep);">
-      <h3>Epcot (VIP Thursday)</h3>
-      <ul>
-        <li><a class="dl" href="https://disneyworld.disney.go.com/attractions/epcot/frozen-ever-after/" target="_blank">Frozen Ever After</a> &mdash; No height req (newly enhanced)</li>
-        <li><a class="dl" href="https://disneyworld.disney.go.com/attractions/epcot/journey-of-water-inspired-by-moana/" target="_blank">Journey of Water: Moana</a> &mdash; Walk-through</li>
-        <li><a class="dl" href="https://disneyworld.disney.go.com/attractions/epcot/soarin-around-the-world/" target="_blank">Soarin' Across America</a> &mdash; No height req (new film)</li>
-        <li><a class="dl" href="https://disneyworld.disney.go.com/attractions/epcot/living-with-the-land/" target="_blank">Living with the Land</a> &mdash; No height req</li>
-        <li><a class="dl" href="https://disneyworld.disney.go.com/attractions/epcot/the-seas-with-nemo-and-friends/" target="_blank">The Seas with Nemo</a> &mdash; No height req + aquarium</li>
-        <li><a class="dl" href="https://disneyworld.disney.go.com/attractions/epcot/test-track/" target="_blank">Test Track</a> &mdash; 40" (newly rethemed, #1 LL at Epcot)</li>
-        <li><a class="dl" href="https://disneyworld.disney.go.com/attractions/epcot/remys-ratatouille-adventure/" target="_blank">Remy's Ratatouille Adventure</a> &mdash; No height req</li>
-        <li><strong>Festival of the Arts</strong> &mdash; Special food booths + art activities during our trip</li>
-      </ul>
-    </div>
-  </div>
-</div>
-
-<!-- DINING -->
-<div class="section" id="dining">
-  <div class="section-header">
-    <div class="section-title">Dining Plan</div>
-  </div>
-
-  <div class="grid grid-2">
-    <div class="card">
-      <h3>Character Dining Picks</h3>
-      <ul>
-        <li><a class="dl" href="https://disneyworld.disney.go.com/dining/contemporary-resort/chef-mickeys/" target="_blank">Chef Mickey's</a> &mdash; Breakfast, Mickey &amp; friends, steps from villa</li>
-        <li><a class="dl" href="https://disneyworld.disney.go.com/dining/magic-kingdom/cinderella-royal-table/" target="_blank">Cinderella's Royal Table</a> &mdash; Princesses, inside the castle</li>
-        <li><a class="dl" href="https://disneyworld.disney.go.com/dining/grand-floridian-resort-and-spa/1900-park-fare/" target="_blank">1900 Park Fare</a> &mdash; Mirabel, Cinderella, Tiana (monorail ride away)</li>
-        <li><a class="dl" href="https://disneyworld.disney.go.com/dining/polynesian-village-resort/ohana/" target="_blank">'Ohana</a> &mdash; Lilo &amp; Stitch breakfast, family-style feast dinner</li>
-      </ul>
-    </div>
-    <div class="card">
-      <h3>Must-Try Snacks</h3>
-      <ul>
-        <li><strong>Dole Whip</strong> &mdash; Aloha Isle (MK) or Pineapple Lanai (Polynesian)</li>
-        <li><strong>Corn Dog Nuggets</strong> &mdash; Casey's Corner (MK)</li>
-        <li><strong>Mickey Premium Bar</strong> &mdash; Everywhere!</li>
-        <li><strong>Turkey Legs</strong> &mdash; Multiple locations</li>
-        <li><strong>Woody's Lunch Box Totchos</strong> &mdash; Toy Story Land (HS)</li>
-        <li><strong>Les Halles Pastries</strong> &mdash; France Pavilion (Epcot)</li>
-      </ul>
-    </div>
-    <div class="card">
-      <h3>Kid-Friendly Restaurants</h3>
-      <ul>
-        <li><a class="dl" href="https://disneyworld.disney.go.com/dining/hollywood-studios/50s-prime-time-cafe/" target="_blank">50's Prime Time Cafe</a> &mdash; HS, comfort food, hilarious servers</li>
-        <li><a class="dl" href="https://disneyworld.disney.go.com/dining/hollywood-studios/sci-fi-dine-in-theater/" target="_blank">Sci-Fi Dine-In Theater</a> &mdash; HS, eat in drive-in cars</li>
-        <li><a class="dl" href="https://disneyworld.disney.go.com/dining/epcot/coral-reef-restaurant/" target="_blank">Coral Reef</a> &mdash; Epcot, sit next to a giant aquarium</li>
-        <li><a class="dl" href="https://disneyworld.disney.go.com/dining/animal-kingdom/rainforest-cafe-animal-kingdom/" target="_blank">Rainforest Cafe</a> &mdash; AK, jungle theming, animatronic animals</li>
-      </ul>
-    </div>
-    <div class="card">
-      <h3>Villa Kitchen Strategy</h3>
-      <ul>
-        <li><strong>Breakfast in the villa most mornings</strong> &mdash; saves time + money, get to parks for Early Entry</li>
-        <li><strong>Grocery delivery on arrival day</strong> &mdash; Amazon Fresh, Instacart, or Garden Grocer</li>
-        <li><strong>Pack snacks daily</strong> &mdash; PB&amp;Js, granola bars, fruit. Park snacks add up fast with 9 people</li>
-      </ul>
-    </div>
-  </div>
-</div>
-
-<!-- DEADLINES -->
-<div class="section" id="deadlines">
-  <div class="section-header">
-    <div class="section-title">Key Deadlines</div>
-  </div>
-
-  <div class="deadline">
-    <div class="deadline-badge badge-now">NOW</div>
-    <div class="deadline-text"><strong>Other family:</strong> Create My Disney Experience accounts, add kids, link to our account, and delegate booking authority. Everything else depends on this.</div>
-  </div>
-  <div class="deadline">
-    <div class="deadline-badge badge-soon">SOON</div>
-    <div class="deadline-text"><strong>Buy park tickets</strong> &mdash; prices keep going up (~15% increase in 2026). Considering 4-day base + 1-day hopper for VIP day.</div>
-  </div>
-  <div class="deadline">
-    <div class="deadline-badge badge-soon">SUMMER '26</div>
-    <div class="deadline-text"><strong>Research VIP Tour</strong> pricing and availability. Build dining reservation priority list. Research babysitting services.</div>
-  </div>
-  <div class="deadline">
-    <div class="deadline-badge badge-soon">FALL '26</div>
-    <div class="deadline-text"><strong>Height checks</strong> for Clara, Mia, Michael, Emma, and Ava. Determines which rides everyone can do.</div>
-  </div>
-  <div class="deadline">
-    <div class="deadline-badge badge-critical">DEC 8, 2026</div>
-    <div class="deadline-text"><strong>6:00 AM ET &mdash; Dining reservation blitz.</strong> Character meals, Bibbidi Bobbidi Boutique, and Droid Depot. These sell out in minutes. Be ready.</div>
-  </div>
-  <div class="deadline">
-    <div class="deadline-badge badge-later">JAN 7</div>
-    <div class="deadline-text"><strong>30 days out.</strong> Lightning Lane purchases, special experiences, Droid Depot (if not booked).</div>
-  </div>
-  <div class="deadline">
-    <div class="deadline-badge badge-later">JAN 30</div>
-    <div class="deadline-text"><strong>7 days out.</strong> Book Lightning Lane Multi Pass selections (DVC guests get 7-day advance window). Online check-in.</div>
-  </div>
-</div>
-
-<!-- TO-DO -->
-<div class="section" id="todos">
-  <div class="section-header">
-    <div class="section-title">Shared To-Do List</div>
-  </div>
-
-  <div class="checklist-group">
-    <div class="checklist-label" style="color:var(--pink);">Priority &mdash; Other Family Action Needed</div>
-    <div class="check"><div class="check-icon"></div>Create My Disney Experience accounts (Mom + Dad)</div>
-    <div class="check"><div class="check-icon"></div>Add Emma (9), Ava (7), and Mia (5) with correct birth dates</div>
-    <div class="check"><div class="check-icon"></div>Link accounts and delegate booking authority</div>
-    <div class="check"><div class="check-icon"></div>Download My Disney Experience app on all phones</div>
-  </div>
-
-  <div class="checklist-group">
-    <div class="checklist-label" style="color:var(--mk);">Both Families</div>
-    <div class="check"><div class="check-icon"></div>Purchase park tickets and link to MDE</div>
-    <div class="check"><div class="check-icon"></div>Set up MagicBand+ orders (or plan to bring your own)</div>
-    <div class="check"><div class="check-icon"></div>Purchase travel insurance</div>
-    <div class="check"><div class="check-icon"></div>Height check for all kids (fall 2026)</div>
-    <div class="check"><div class="check-icon"></div>Set alarm for Dec 8 at 5:55 AM ET (dining reservations!)</div>
-  </div>
-
-  <div class="checklist-group">
-    <div class="checklist-label" style="color:var(--ak);">Done</div>
-    <div class="check done-item"><div class="check-icon done">&#10003;</div><span>Create MDE accounts (our family)</span></div>
-    <div class="check done-item"><div class="check-icon done">&#10003;</div><span>Add wife and kids to MDE</span></div>
-    <div class="check done-item"><div class="check-icon done">&#10003;</div><span>Book resort &mdash; Bay Lake Tower (both families)</span></div>
-  </div>
-</div>
-
-<!-- PACKING -->
-<div class="section" id="packing">
-  <div class="section-header">
-    <div class="section-title">Packing Essentials</div>
-  </div>
-  <p class="packing-note">February in Orlando: 50s&ndash;70&deg;F, possible rain. Layers are key. Full packing list available in the planning folder &mdash; here are the highlights.</p>
-
-  <div class="grid grid-3">
-    <div class="card">
-      <h3>Park Day Bag</h3>
-      <ul>
-        <li>Backpack (lightweight, comfy)</li>
-        <li>Refillable water bottles (free ice water at any QS)</li>
-        <li>Ponchos for everyone (buy cheap before trip)</li>
-        <li>Portable phone chargers (2+ per family)</li>
-        <li>Sunscreen SPF 50+</li>
-        <li>Snacks (granola bars, goldfish, fruit snacks)</li>
-        <li>Wet wipes &mdash; essential with 5 kids</li>
-        <li>Autograph books + thick Sharpies</li>
-        <li>Glow sticks for evening magic</li>
-      </ul>
-    </div>
-    <div class="card">
-      <h3>DVC Villa Essentials</h3>
-      <p style="color:var(--pink);font-weight:600;font-size:0.8em;margin-bottom:10px;">DVC rental = limited housekeeping. Bring these:</p>
-      <ul>
-        <li>Laundry detergent pods (3&ndash;4 loads/villa)</li>
-        <li>Extra trash bags (13 gal, fills fast)</li>
-        <li>Paper towels (2+ rolls/villa)</li>
-        <li>Dish soap / dishwasher pods</li>
-        <li>Clorox wipes (counters, spills)</li>
-        <li>Extra toilet paper (2&ndash;3 rolls)</li>
-        <li>Hand soap refill</li>
-        <li>Ziplock bags (gallon + quart)</li>
-      </ul>
-    </div>
-    <div class="card">
-      <h3>Don't Forget</h3>
-      <ul>
-        <li>Break in ALL shoes 2+ weeks before trip</li>
-        <li>Charge MagicBands night before departure</li>
-        <li>Download offline content to kids' tablets</li>
-        <li>Buy ponchos, glow sticks, autograph books before the trip</li>
-        <li>Stroller for Clara and Mia (10+ miles/day)</li>
-        <li>Check weather forecast 3 days before</li>
-      </ul>
-    </div>
-  </div>
-</div>
-
-<!-- FOOTER -->
-<div class="footer">
-  <p>Last updated April 2026 &middot; Trip planning by T Dawg + Claude</p>
-  <p style="margin-top:6px;">Park details, hours, and availability subject to change. Always verify at <a href="https://disneyworld.disney.go.com" target="_blank">disneyworld.disney.go.com</a></p>
-</div>
-
+})();
+</script>
 </body>
 </html>
