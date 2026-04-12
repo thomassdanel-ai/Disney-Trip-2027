@@ -1574,6 +1574,312 @@ a:hover { color: #60a5fa; }
 .deadline-text strong { color: var(--text); }
 
 /* ============================================================
+   ACCOUNT SETUP PAGE
+   ============================================================ */
+.nav-link-priority {
+  background: linear-gradient(135deg, rgba(245,158,11,0.14), rgba(236,72,153,0.12));
+  color: var(--text) !important;
+  position: relative;
+}
+.nav-link-priority:hover {
+  background: linear-gradient(135deg, rgba(245,158,11,0.22), rgba(236,72,153,0.18));
+}
+.nav-link-priority .priority-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  background: var(--gold);
+  border-radius: 50%;
+  margin-right: 6px;
+  box-shadow: 0 0 8px var(--gold);
+  animation: pulse 2s var(--ease) infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.55; transform: scale(0.85); }
+}
+
+.mayeaux-callout {
+  background: linear-gradient(135deg, rgba(236,72,153,0.10) 0%, rgba(245,158,11,0.08) 100%);
+  border: 1px solid rgba(236,72,153,0.25);
+  border-radius: var(--radius-lg);
+  padding: 20px 24px;
+  margin-bottom: 28px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  cursor: pointer;
+  transition: all 0.25s var(--ease);
+  user-select: none;
+}
+.mayeaux-callout:hover {
+  border-color: rgba(236,72,153,0.45);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(236,72,153,0.10);
+}
+.mayeaux-callout-icon {
+  font-size: 2em;
+  flex-shrink: 0;
+}
+.mayeaux-callout-label {
+  font-family: var(--font-mono);
+  font-size: 0.7em;
+  font-weight: 700;
+  color: var(--pink);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-bottom: 4px;
+}
+.mayeaux-callout-title {
+  font-family: var(--font-display);
+  font-size: 1em;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 2px;
+}
+.mayeaux-callout-sub {
+  font-size: 0.82em;
+  color: var(--text-secondary);
+}
+.mayeaux-callout-arrow {
+  margin-left: auto;
+  color: var(--pink);
+  font-size: 1.2em;
+  transition: transform 0.2s var(--ease);
+}
+.mayeaux-callout:hover .mayeaux-callout-arrow { transform: translateX(4px); }
+
+.account-intro {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 24px 28px;
+  margin-bottom: 24px;
+  display: flex;
+  gap: 18px;
+  align-items: flex-start;
+}
+.account-intro-icon {
+  font-size: 1.8em;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.account-intro h3 {
+  font-family: var(--font-display);
+  font-size: 1.02em;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: var(--text);
+}
+.account-intro p {
+  font-size: 0.88em;
+  color: var(--text-secondary);
+  line-height: 1.65;
+}
+.account-intro strong { color: var(--text); }
+
+.account-steps { display: flex; flex-direction: column; gap: 14px; }
+
+.step-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: all 0.25s var(--ease);
+}
+.step-card:hover { border-color: var(--border-hover); }
+.step-card.done {
+  background: linear-gradient(135deg, rgba(34,197,94,0.06) 0%, rgba(34,197,94,0.02) 100%);
+  border-color: rgba(34,197,94,0.25);
+}
+.step-card.critical { border-left: 3px solid var(--gold); }
+
+.step-card-head {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 24px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.step-number {
+  flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: var(--elevated);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 1.15em;
+  font-weight: 800;
+  color: var(--accent);
+  border: 1px solid var(--border);
+  transition: all 0.3s var(--ease);
+}
+.step-card.done .step-number {
+  background: var(--green-check);
+  border-color: var(--green-check);
+  color: white;
+}
+
+.step-head-text { flex: 1; min-width: 0; }
+.step-title {
+  font-family: var(--font-display);
+  font-size: 1.02em;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 2px;
+  letter-spacing: -0.01em;
+}
+.step-why {
+  font-size: 0.82em;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.step-caret {
+  flex-shrink: 0;
+  color: var(--text-muted);
+  font-size: 0.8em;
+  transition: transform 0.3s var(--ease);
+}
+.step-card.open .step-caret { transform: rotate(180deg); }
+
+.step-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s var(--ease);
+}
+.step-card.open .step-body { max-height: 2400px; }
+
+.step-body-inner {
+  padding: 4px 24px 22px 82px;
+  font-size: 0.9em;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+.step-body-inner p { margin-bottom: 12px; }
+.step-body-inner strong { color: var(--text); }
+.step-body-inner ol, .step-body-inner ul {
+  margin: 8px 0 12px 18px;
+}
+.step-body-inner li { margin-bottom: 6px; }
+.step-body-inner a {
+  color: var(--accent);
+  font-weight: 600;
+  border-bottom: 1px dashed rgba(59,130,246,0.4);
+}
+.step-body-inner a:hover { border-bottom-style: solid; }
+
+.step-warning {
+  background: linear-gradient(135deg, rgba(239,68,68,0.10), rgba(245,158,11,0.08));
+  border: 1px solid rgba(245,158,11,0.35);
+  border-radius: var(--radius);
+  padding: 14px 18px;
+  margin: 14px 0;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+.step-warning-icon { font-size: 1.2em; flex-shrink: 0; }
+.step-warning-text {
+  font-size: 0.86em;
+  color: var(--text);
+  line-height: 1.55;
+}
+.step-warning-text strong { color: var(--gold); }
+
+.step-copybox {
+  display: inline-block;
+  background: var(--elevated);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-family: var(--font-mono);
+  font-size: 0.86em;
+  color: var(--text);
+  cursor: pointer;
+  transition: all 0.2s var(--ease);
+  margin: 4px 0;
+  user-select: all;
+}
+.step-copybox:hover {
+  border-color: var(--accent);
+  background: var(--accent-glow);
+}
+.step-copybox-hint {
+  display: inline-block;
+  margin-left: 8px;
+  font-family: var(--font-body);
+  font-size: 0.74em;
+  color: var(--text-muted);
+  user-select: none;
+}
+
+.step-done-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 20px;
+  background: var(--elevated);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  font-family: var(--font-display);
+  font-size: 0.85em;
+  font-weight: 700;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s var(--ease);
+  margin-top: 10px;
+  user-select: none;
+}
+.step-done-btn:hover {
+  border-color: var(--green-check);
+  color: var(--text);
+}
+.step-card.done .step-done-btn {
+  background: var(--green-check);
+  border-color: var(--green-check);
+  color: white;
+}
+
+.account-success {
+  display: none;
+  background: linear-gradient(135deg, rgba(34,197,94,0.12) 0%, rgba(59,130,246,0.08) 100%);
+  border: 1px solid rgba(34,197,94,0.35);
+  border-radius: var(--radius-lg);
+  padding: 32px 28px;
+  margin-top: 24px;
+  text-align: center;
+}
+.account-success.visible { display: block; animation: fadeInUp 0.5s var(--ease); }
+.account-success-icon { font-size: 2.6em; margin-bottom: 10px; }
+.account-success h3 {
+  font-family: var(--font-display);
+  font-size: 1.4em;
+  font-weight: 800;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+.account-success p {
+  font-size: 0.92em;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  .step-card-head { padding: 16px 18px; gap: 12px; }
+  .step-number { width: 36px; height: 36px; font-size: 1em; }
+  .step-body-inner { padding: 4px 18px 18px 18px; }
+  .account-intro { padding: 20px; flex-direction: column; gap: 10px; }
+  .mayeaux-callout { padding: 16px 18px; gap: 14px; }
+  .mayeaux-callout-icon { font-size: 1.6em; }
+}
+
+/* ============================================================
    STAGGER ANIMATION
    ============================================================ */
 @keyframes fadeInUp {
@@ -1672,6 +1978,7 @@ a:hover { color: #60a5fa; }
   <div class="topnav-brand"><span>Disney</span> Trip HQ</div>
   <div class="topnav-links mobile-hidden" id="navLinks">
     <button class="nav-link active" data-page="overview">Overview</button>
+    <button class="nav-link nav-link-priority" data-page="account-setup"><span class="priority-dot"></span>Account Setup</button>
     <button class="nav-link" data-page="calendar">Calendar</button>
     <button class="nav-link" data-page="parks">Parks &amp; Rides</button>
     <button class="nav-link" data-page="dining">Dining</button>
@@ -1718,6 +2025,17 @@ a:hover { color: #60a5fa; }
       </div>
     </div>
 
+    <!-- Mayeaux Family Callout -->
+    <div class="mayeaux-callout" data-goto="account-setup">
+      <div class="mayeaux-callout-icon">&#x1F6A8;</div>
+      <div>
+        <div class="mayeaux-callout-label">Mayeaux Family &middot; Start Here</div>
+        <div class="mayeaux-callout-title">Set up your Disney accounts</div>
+        <div class="mayeaux-callout-sub">10-step click-through guide &middot; ~20 minutes on a computer</div>
+      </div>
+      <span class="mayeaux-callout-arrow">&rarr;</span>
+    </div>
+
     <!-- Countdown -->
     <div class="countdown-section">
       <div class="countdown-label">Countdown to Magic</div>
@@ -1756,6 +2074,7 @@ a:hover { color: #60a5fa; }
 
     <!-- Quick Links -->
     <div class="quick-links stagger">
+      <div class="quick-link" data-goto="account-setup"><span class="quick-link-icon">&#x1F4BB;</span><span class="quick-link-text">Mayeaux Account Setup</span><span class="quick-link-arrow">&#x2192;</span></div>
       <div class="quick-link" data-goto="calendar"><span class="quick-link-icon">&#x1F4C5;</span><span class="quick-link-text">Interactive Calendar</span><span class="quick-link-arrow">&#x2192;</span></div>
       <div class="quick-link" data-goto="parks"><span class="quick-link-icon">&#x1F3A2;</span><span class="quick-link-text">Parks &amp; Height Matrix</span><span class="quick-link-arrow">&#x2192;</span></div>
       <div class="quick-link" data-goto="dining"><span class="quick-link-icon">&#x1F37D;</span><span class="quick-link-text">Dining Guide</span><span class="quick-link-arrow">&#x2192;</span></div>
@@ -1806,6 +2125,37 @@ a:hover { color: #60a5fa; }
       <p class="page-subtitle">Character meals, snack spots, and villa kitchen strategy</p>
     </div>
     <div class="dining-grid stagger" id="diningGrid"></div>
+  </div>
+
+  <!-- ========== ACCOUNT SETUP PAGE ========== -->
+  <div class="page" id="page-account-setup">
+    <div class="page-header">
+      <h1 class="page-title">Disney Account Setup <span style="font-family:var(--font-mono);font-size:0.5em;font-weight:700;color:var(--gold);background:var(--gold-glow);padding:4px 10px;border-radius:100px;vertical-align:middle;margin-left:8px;">MAYEAUX FAMILY</span></h1>
+      <p class="page-subtitle">A 10-step click-through guide &middot; progress saves automatically</p>
+    </div>
+
+    <div class="checklist-progress-bar">
+      <div class="checklist-progress-track"><div class="checklist-progress-fill" id="accountFill"></div></div>
+      <div class="checklist-progress-text" id="accountPercent">0%</div>
+    </div>
+
+    <div class="account-intro">
+      <div class="account-intro-icon">&#x1F4BB;</div>
+      <div>
+        <h3>Hey Mayeaux crew &mdash; read this first</h3>
+        <p><strong>Do these steps on a computer</strong>, not your phone. The desktop Disney site makes linking family members and granting booking permission way easier to follow. You&rsquo;ll install the phone app later (Step 9) for use during the trip itself.</p>
+        <p style="margin-top:10px;"><strong>What you need ready:</strong> a working email for Mom and a different one for Dad, each kid&rsquo;s <strong>exact birthdate</strong> (Disney uses it for ticket pricing and experience eligibility), and about 20 minutes.</p>
+        <p style="margin-top:10px;">Tap any step below to expand it. Click &ldquo;Mark Done&rdquo; as you finish each one &mdash; your progress saves on this device.</p>
+      </div>
+    </div>
+
+    <div class="account-steps" id="accountSteps"></div>
+
+    <div class="account-success" id="accountSuccess">
+      <div class="account-success-icon">&#x1F389;</div>
+      <h3>You&rsquo;re all set!</h3>
+      <p>Text Thomas a screenshot of your Family &amp; Friends list so he can confirm everyone is linked correctly.<br>Next up: park tickets &mdash; Thomas will handle that one.</p>
+    </div>
   </div>
 
   <!-- ========== CHECKLIST PAGE ========== -->
@@ -2060,6 +2410,177 @@ const CHECKLIST = [
   },
 ];
 
+const THOMAS_EMAIL = 'thomassdanel@gmail.com';
+
+const ACCOUNT_STEPS = [
+  {
+    title: 'Read this first',
+    why: 'A 2-minute primer on what you\u2019re doing and why it matters.',
+    body: `
+      <p>Walt Disney World lets one person book dining, Lightning Lanes, and experiences for an entire group &mdash; <strong>but only if everyone is connected as &ldquo;Family &amp; Friends&rdquo; and has given that person permission to manage their plans.</strong></p>
+      <p>The goal of this guide is simple: by the end, Mom and Dad will each have a Disney account, the three girls will be attached, and Thomas will be connected to all 5 of you with permission to book on your behalf. Then on <strong>December 8, 2026 at 6:00 AM ET</strong>, Thomas can book all of the group&rsquo;s dining reservations in one shot &mdash; including Bibbidi Bobbidi Boutique and character meals &mdash; without needing logins or confirmations from you in the moment.</p>
+      <div class="step-warning">
+        <div class="step-warning-icon">&#x26A0;&#xFE0F;</div>
+        <div class="step-warning-text"><strong>Mom and Dad each need their own account with a different email address.</strong> Disney does not allow two people to share an account, and you both need to be connected to Thomas.</div>
+      </div>
+      <p><strong>Before you start, have ready:</strong></p>
+      <ul>
+        <li>Two different email addresses (one for Mom, one for Dad)</li>
+        <li>A password you&rsquo;ll both remember</li>
+        <li>Each kid&rsquo;s <strong>exact birthdate</strong> (month, day, year)</li>
+        <li>A computer with a web browser &mdash; not your phone</li>
+        <li>About 20 minutes</li>
+      </ul>
+    `
+  },
+  {
+    title: 'Mom: Create your Disney account',
+    why: 'The first account. You\u2019ll do this on the desktop website.',
+    body: `
+      <p>Open this link in a desktop browser (Chrome, Safari, Edge, whatever you use):</p>
+      <p><a href="https://disneyworld.disney.go.com/registration/" target="_blank" rel="noopener">https://disneyworld.disney.go.com/registration/</a></p>
+      <ol>
+        <li>Click <strong>&ldquo;Create Account&rdquo;</strong>.</li>
+        <li>Enter Mom&rsquo;s email, first name, last name, and a password.</li>
+        <li>Enter Mom&rsquo;s birthdate and country.</li>
+        <li>Agree to the terms and click <strong>&ldquo;Create Account&rdquo;</strong>.</li>
+        <li>Check Mom&rsquo;s email for a verification link &mdash; click it.</li>
+        <li>Sign in once to confirm everything works.</li>
+      </ol>
+      <p>That&rsquo;s it for Mom&rsquo;s account. Leave this browser signed in &mdash; you&rsquo;ll come back to it in Step 4.</p>
+    `
+  },
+  {
+    title: 'Dad: Create your Disney account',
+    why: 'Same flow, but with a different email address.',
+    body: `
+      <p>Important: <strong>Dad needs his own account</strong> with a different email than Mom. Disney won&rsquo;t allow two people to share one account, and both of you need to be separately connected to Thomas so either parent can handle trip stuff.</p>
+      <p>Easiest way: have Dad do this on a different browser (or a private/incognito window) so you don&rsquo;t have to sign Mom out.</p>
+      <ol>
+        <li>Open <a href="https://disneyworld.disney.go.com/registration/" target="_blank" rel="noopener">disneyworld.disney.go.com/registration/</a></li>
+        <li>Click <strong>&ldquo;Create Account&rdquo;</strong>.</li>
+        <li>Enter Dad&rsquo;s info with his own email address.</li>
+        <li>Verify via the email link.</li>
+        <li>Sign in once to confirm it works.</li>
+      </ol>
+    `
+  },
+  {
+    title: 'Mom: Add Emma, Ava, and Mia to your account',
+    why: 'The kids don\u2019t get their own logins \u2014 they live underneath Mom\u2019s account.',
+    body: `
+      <p>Sign in to Mom&rsquo;s account at <a href="https://disneyworld.disney.go.com/" target="_blank" rel="noopener">disneyworld.disney.go.com</a>. Hover your name in the top right, then click <strong>My Family &amp; Friends</strong>.</p>
+      <p>You&rsquo;ll see a page listing people connected to your account. Right now it&rsquo;s just Mom. Click <strong>&ldquo;Add a Guest&rdquo;</strong>.</p>
+      <p>Choose the option that lets you enter the guest&rsquo;s details yourself (wording is something like <em>&ldquo;I&rsquo;ll enter their name and age&rdquo;</em> or <em>&ldquo;Manage their plans and experiences&rdquo;</em>). Then fill in:</p>
+      <ul>
+        <li>First name + last name</li>
+        <li><strong>Exact birthdate</strong> (month, day, year)</li>
+      </ul>
+      <p>Save, then repeat the same flow two more times. Add all three:</p>
+      <ul>
+        <li><strong>Emma</strong> (age 9)</li>
+        <li><strong>Ava</strong> (age 7)</li>
+        <li><strong>Mia</strong> (age 5)</li>
+      </ul>
+      <div class="step-warning">
+        <div class="step-warning-icon">&#x1F4C5;</div>
+        <div class="step-warning-text">The birthdate has to be exact. Disney uses it for ticket pricing tiers (under 3 = free, 3&ndash;9 = child rate, 10+ = adult rate), age-gated experiences like Bibbidi Bobbidi Boutique, and some attractions. Wrong DOB = headaches later.</div>
+      </div>
+    `
+  },
+  {
+    title: 'Link Mom and Dad together',
+    why: 'So either parent can see and manage the kids\u2019 plans.',
+    body: `
+      <p>On Mom&rsquo;s account, go to <strong>My Family &amp; Friends</strong> again and click <strong>&ldquo;Add a Guest&rdquo;</strong>.</p>
+      <p>This time choose the option for connecting to someone who already has their own Disney account (the wording is usually <em>&ldquo;Someone who has a My Disney Experience account&rdquo;</em> &mdash; Disney uses that phrase even on the website). Enter <strong>Dad&rsquo;s email address</strong> and send the invite.</p>
+      <p>Now switch to Dad&rsquo;s browser (or his sign-in), go to his <strong>My Family &amp; Friends</strong> page, and you&rsquo;ll see a pending request from Mom. <strong>Accept it.</strong></p>
+      <p>Once accepted, Dad will also see Emma, Ava, and Mia in his Family &amp; Friends list automatically &mdash; the kids are shared through Mom.</p>
+    `
+  },
+  {
+    title: 'Connect both parents to Thomas',
+    why: 'So Thomas can send you invites, and ultimately book on your behalf.',
+    body: `
+      <p>This is Thomas&rsquo;s email address &mdash; you&rsquo;ll need to type or paste it into Disney&rsquo;s form:</p>
+      <p><span class="step-copybox" data-copy="${THOMAS_EMAIL}">${THOMAS_EMAIL}</span><span class="step-copybox-hint">click to select</span></p>
+      <p><strong>On Mom&rsquo;s account:</strong> <em>My Family &amp; Friends</em> &rarr; <em>Add a Guest</em> &rarr; choose &ldquo;Someone who has a My Disney Experience account&rdquo; &rarr; paste Thomas&rsquo;s email &rarr; send.</p>
+      <p><strong>On Dad&rsquo;s account:</strong> do the exact same thing. Both of you need to be independently connected to Thomas.</p>
+      <p>Thomas will accept both requests from his end &mdash; you don&rsquo;t have to coordinate on timing. Text him once you&rsquo;ve sent them and he&rsquo;ll accept.</p>
+    `
+  },
+  {
+    title: 'Grant Thomas &ldquo;Update Plans &amp; Share&rdquo; permission',
+    why: 'THIS is the step that actually lets Thomas book your dining on Dec 8.',
+    critical: true,
+    body: `
+      <div class="step-warning">
+        <div class="step-warning-icon">&#x1F6A8;</div>
+        <div class="step-warning-text"><strong>Do not skip this step.</strong> If you just connect Thomas but don&rsquo;t grant him this permission, he can see your names but <strong>cannot book anything on your behalf</strong>. The Dec 8 dining reservation window opens at 6:00 AM ET and popular restaurants sell out in minutes &mdash; there is no time to troubleshoot permissions that morning.</div>
+      </div>
+      <p>On Mom&rsquo;s <strong>My Family &amp; Friends</strong> page, find each connected person and look for a setting labeled something like:</p>
+      <ul>
+        <li>&ldquo;Update Plans &amp; Share&rdquo;, or</li>
+        <li>&ldquo;Plans &amp; Share&rdquo;, or</li>
+        <li>&ldquo;Share My Plans&rdquo;</li>
+      </ul>
+      <p>(Disney renames this setting every year or two &mdash; it&rsquo;ll be the highest/most open sharing option on the list.)</p>
+      <p>You need to set this permission for <strong>Thomas</strong> so that he can make plans for:</p>
+      <ul>
+        <li>Mom</li>
+        <li>Dad</li>
+        <li>Emma</li>
+        <li>Ava</li>
+        <li>Mia</li>
+      </ul>
+      <p><strong>Then repeat the same thing on Dad&rsquo;s account:</strong> go to his My Family &amp; Friends, and set the same permission level for Thomas.</p>
+      <p>If you get stuck or the wording doesn&rsquo;t match anything you see, screenshot what you&rsquo;re looking at and text it to Thomas &mdash; he can walk you through from there.</p>
+    `
+  },
+  {
+    title: 'Verify everyone is connected',
+    why: 'Quick sanity check before you move on.',
+    body: `
+      <p>On <strong>Mom&rsquo;s</strong> My Family &amp; Friends page you should see all of these names:</p>
+      <ul>
+        <li>Dad</li>
+        <li>Emma, Ava, and Mia</li>
+        <li>Thomas Danel &mdash; with &ldquo;Update Plans &amp; Share&rdquo; visible next to his name</li>
+      </ul>
+      <p>On <strong>Dad&rsquo;s</strong> account: the same list. (Dad sees the kids because he&rsquo;s connected to Mom, and the kids are under Mom.)</p>
+      <p><strong>Screenshot both lists and text them to Thomas.</strong> That&rsquo;s the real confirmation &mdash; Thomas can see from his side whether everyone is connected and whether the permissions are set correctly. If something looks off, better to catch it now than at 6:00 AM on Dec 8.</p>
+    `
+  },
+  {
+    title: 'Install the My Disney Experience app on your phones',
+    why: 'Optional for now \u2014 but you\u2019ll want it installed before you arrive in Orlando.',
+    body: `
+      <p>Now that your accounts exist, install the phone app. On the trip, you&rsquo;ll use it for: park maps, mobile food ordering, Lightning Lane bookings, MagicBand setup, ride wait times, and accessing your dining reservations.</p>
+      <p>Install links (install on <strong>both</strong> Mom&rsquo;s and Dad&rsquo;s phones):</p>
+      <ul>
+        <li><a href="https://apps.apple.com/us/app/my-disney-experience/id1352661616" target="_blank" rel="noopener">Apple App Store (iPhone)</a></li>
+        <li><a href="https://play.google.com/store/apps/details?id=com.disney.wdpro.dlog" target="_blank" rel="noopener">Google Play Store (Android)</a></li>
+      </ul>
+      <p>Sign in with the same email and password you used in Steps 2 and 3. The kids and Thomas should already be visible in the app under Family &amp; Friends &mdash; nothing new to set up.</p>
+      <p><em>This step is optional for the Dec 8 dining booking &mdash; Thomas handles that from his phone. But you&rsquo;ll definitely want the app on your phones before you arrive at the resort.</em></p>
+    `
+  },
+  {
+    title: 'You\u2019re done! &#x1F389;',
+    why: 'Mark this step when everything above is complete.',
+    body: `
+      <p>That&rsquo;s the whole setup. Here&rsquo;s what happens next:</p>
+      <ul>
+        <li><strong>Between now and December 8:</strong> Thomas will build a dining priority list based on what the kids are into. He&rsquo;ll text you the shortlist before the booking morning.</li>
+        <li><strong>December 8, 2026 at 6:00 AM ET:</strong> Thomas books dining for the whole group in one session. You don&rsquo;t need to be awake.</li>
+        <li><strong>Late 2026:</strong> Thomas will coordinate park tickets &mdash; you&rsquo;ll just need to approve the purchase.</li>
+        <li><strong>Fall 2026:</strong> Height check for Mia &mdash; stand her against a wall and measure in inches. Text the number to Thomas.</li>
+      </ul>
+      <p>Questions at any point &mdash; just text Thomas. And welcome to the Disney trip planning adventure &#x1F3F0;</p>
+    `
+  },
+];
+
 const PACKING = [
   {
     title: 'Park Day Bag', icon: '\u{1F392}',
@@ -2191,8 +2712,8 @@ navLinks.forEach(link => {
   link.addEventListener('click', () => navigateTo(link.dataset.page));
 });
 
-// Quick links
-document.querySelectorAll('.quick-link').forEach(el => {
+// Quick links + any element with data-goto
+document.querySelectorAll('[data-goto]').forEach(el => {
   el.addEventListener('click', () => navigateTo(el.dataset.goto));
 });
 
@@ -2542,6 +3063,85 @@ function renderChecklist() {
   });
 }
 renderChecklist();
+
+/* ==========================================================
+   ACCOUNT SETUP
+   ========================================================== */
+if (!appState.accountSteps) appState.accountSteps = {};
+
+function renderAccountSteps() {
+  const container = document.getElementById('accountSteps');
+  const total = ACCOUNT_STEPS.length;
+  let done = 0;
+
+  container.innerHTML = ACCOUNT_STEPS.map((step, i) => {
+    const isDone = !!appState.accountSteps[i];
+    if (isDone) done++;
+    const classes = ['step-card'];
+    if (isDone) classes.push('done');
+    if (step.critical) classes.push('critical');
+    return `
+      <div class="${classes.join(' ')}" data-step="${i}">
+        <div class="step-card-head">
+          <div class="step-number">${isDone ? '\u2713' : (i + 1)}</div>
+          <div class="step-head-text">
+            <div class="step-title">${step.title}</div>
+            <div class="step-why">${step.why}</div>
+          </div>
+          <div class="step-caret">\u25BC</div>
+        </div>
+        <div class="step-body">
+          <div class="step-body-inner">
+            ${step.body}
+            <button class="step-done-btn" data-done="${i}">
+              ${isDone ? '\u2713 Done' : 'Mark this step done'}
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  const pct = Math.round((done / total) * 100);
+  document.getElementById('accountFill').style.width = pct + '%';
+  document.getElementById('accountPercent').textContent = pct + '%';
+  document.getElementById('accountSuccess').classList.toggle('visible', done === total);
+
+  // Expand/collapse step cards
+  container.querySelectorAll('.step-card-head').forEach(head => {
+    head.addEventListener('click', () => {
+      const card = head.parentElement;
+      card.classList.toggle('open');
+    });
+  });
+
+  // Mark done buttons
+  container.querySelectorAll('[data-done]').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const idx = parseInt(btn.dataset.done, 10);
+      appState.accountSteps[idx] = !appState.accountSteps[idx];
+      saveState(appState);
+      renderAccountSteps();
+    });
+  });
+
+  // Copy-to-clipboard for email
+  container.querySelectorAll('.step-copybox').forEach(box => {
+    box.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const text = box.dataset.copy;
+      if (text && navigator.clipboard) {
+        navigator.clipboard.writeText(text).then(() => {
+          const original = box.textContent;
+          box.textContent = '\u2713 Copied!';
+          setTimeout(() => { box.textContent = original; }, 1400);
+        }).catch(() => {});
+      }
+    });
+  });
+}
+renderAccountSteps();
 
 /* ==========================================================
    PACKING
