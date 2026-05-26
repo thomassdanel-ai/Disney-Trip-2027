@@ -260,6 +260,92 @@
   html[data-theme="light"] .tick-state.clear { color: oklch(0.35 0.14 150); }
   html[data-theme="light"] .tick-state.borderline { color: oklch(0.40 0.15 60); }
   html[data-theme="light"] .tick-state.short { color: oklch(0.45 0.18 25); }
+
+  /* responsive grid helpers — keep in sync with WORKFLOW.md */
+  .cal-week-7 {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+  }
+  .pack-grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+  }
+  .checklist-2col {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 20px;
+  }
+  .shell-grid {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    min-height: 100vh;
+    position: relative;
+    z-index: 2;
+  }
+  @media (max-width: 900px) {
+    .pack-grid-3 { grid-template-columns: repeat(2, 1fr); }
+    .checklist-2col { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 768px) {
+    .cal-week-7 { grid-template-columns: repeat(2, 1fr); gap: 6px; }
+    .shell-grid { grid-template-columns: 1fr; }
+    .shell-grid > aside {
+      position: static !important;
+      height: auto !important;
+      border-right: none !important;
+      border-bottom: 1px solid var(--border);
+    }
+  }
+  @media (max-width: 600px) {
+    .pack-grid-3 { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 480px) {
+    .cal-week-7 { grid-template-columns: 1fr; }
+  }
+
+  /* Overview + Parks grids — keep in sync with WORKFLOW.md */
+  .ov-stats   { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .ov-two     { display: grid; grid-template-columns: 1.3fr 1fr; gap: 20px; }
+  .ov-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .park-tabs  { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  .ride-grid  { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  @media (max-width: 900px) {
+    .ride-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 768px) {
+    .ov-stats, .park-tabs { grid-template-columns: repeat(2, 1fr); }
+    .ov-two, .ov-actions { grid-template-columns: 1fr; }
+  }
+
+  .site-footer {
+    margin-top: 40px;
+    padding: 14px 24px;
+    border-top: 1px solid var(--border);
+    text-align: right;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-3);
+    letter-spacing: 0.04em;
+  }
+
+  .dining-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(320px, 100%), 1fr));
+    gap: 14px;
+  }
+  .page-pad {
+    padding: 32px 40px 24px;
+  }
+  .page-header-bar {
+    padding: 16px 32px;
+  }
+  @media (max-width: 768px) {
+    .page-pad { padding: 22px 16px 16px; }
+    .page-header-bar { padding: 14px 16px; }
+    .site-footer { padding: 12px 16px; margin-top: 28px; }
+  }
 </style>
 </head>
 <body>
@@ -305,7 +391,7 @@ const CREW = [
 
 const DAYS = [
   {
-    idx: 0, date: new Date('2027-02-06'), label: 'Saturday', theme: 'Arrival', park: 'travel',
+    idx: 0, date: new Date('2027-02-06T12:00:00'), label: 'Saturday', theme: 'Arrival', park: 'travel',
     weather: { high: 72, low: 54, icon: 'sun-cloud' },
     headline: 'Long drive, soft landing.',
     blurb: 'Roll in from Louisiana, drop bags, swim it off, then dinner with the Fab Five.',
@@ -318,93 +404,100 @@ const DAYS = [
     ],
   },
   {
-    idx: 1, date: new Date('2027-02-07'), label: 'Sunday', theme: 'Magic Kingdom', park: 'mk',
+    idx: 1, date: new Date('2027-02-07T12:00:00'), label: 'Sunday', theme: 'Magic Kingdom', park: 'mk',
     weather: { high: 74, low: 56, icon: 'sun' },
     headline: 'The big one, on a Sunday.',
-    blurb: 'Rope-drop the castle park. BBB at 11 for the four girls while Michael does the ride sprint with the guys.',
+    blurb: 'Walk to the castle park for Early Entry, BBB for the four girls while Michael rides with the dads, then a villa nap before the evening adventure block and fireworks. Walk home.',
     activities: [
-      { time: '07:30', title: 'Monorail · first loop',                  kind: 'travel' },
-      { time: '08:30', title: 'Rope drop · Magic Kingdom',              kind: 'park',    note: 'Enter via monorail platform. Early Entry as DVC resort guests.' },
-      { time: '11:00', title: 'Bibbidi Bobbidi Boutique',               kind: 'magic',   note: 'Princess package for Clara, Mia, Ava, Emma.', official: true, link: 'https://disneyworld.disney.go.com/events-tours/bibbidi-bobbidi-boutique/' },
-      { time: '11:00', title: "Guys' ride sprint · Michael",             kind: 'park',    note: 'Seven Dwarfs · Big Thunder · Pirates while girls are at BBB.' },
-      { time: '13:00', title: 'Lunch · quick-serve',                    kind: 'dining',  note: "Cosmic Ray's or Pinocchio Village Haus." },
-      { time: '15:00', title: 'Festival of Fantasy parade',             kind: 'magic' },
-      { time: '18:00', title: 'Dinner back at villa',                   kind: 'leisure', note: 'Kitchen night — save money and energy for tomorrow.' },
-      { time: '21:00', title: 'Happily Ever After · fireworks',         kind: 'magic',   note: 'Hub or castle forecourt for the full projection.' },
+      { time: '08:00', title: 'Walk to Magic Kingdom',                  kind: 'travel',  note: "10-minute walk from Bay Lake Tower — the trip's single biggest logistical asset." },
+      { time: '08:30', title: 'Early Entry rope drop',                  kind: 'park',    note: "In as DVC resort guests. Seven Dwarfs Mine Train first, then Peter Pan's Flight.", official: true, link: 'https://disneyworld.disney.go.com/destinations/magic-kingdom/' },
+      { time: '09:30', title: 'Bibbidi Bobbidi Boutique',               kind: 'magic',   note: 'Princess makeovers for Clara, Mia, Ava, and Emma. 9:30 AM target keeps the whole day on schedule.', official: true, link: 'https://disneyworld.disney.go.com/events-tours/bibbidi-bobbidi-boutique/' },
+      { time: '09:30', title: "Guys' ride session · Michael",            kind: 'park',    note: 'Tomorrowland with the dads while the girls are at BBB — Space Mountain, Buzz, Speedway, Astro Orbiter.' },
+      { time: '12:30', title: 'Sandwich lunch by the castle',           kind: 'dining',  note: 'Packed cooler-bag lunch on a shaded bench, then walk home.' },
+      { time: '14:00', title: 'Real villa nap',                         kind: 'leisure', note: 'Everyone recharges before a big evening.' },
+      { time: '17:15', title: 'Evening adventure block',                kind: 'park',    note: 'Back to MK: Pirates, Jungle Cruise, Big Thunder, Haunted Mansion.', official: true, link: 'https://disneyworld.disney.go.com/attractions/magic-kingdom/pirates-of-caribbean/' },
+      { time: '19:30', title: 'Dinner near the hub',                    kind: 'dining',  note: "Quick-serve before fireworks — Cosmic Ray's or Casey's Corner.", official: true, link: 'https://disneyworld.disney.go.com/dining/magic-kingdom/cosmic-rays-starlight-cafe/' },
+      { time: '21:00', title: 'Happily Ever After · fireworks',         kind: 'magic',   note: 'Main Street viewing, then the 10-minute walk home to Bay Lake Tower. Exact showtime varies by season — verify closer to date.', official: true, link: 'https://disneyworld.disney.go.com/entertainment/magic-kingdom/happily-ever-after/' },
     ],
   },
   {
-    idx: 2, date: new Date('2027-02-08'), label: 'Monday', theme: 'Hollywood Studios', park: 'hs',
+    idx: 2, date: new Date('2027-02-08T12:00:00'), label: 'Monday', theme: 'Epcot', park: 'ep',
     weather: { high: 76, low: 57, icon: 'sun' },
-    headline: 'Galaxies, droids, and a sing-along.',
-    blurb: "Michael builds a droid at Galaxy's Edge while the younger crew does the Frozen Sing-Along.",
+    headline: 'Frozen, Figment, and a festival.',
+    blurb: 'Early monorail to Epcot for the calm World Nature rides, sandwich lunch, a real villa nap, then back for Frozen Ever After and Festival of the Arts in World Showcase.',
     activities: [
-      { time: '08:00', title: 'Skyliner or drive to Studios',          kind: 'travel' },
-      { time: '09:00', title: 'Rope drop · Slinky / Mickey & Minnie',   kind: 'park',    note: 'Whatever the standby looks like at 9.' },
-      { time: '11:00', title: 'Droid Depot · Michael',                  kind: 'magic',   note: '~45-minute build slot. Reserve the time, not the day.', official: true, link: 'https://disneyworld.disney.go.com/shops/hollywood-studios/droid-depot/' },
-      { time: '11:15', title: 'Frozen Sing-Along · the girls',          kind: 'magic',   note: 'Stage show. AC. Parallel to droid build.' },
-      { time: '13:00', title: "Lunch · Woody's Lunch Box",              kind: 'dining',  note: 'Picnic-style. Queue moves fast.' },
-      { time: '16:00', title: 'Toy Story Land',                         kind: 'park',    note: 'Slinky Dog · Alien Saucers · Toy Story Mania.' },
-      { time: '19:00', title: 'Villa dinner + early bed',               kind: 'leisure' },
+      { time: '07:30', title: 'Villa breakfast + pack sandwiches',     kind: 'leisure' },
+      { time: '08:30', title: 'Monorail to Epcot',                     kind: 'travel',  note: '~30 min via the TTC transfer.' },
+      { time: '09:05', title: 'World Nature morning',                  kind: 'park',    note: "Spaceship Earth, Living with the Land, then Soarin'.", official: true, link: 'https://disneyworld.disney.go.com/attractions/epcot/soarin/' },
+      { time: '10:50', title: 'The Seas + Turtle Talk with Crush',     kind: 'park',    note: 'Aquarium afterward — the animal-lovers will linger.', official: true, link: 'https://disneyworld.disney.go.com/attractions/epcot/seas-with-nemo-and-friends/' },
+      { time: '11:50', title: 'Journey of Water · Moana',              kind: 'park',    note: 'Interactive walk-through. Kids will get a little wet.', official: true, link: 'https://disneyworld.disney.go.com/attractions/epcot/journey-of-water-inspired-by-moana/' },
+      { time: '12:15', title: 'Sandwich lunch by the lagoon',          kind: 'dining' },
+      { time: '14:00', title: 'Monorail home · real villa nap',        kind: 'travel' },
+      { time: '17:45', title: 'Frozen Ever After + Anna & Elsa',       kind: 'magic',   note: 'Back to Epcot. Norway pavilion — the headliner for the girls, then meet Anna & Elsa next door.', official: true, link: 'https://disneyworld.disney.go.com/attractions/epcot/frozen-ever-after/' },
+      { time: '19:00', title: "Remy's Ratatouille Adventure",          kind: 'park',    note: 'France pavilion, 3D trackless ride.', official: true, link: 'https://disneyworld.disney.go.com/attractions/epcot/remys-ratatouille-adventure/' },
+      { time: '19:30', title: 'Festival of the Arts dinner',           kind: 'dining',  note: 'Graze the food booths around World Showcase. Figment scavenger hunt for the kids.', official: true, link: 'https://disneyworld.disney.go.com/destinations/epcot/world-showcase/' },
+      { time: '21:00', title: 'Luminous fireworks (optional)',         kind: 'magic',   note: 'Decide same-day based on energy, then monorail home.' },
     ],
   },
   {
-    idx: 3, date: new Date('2027-02-09'), label: 'Tuesday', theme: 'Rest Day', park: 'rest',
+    idx: 3, date: new Date('2027-02-09T12:00:00'), label: 'Tuesday', theme: 'Rest Day', park: 'rest',
     weather: { high: 75, low: 58, icon: 'cloud' },
-    headline: 'Legs up. Pool on. Phone off.',
-    blurb: 'Intentional quiet day. Sleep in, villa breakfast, Bay Cove Pool, monorail loop. Adult Epcot evening moved to Wednesday.',
+    headline: 'Legs up by day, World Showcase by night.',
+    blurb: 'Intentional quiet day — sleep in, pool, monorail-loop the resorts. In the evening a sitter takes the kids at the villa while the four adults do a World Showcase dinner.',
     activities: [
       { time: '09:30', title: 'Late breakfast in villa',               kind: 'leisure' },
       { time: '11:00', title: 'Bay Cove Pool · slide laps',            kind: 'leisure' },
       { time: '14:00', title: 'Naps / quiet hour',                     kind: 'leisure' },
       { time: '16:00', title: 'Monorail loop · resort hop',            kind: 'leisure', note: 'Poly + Grand Floridian lobby walk-throughs. Free entertainment.' },
-      { time: '18:00', title: 'Pizza + movie night · villa',           kind: 'dining' },
+      { time: '18:00', title: 'Kids: pizza + sitter at villa',         kind: 'leisure', note: "Kid's Nite Out in-room sitter for the five kids." },
+      { time: '19:00', title: 'Adults: World Showcase dinner',         kind: 'dining',  note: 'Sit-down in World Showcase — Tutto Italia, Le Cellier, or Monsieur Paul. Booked at the 60-day window.', official: true, link: 'https://disneyworld.disney.go.com/destinations/epcot/world-showcase/' },
+      { time: '20:30', title: 'Adults: Festival of the Arts + Luminous', kind: 'magic', note: 'Graze the festival booths, catch the fireworks, back to Bay Lake Tower by 11.' },
     ],
   },
   {
-    idx: 4, date: new Date('2027-02-10'), label: 'Wednesday', theme: 'Animal Kingdom', park: 'ak',
+    idx: 4, date: new Date('2027-02-10T12:00:00'), label: 'Wednesday', theme: 'Hollywood Studios', park: 'hs',
     weather: { high: 73, low: 55, icon: 'sun' },
-    headline: 'Up early, out by three.',
-    blurb: 'Dawn safari is when the animals are awake. Leave before the heat hits. Adult Epcot evening optional.',
+    headline: 'Build a droid, sing it out, home by four.',
+    blurb: "One clean east-to-west sweep: Toy Story Land, the Frozen Sing-Along, then Galaxy's Edge for Michael's droid build and Rise of the Resistance. No evening return — villa dinner.",
     activities: [
-      { time: '06:30', title: 'Early breakfast · to go',               kind: 'dining' },
-      { time: '07:30', title: 'Kilimanjaro Safaris · rope drop',       kind: 'park',    note: 'First safari of the day is the good one.', official: true, link: 'https://disneyworld.disney.go.com/attractions/animal-kingdom/kilimanjaro-safaris/' },
-      { time: '09:00', title: 'Gorilla Falls Trail',                   kind: 'park',    note: 'Self-paced, shaded. Easy with strollers.' },
-      { time: '10:30', title: "Na'vi River Journey",                   kind: 'park',    note: 'Slow, gentle, dim. Toddler-friendly.' },
-      { time: '12:00', title: "Lunch · Satu'li Canteen",               kind: 'dining' },
-      { time: '14:30', title: 'Back to villa',                         kind: 'travel',  note: 'Nap. Pool. Do nothing.' },
-      { time: '18:00', title: 'Kids: pizza + sitter',                  kind: 'leisure', note: "Kid's Nite Out babysitter for the adult evening." },
-      { time: '19:00', title: 'Adults: World Showcase (opt.)',         kind: 'magic',   note: 'Wine walk around the World Showcase. Back by 11.' },
+      { time: '07:00', title: 'Villa breakfast + pack sandwiches',     kind: 'leisure' },
+      { time: '08:10', title: 'Bus to Hollywood Studios',              kind: 'travel',  note: '~22 min from the Contemporary bus depot.' },
+      { time: '09:10', title: 'Toy Story Land',                        kind: 'park',    note: 'Slinky Dog Dash first, then Toy Story Mania.', official: true, link: 'https://disneyworld.disney.go.com/attractions/hollywood-studios/slinky-dog-dash/' },
+      { time: '10:25', title: "Mickey & Minnie's Runaway Railway",     kind: 'park',    note: 'Trackless, no height limit, fan favorite.', official: true, link: 'https://disneyworld.disney.go.com/attractions/hollywood-studios/mickey-and-minnies-runaway-railway/' },
+      { time: '11:30', title: 'Frozen Sing-Along',                     kind: 'magic',   note: 'Whole group, indoor AC, 1,000+ seats.', official: true, link: 'https://disneyworld.disney.go.com/entertainment/hollywood-studios/for-the-first-time-in-forever-frozen-sing-along/' },
+      { time: '12:15', title: "Sandwich lunch · Galaxy's Edge",        kind: 'dining' },
+      { time: '12:45', title: 'Millennium Falcon: Smugglers Run',      kind: 'park',    note: 'All nine ride together — try to be a pilot.', official: true, link: 'https://disneyworld.disney.go.com/attractions/hollywood-studios/millennium-falcon-smugglers-run/' },
+      { time: '13:30', title: 'Droid Depot build · Michael',           kind: 'magic',   note: '~45-min build slot while the non-builders explore Black Spire Outpost.', official: true, link: 'https://disneyworld.disney.go.com/shops/hollywood-studios/droid-depot/' },
+      { time: '14:30', title: 'Rise of the Resistance',               kind: 'park',    note: 'The big one. Lightning Lane Single Pass for all nine.', official: true, link: 'https://disneyworld.disney.go.com/attractions/hollywood-studios/star-wars-rise-of-the-resistance/' },
+      { time: '15:30', title: 'Bus back to villa',                     kind: 'travel',  note: 'Pool, then a slow villa dinner.' },
     ],
   },
   {
-    idx: 5, date: new Date('2027-02-11'), label: 'Thursday', theme: 'VIP Tour Day', park: 'mk',
+    idx: 5, date: new Date('2027-02-11T12:00:00'), label: 'Thursday', theme: 'Animal Kingdom', park: 'ak',
     weather: { high: 74, low: 55, icon: 'sun' },
-    headline: 'Two parks, one host, zero lines.',
-    blurb: 'Park hopper day. Epcot morning → MK afternoon → VIP parade + fireworks → walk home to Bay Lake Tower.',
+    headline: 'Dawn safari, then the last big night.',
+    blurb: 'The only true rope-drop morning — the animals are most active early. Safari, Pandora, and Flight of Passage, back by mid-afternoon for a nap, then a special last-night dinner.',
     activities: [
-      { time: '08:30', title: 'Meet VIP guide · Contemporary lobby',   kind: 'magic',  official: true, link: 'https://disneyworld.disney.go.com/events-tours/vip-tour-services/' },
-      { time: '09:00', title: 'Epcot · Frozen Ever After',             kind: 'park' },
-      { time: '10:00', title: "Soarin' Around the World",               kind: 'park' },
-      { time: '11:00', title: 'Living with the Land',                  kind: 'park',    note: 'Slow, calm. Toddler-friendly.' },
-      { time: '11:45', title: 'The Seas with Nemo',                    kind: 'park' },
-      { time: '12:30', title: 'Test Track (if Michael wants)',         kind: 'park' },
-      { time: '13:30', title: 'Lunch · Space 220 (held)',              kind: 'dining',  note: 'Reservation included with VIP package.' },
-      { time: '15:00', title: 'Hop to Magic Kingdom',                  kind: 'travel' },
-      { time: '17:00', title: 'MK dark-ride sprint',                   kind: 'park',    note: 'Mop up what we missed Sunday: Haunted Mansion · Peter Pan · Small World.' },
-      { time: '19:30', title: 'VIP parade viewing',                    kind: 'magic' },
-      { time: '21:00', title: 'VIP fireworks viewing',                 kind: 'magic' },
-      { time: '22:00', title: 'Walk home · path lit',                  kind: 'travel',  note: 'Walking path from MK to Bay Lake Tower. Stroller-friendly.' },
+      { time: '07:00', title: 'Early villa breakfast',                kind: 'dining' },
+      { time: '07:45', title: 'Bus to Animal Kingdom',                kind: 'travel',  note: '~25 min. The only rope-drop start of the trip.' },
+      { time: '08:30', title: 'Kilimanjaro Safaris · rope drop',      kind: 'park',    note: 'Animals most active in the cool morning. All nine ride.', official: true, link: 'https://disneyworld.disney.go.com/attractions/animal-kingdom/kilimanjaro-safaris/' },
+      { time: '09:15', title: "Na'vi River Journey",                   kind: 'park',    note: 'Gentle boat through bioluminescent Pandora.', official: true, link: 'https://disneyworld.disney.go.com/attractions/animal-kingdom/navi-river-journey/' },
+      { time: '10:00', title: 'Pandora exploration',                  kind: 'park',    note: "Valley of Mo'ara floating mountains, Windtraders, a Pongu Pongu snack." },
+      { time: '10:30', title: 'Festival of the Lion King',            kind: 'magic',   note: '30-min sit-down show — high value with this age group.' },
+      { time: '11:45', title: "Lunch · Satu'li Canteen",               kind: 'dining',  note: 'Pandora bowls, kid-friendly, no transit.', official: true, link: 'https://disneyworld.disney.go.com/dining/animal-kingdom/satuli-canteen/' },
+      { time: '12:45', title: 'Avatar Flight of Passage',             kind: 'park',    note: '7 riders clear 44"; an adult stays with Clara & Mia and uses rider swap.', official: true, link: 'https://disneyworld.disney.go.com/attractions/animal-kingdom/avatar-flight-of-passage/' },
+      { time: '13:45', title: 'Bus back to villa · real nap',         kind: 'travel' },
+      { time: '18:00', title: 'Special last-night dinner',            kind: 'dining',  note: 'Booking target: Hoop-Dee-Doo Musical Revue dinner show at Fort Wilderness (6:15 PM). Locks at the 60-day window; California Grill is the backup.' },
     ],
   },
   {
-    idx: 6, date: new Date('2027-02-12'), label: 'Friday', theme: 'Departure', park: 'travel',
+    idx: 6, date: new Date('2027-02-12T12:00:00'), label: 'Friday', theme: 'Departure', park: 'travel',
     weather: { high: 70, low: 52, icon: 'sun' },
     headline: 'One last coffee, then west.',
     blurb: 'Check out by 11. Long drive home, tired and happy.',
     activities: [
       { time: '08:00', title: 'Pack the cars',                         kind: 'travel' },
-      { time: '09:30', title: 'Goodbye breakfast · Contempo Cafe',     kind: 'dining' },
+      { time: '09:30', title: 'Goodbye breakfast · Contempo Cafe',     kind: 'dining',  official: true, link: 'https://disneyworld.disney.go.com/dining/contemporary-resort/contempo-cafe/' },
       { time: '11:00', title: 'Check out',                             kind: 'resort' },
       { time: '11:30', title: 'Drive home · Louisiana',                kind: 'travel',  note: 'Swap drivers every 3 hours.' },
     ],
@@ -416,19 +509,19 @@ const PARKS = {
     id: 'mk', name: 'Magic Kingdom', tag: 'Park · MK',
     subtitle: 'Fireworks, parades, the full storybook.',
     mood: ['Storybook', 'Loud', 'Big distances'],
-    acreage: '107 acres', visits: 2,
+    acreage: '107 acres', visits: 1,
     rides: [
-      { name: 'Seven Dwarfs Mine Train',         height: 38,    notes: 'Family coaster. Lightning Lane priority.' },
-      { name: 'Big Thunder Mountain',            height: 40,    notes: 'Mild coaster. Michael yes; Mia/Clara borderline.' },
-      { name: 'TRON Lightcycle / Run',           height: 48,    notes: 'Launch coaster. Adults only this trip.' },
-      { name: 'Space Mountain',                  height: 44,    notes: 'Tight fit for 6\'8" — Thomas should skip or be cautious.' },
-      { name: 'Pirates of the Caribbean',        height: 'any', notes: 'Boat ride. One small drop. Stroller-friendly queue.' },
-      { name: 'Haunted Mansion',                 height: 'any', notes: 'Dim, not scary. Stretching room can spook under-5s briefly.' },
-      { name: "Peter Pan's Flight",              height: 'any', notes: 'Long queue all day. Lightning Lane it.' },
-      { name: "it's a small world",              height: 'any', notes: 'Boat ride. Earworm guaranteed.' },
-      { name: 'Buzz Lightyear Space Ranger Spin',height: 'any', notes: 'Shooter ride. Michael will love.' },
-      { name: 'Jungle Cruise',                   height: 'any', notes: 'Skipper jokes. Bring water.' },
-      { name: 'Tomorrowland Speedway',           height: 32,    notes: 'Drive-with-parent under 54". Fumes. Loud.' },
+      { name: 'Seven Dwarfs Mine Train',         height: 38,    notes: 'Family coaster. Lightning Lane priority.', link: 'https://disneyworld.disney.go.com/attractions/magic-kingdom/seven-dwarfs-mine-train/' },
+      { name: 'Big Thunder Mountain',            height: 40,    notes: 'Mild coaster. Michael yes; Mia/Clara borderline.', link: 'https://disneyworld.disney.go.com/attractions/magic-kingdom/big-thunder-mountain-railroad/' },
+      { name: 'TRON Lightcycle / Run',           height: 48,    notes: 'Launch coaster. Adults only this trip.', link: 'https://disneyworld.disney.go.com/attractions/magic-kingdom/tron-lightcycle-run/' },
+      { name: 'Space Mountain',                  height: 44,    notes: 'Tight fit for 6\'8" — Thomas should skip or be cautious.', link: 'https://disneyworld.disney.go.com/attractions/magic-kingdom/space-mountain/' },
+      { name: 'Pirates of the Caribbean',        height: 'any', notes: 'Boat ride. One small drop. Stroller-friendly queue.', link: 'https://disneyworld.disney.go.com/attractions/magic-kingdom/pirates-of-caribbean/' },
+      { name: 'Haunted Mansion',                 height: 'any', notes: 'Dim, not scary. Stretching room can spook under-5s briefly.', link: 'https://disneyworld.disney.go.com/attractions/magic-kingdom/haunted-mansion/' },
+      { name: "Peter Pan's Flight",              height: 'any', notes: 'Long queue all day. Lightning Lane it.', link: 'https://disneyworld.disney.go.com/attractions/magic-kingdom/peter-pans-flight/' },
+      { name: "it's a small world",              height: 'any', notes: 'Boat ride. Earworm guaranteed.', link: 'https://disneyworld.disney.go.com/attractions/magic-kingdom/its-a-small-world/' },
+      { name: 'Buzz Lightyear Space Ranger Spin',height: 'any', notes: 'Shooter ride. Michael will love.', link: 'https://disneyworld.disney.go.com/attractions/magic-kingdom/buzz-lightyears-space-ranger-spin/' },
+      { name: 'Jungle Cruise',                   height: 'any', notes: 'Skipper jokes. Bring water.', link: 'https://disneyworld.disney.go.com/attractions/magic-kingdom/jungle-cruise/' },
+      { name: 'Tomorrowland Speedway',           height: 32,    notes: 'Drive-with-parent under 54". Fumes. Loud.', link: 'https://disneyworld.disney.go.com/attractions/magic-kingdom/tomorrowland-speedway/' },
       { name: 'Mad Tea Party',                   height: 'any', notes: 'Nausea risk. Ride before lunch.' },
       { name: 'Astro Orbiter',                   height: 'any', notes: 'Spinner. Tall views.' },
       { name: 'Dumbo the Flying Elephant',       height: 'any', notes: 'Indoor queue with playground.' },
@@ -440,16 +533,16 @@ const PARKS = {
     mood: ['Loud', 'Thrill-focused', 'Dense'],
     acreage: '135 acres', visits: 1,
     rides: [
-      { name: 'Star Wars: Rise of the Resistance', height: 40,    notes: 'Intense but mostly trackless. Michael likely yes.' },
-      { name: 'Millennium Falcon: Smugglers Run',  height: 38,    notes: 'Cockpit ride. Try to be a pilot.' },
-      { name: 'Droid Depot · build experience',    height: 'any', notes: 'Workshop. ~45-min reserved slot.' },
-      { name: 'Frozen Sing-Along Celebration',     height: 'any', notes: 'Stage show. Indoor AC. Schedule against droid build.' },
-      { name: 'Slinky Dog Dash',                   height: 38,    notes: 'Mild coaster. Good first coaster for the older kids.' },
-      { name: 'Toy Story Mania',                   height: 'any', notes: '3D shooter. Cycles fast.' },
+      { name: 'Star Wars: Rise of the Resistance', height: 40,    notes: 'Intense but mostly trackless. Michael likely yes.', link: 'https://disneyworld.disney.go.com/attractions/hollywood-studios/star-wars-rise-of-the-resistance/' },
+      { name: 'Millennium Falcon: Smugglers Run',  height: 38,    notes: 'Cockpit ride. Try to be a pilot.', link: 'https://disneyworld.disney.go.com/attractions/hollywood-studios/millennium-falcon-smugglers-run/' },
+      { name: 'Droid Depot · build experience',    height: 'any', notes: 'Workshop. ~45-min reserved slot.', link: 'https://disneyworld.disney.go.com/shops/hollywood-studios/droid-depot/' },
+      { name: 'Frozen Sing-Along Celebration',     height: 'any', notes: 'Stage show. Indoor AC. Schedule against droid build.', link: 'https://disneyworld.disney.go.com/entertainment/hollywood-studios/for-the-first-time-in-forever-frozen-sing-along/' },
+      { name: 'Slinky Dog Dash',                   height: 38,    notes: 'Mild coaster. Good first coaster for the older kids.', link: 'https://disneyworld.disney.go.com/attractions/hollywood-studios/slinky-dog-dash/' },
+      { name: 'Toy Story Mania',                   height: 'any', notes: '3D shooter. Cycles fast.', link: 'https://disneyworld.disney.go.com/attractions/hollywood-studios/toy-story-mania/' },
       { name: 'Alien Swirling Saucers',            height: 32,    notes: 'Gentle, short.' },
-      { name: 'Tower of Terror',                   height: 40,    notes: 'Will scare some adults.' },
+      { name: 'Tower of Terror',                   height: 40,    notes: 'Will scare some adults.', link: 'https://disneyworld.disney.go.com/attractions/hollywood-studios/twilight-zone-tower-of-terror/' },
       { name: "Rock 'n' Roller Coaster",           height: 48,    notes: 'Launches. Loops. Loud.' },
-      { name: "Mickey & Minnie's Runaway Railway", height: 'any', notes: 'Trackless. Newer. Fan favorite.' },
+      { name: "Mickey & Minnie's Runaway Railway", height: 'any', notes: 'Trackless. Newer. Fan favorite.', link: 'https://disneyworld.disney.go.com/attractions/hollywood-studios/mickey-and-minnies-runaway-railway/' },
     ],
   },
   ak: {
@@ -458,13 +551,13 @@ const PARKS = {
     mood: ['Calm', 'Hot mid-day', 'Lots of walking'],
     acreage: '580 acres', visits: 1,
     rides: [
-      { name: 'Kilimanjaro Safaris',           height: 'any', notes: 'Best at 08:00. Animals active early.' },
-      { name: 'Avatar Flight of Passage',      height: 44,    notes: 'Otherworldly. Michael may; Emma yes.' },
-      { name: "Na'vi River Journey",           height: 'any', notes: 'Slow boat. Bioluminescent. Toddler-friendly.' },
-      { name: 'Expedition Everest',            height: 44,    notes: 'Backwards segment. Michael TBD.' },
+      { name: 'Kilimanjaro Safaris',           height: 'any', notes: 'Best at 08:00. Animals active early.', link: 'https://disneyworld.disney.go.com/attractions/animal-kingdom/kilimanjaro-safaris/' },
+      { name: 'Avatar Flight of Passage',      height: 44,    notes: 'Otherworldly. Michael may; Emma yes.', link: 'https://disneyworld.disney.go.com/attractions/animal-kingdom/avatar-flight-of-passage/' },
+      { name: "Na'vi River Journey",           height: 'any', notes: 'Slow boat. Bioluminescent. Toddler-friendly.', link: 'https://disneyworld.disney.go.com/attractions/animal-kingdom/navi-river-journey/' },
+      { name: 'Expedition Everest',            height: 44,    notes: 'Backwards segment. Michael TBD.', link: 'https://disneyworld.disney.go.com/attractions/animal-kingdom/expedition-everest/' },
       { name: 'Kali River Rapids',             height: 38,    notes: 'You will get soaked. Bring a poncho.' },
       { name: "It's Tough to be a Bug",         height: 'any', notes: '4D effects. Can scare under-6.' },
-      { name: 'Gorilla Falls Trail',           height: 'any', notes: 'Self-paced walk. Shaded.' },
+      { name: 'Gorilla Falls Trail',           height: 'any', notes: 'Self-paced walk. Shaded.', link: 'https://disneyworld.disney.go.com/attractions/animal-kingdom/gorilla-falls-exploration-trail/' },
       { name: 'Maharajah Jungle Trek',         height: 'any', notes: 'Tigers. Bats. Komodo dragon.' },
       { name: 'TriceraTop Spin',               height: 'any', notes: 'Spinner for the smaller kids.' },
     ],
@@ -475,15 +568,15 @@ const PARKS = {
     mood: ['Adult-friendly', 'Food-forward', 'Long walks'],
     acreage: '305 acres', visits: 2,
     rides: [
-      { name: 'Frozen Ever After',                  height: 'any', notes: "Norway pavilion. Boat ride. The girls' priority." },
-      { name: "Soarin' Around the World",           height: 40,    notes: 'Dangle ride. Mia & Clara borderline.' },
-      { name: 'Living with the Land',               height: 'any', notes: 'Boat. Calm. Toddler-friendly.' },
-      { name: 'The Seas with Nemo & Friends',       height: 'any', notes: 'Slow. Aquarium afterwards.' },
-      { name: 'Test Track',                         height: 40,    notes: 'High-speed finale. Michael TBD.' },
-      { name: "Remy's Ratatouille Adventure",       height: 'any', notes: '3D trackless. Paris pavilion.' },
-      { name: 'Journey of Water · Moana',           height: 'any', notes: 'Walk-through. Interactive water features.' },
-      { name: 'Spaceship Earth',                    height: 'any', notes: 'The big ball. Slow dark ride.' },
-      { name: 'Mission: SPACE (Green)',             height: 40,    notes: 'Choose Green for the gentler version.' },
+      { name: 'Frozen Ever After',                  height: 'any', notes: "Norway pavilion. Boat ride. The girls' priority.", link: 'https://disneyworld.disney.go.com/attractions/epcot/frozen-ever-after/' },
+      { name: "Soarin' Around the World",           height: 40,    notes: 'Dangle ride. Mia & Clara borderline.', link: 'https://disneyworld.disney.go.com/attractions/epcot/soarin/' },
+      { name: 'Living with the Land',               height: 'any', notes: 'Boat. Calm. Toddler-friendly.', link: 'https://disneyworld.disney.go.com/attractions/epcot/living-with-the-land/' },
+      { name: 'The Seas with Nemo & Friends',       height: 'any', notes: 'Slow. Aquarium afterwards.', link: 'https://disneyworld.disney.go.com/attractions/epcot/seas-with-nemo-and-friends/' },
+      { name: 'Test Track',                         height: 40,    notes: 'High-speed finale. Michael TBD.', link: 'https://disneyworld.disney.go.com/attractions/epcot/test-track/' },
+      { name: "Remy's Ratatouille Adventure",       height: 'any', notes: '3D trackless. Paris pavilion.', link: 'https://disneyworld.disney.go.com/attractions/epcot/remys-ratatouille-adventure/' },
+      { name: 'Journey of Water · Moana',           height: 'any', notes: 'Walk-through. Interactive water features.', link: 'https://disneyworld.disney.go.com/attractions/epcot/journey-of-water-inspired-by-moana/' },
+      { name: 'Spaceship Earth',                    height: 'any', notes: 'The big ball. Slow dark ride.', link: 'https://disneyworld.disney.go.com/attractions/epcot/spaceship-earth/' },
+      { name: 'Mission: SPACE (Green)',             height: 40,    notes: 'Choose Green for the gentler version.', link: 'https://disneyworld.disney.go.com/attractions/epcot/mission-space/' },
     ],
   },
 };
@@ -506,23 +599,27 @@ const CHECKLIST = [
     { id: 'b4', label: 'Download offline park maps',               done: false },
     { id: 'b5', label: 'Decide on matching shirts (?)',            done: false },
     { id: 'b6', label: 'Height check for Clara & Mia (Fall 2026)', done: false },
+    { id: 'b7', label: 'Decide which kids build droids (Wed)',     done: false },
   ]},
   { group: 'Thomas only', items: [
-    { id: 't1', label: 'Final VIP tour payment',                   done: false },
+    { id: 't1', label: 'Set Dec 8 alarm · dining window 5:55 AM ET', done: false },
     { id: 't2', label: 'Print all confirmations',                  done: false },
-    { id: 't3', label: "Book Kid's Nite Out for Wed evening",      done: false },
+    { id: 't3', label: "Book Kid's Nite Out sitter · Tue evening", done: false },
     { id: 't4', label: 'Grocery list for villa arrival',           done: false },
   ]},
 ];
 
 const DEADLINES = [
-  { date: '2026-08-06', label: 'Park ticket purchase window',       done: true  },
-  { date: '2026-12-08', label: 'Dining reservations open (60 day)', done: false },
-  { date: '2027-01-07', label: 'Lightning Lane window opens',       done: false },
-  { date: '2027-01-16', label: 'BBB & Droid Depot appointments',    done: false },
-  { date: '2027-01-22', label: 'Final packing day',                 done: false },
-  { date: '2027-02-05', label: 'Pre-drive family meeting',          done: false },
+  { date: '2026-12-01', label: 'Booking-prep review · build Dec 8 priority list', time: '9:00 AM ET', done: false },
+  { date: '2026-12-08', label: 'Dining reservations open · 60-day window',         time: '6:00 AM ET', done: false },
+  { date: '2027-01-07', label: 'Lightning Lane window opens · 30 days out',                            done: false },
+  { date: '2027-01-23', label: 'Final dining modifications · 14 days out',                             done: false },
+  { date: '2027-01-30', label: 'DVC Lightning Lane Multi Pass · 7-day window',                         done: false },
+  { date: '2027-02-05', label: 'Final prep · pack cars, charge devices',                               done: false },
+  { date: '2027-02-06', label: 'Arrival day · drive begins',                                           done: false },
 ];
+
+const LAST_UPDATED = '2026-05-25';
 
 const PACKING = [
   { group: 'Park bag',         items: ['Stroller fan', 'Water bottles (×2)', 'Snack pouches', 'Poncho (×9)', 'Sunscreen stick', 'Moleskin', 'Portable battery', 'Sharpie', 'Ziplocs', "Kids' headphones"] },
@@ -531,13 +628,14 @@ const PACKING = [
 ];
 
 const DINING = [
-  { when: 'Sat · arrival dinner', name: "Chef Mickey's",             vibe: 'Fab Five character buffet, two-minute walk from villa. Stress-free with five tired hungry kids.', kidScore: 5 },
-  { when: 'Sun · MK lunch',       name: "Cosmic Ray's Starlight Cafe", vibe: 'Quick-serve in Tomorrowland. Easy split-off point.',         kidScore: 4 },
-  { when: 'Mon · HS lunch',       name: "Woody's Lunch Box",         vibe: 'Picnic-style window in Toy Story Land. Queue moves fast.',     kidScore: 5 },
-  { when: 'Wed · AK lunch',       name: "Satu'li Canteen",           vibe: 'Pandora bowls. Kid-friendlier than the theme suggests.',       kidScore: 4 },
-  { when: 'Wed · adult evening',  name: 'World Showcase wine walk',  vibe: 'Optional adult night out. Sitter at villa. Back by 11.',       kidScore: 0 },
-  { when: 'Thu · VIP lunch',      name: 'Space 220',                 vibe: 'Held by VIP package. Window-seat to "orbit".',                  kidScore: 3 },
-  { when: 'Fri · departure',      name: 'Contempo Cafe',             vibe: 'Quick goodbye breakfast in the lobby before the drive home.', kidScore: 4 },
+  { when: 'Sat · arrival dinner', name: "Chef Mickey's",             vibe: 'Fab Five character buffet, two-minute walk from villa. Stress-free with five tired hungry kids.', kidScore: 5, link: 'https://disneyworld.disney.go.com/dining/contemporary-resort/chef-mickeys/' },
+  { when: 'Sun · MK fireworks night', name: "Cosmic Ray's Starlight Cafe", vibe: 'Quick-serve dinner near the hub before Happily Ever After. Walk home after.', kidScore: 4, link: 'https://disneyworld.disney.go.com/dining/magic-kingdom/cosmic-rays-starlight-cafe/' },
+  { when: 'Mon · Epcot evening',  name: 'Festival of the Arts booths', vibe: 'Dinner grazing through World Showcase during the festival. Something for every picky eater.', kidScore: 4, link: 'https://disneyworld.disney.go.com/destinations/epcot/world-showcase/' },
+  { when: 'Tue · adult evening',  name: 'World Showcase dinner',     vibe: 'Adults out with a sitter at the villa. Sit-down in World Showcase plus festival grazing. Back by 11.', kidScore: 0, link: 'https://disneyworld.disney.go.com/destinations/epcot/world-showcase/' },
+  { when: 'Wed · HS lunch',       name: "Woody's Lunch Box",         vibe: 'Picnic-style window in Toy Story Land. Queue moves fast.',     kidScore: 5, link: 'https://disneyworld.disney.go.com/dining/hollywood-studios/woodys-lunch-box/' },
+  { when: 'Thu · AK lunch',       name: "Satu'li Canteen",           vibe: 'Pandora bowls, right where you already are before Flight of Passage. Kid-friendlier than the theme suggests.', kidScore: 4, link: 'https://disneyworld.disney.go.com/dining/animal-kingdom/satuli-canteen/' },
+  { when: 'Thu · last-night dinner', name: 'Hoop-Dee-Doo (target)',  vibe: 'Booking target for the final night: family-style dinner show at Fort Wilderness. Confirmed at the 60-day window — California Grill is the backup.', kidScore: 5 },
+  { when: 'Fri · departure',      name: 'Contempo Cafe',             vibe: 'Quick goodbye breakfast in the lobby before the drive home.', kidScore: 4, link: 'https://disneyworld.disney.go.com/dining/contemporary-resort/contempo-cafe/' },
 ];
 
 const ACCOUNT_STEPS = [
@@ -688,7 +786,7 @@ function Shell({ activeId, onNav, theme, setTheme, density, setDensity, accent, 
   const daysLeft = Math.max(0, Math.floor(msLeft / (1000 * 60 * 60 * 24)));
 
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: '260px 1fr', minHeight: '100vh', position: 'relative', zIndex: 2 }}>
+    <div className="shell-grid">
       <aside style={{ borderRight: '1px solid var(--border)', padding: '22px 18px',
         display: 'flex', flexDirection: 'column',
         position: 'sticky', top: 0, height: '100vh', background: 'var(--bg)' }}>
@@ -748,8 +846,7 @@ function Shell({ activeId, onNav, theme, setTheme, density, setDensity, accent, 
       </aside>
 
       <main style={{ position: 'relative' }}>
-        <div style={{ position: 'sticky', top: 0, zIndex: 10,
-          padding: '16px 32px',
+        <div className="page-header-bar" style={{ position: 'sticky', top: 0, zIndex: 10,
           display: 'flex', alignItems: 'center', gap: 12,
           background: 'color-mix(in oklab, var(--bg) 80%, transparent)',
           backdropFilter: 'blur(20px) saturate(1.2)',
@@ -765,9 +862,10 @@ function Shell({ activeId, onNav, theme, setTheme, density, setDensity, accent, 
           </button>
         </div>
 
-        <div key={activeId} className="page-enter" style={{ padding: '32px 40px 80px' }}>
+        <div key={activeId} className="page-enter page-pad">
           {children}
         </div>
+        <div className="site-footer">Last updated · {LAST_UPDATED}</div>
       </main>
 
       {editMode && (
@@ -841,21 +939,21 @@ function Overview({ heroVariant, onNav }) {
       {heroVariant === 'crew' && <HeroCrew d={d} onNav={onNav} />}
       {heroVariant === 'journal' && <HeroJournal d={d} h={h} m={m} s={s} />}
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16 }}>
+      <div className="ov-stats">
         <SnapStat label="Nights" value="6" sub="Bay Lake Tower · 1BR" />
         <SnapStat label="Park days" value="4" sub="Plus one pool day" />
         <SnapStat label="Humans" value="9" sub="4 adults · 5 kids" />
         <SnapStat label="Total drive" value="~20h" sub="Louisiana ↔ Orlando" />
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1.3fr 1fr', gap: 20 }}>
+      <div className="ov-two">
         <UpNext onNav={onNav} />
         <CrewPanel />
       </div>
 
       <TripRibbon onNav={onNav} />
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
+      <div className="ov-actions">
         <ActionCard
           title="Mayeauxs · finish account setup"
           sub="MDE accounts, Friends-list link, booking authority. Needed before Dec 8."
@@ -865,7 +963,7 @@ function Overview({ heroVariant, onNav }) {
         />
         <ActionCard
           title="Both families · last deadlines"
-          sub="BBB & Droid Depot appointments + packing day coming up."
+          sub="Dec 8 dining + experience booking window, then Lightning Lane and packing."
           cta="See checklist"
           onClick={() => onNav('checklist')}
         />
@@ -1034,10 +1132,10 @@ function CDUnit({ n, label, big, muted }) {
 
 function UpNext({ onNav }) {
   const upcoming = [
-    { date: 'Tue · Dec 08', label: 'Dining reservations open',       mono: 'T-60d' },
-    { date: 'Sat · Jan 16', label: 'BBB & Droid Depot appointments', mono: 'T-21d' },
-    { date: 'Fri · Jan 22', label: 'Final packing day',              mono: 'T-15d' },
-    { date: 'Sat · Feb 06', label: 'Depart Louisiana 06:30',         mono: 'Day 1' },
+    { date: 'Tue · Dec 08', label: 'Dining + experiences open',      mono: 'T-60d' },
+    { date: 'Thu · Jan 07', label: 'Lightning Lane · 30 days out',   mono: 'T-30d' },
+    { date: 'Sat · Jan 30', label: 'LL Multi Pass + check-in',       mono: 'T-7d' },
+    { date: 'Sat · Feb 06', label: 'Depart Louisiana · 06:30',       mono: 'Day 1' },
   ];
   return (
     <div className="card" style={{ padding: 24 }}>
@@ -1107,7 +1205,7 @@ function TripRibbon({ onNav }) {
           Open calendar <Icon name="chevron-right" size={12} />
         </button>
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 8 }}>
+      <div className="cal-week-7">
         {DAYS.map((day, i) => (
           <div key={i} onClick={() => onNav('calendar')} style={{
             border: '1px solid var(--border)', borderRadius: 12, padding: 14,
@@ -1167,7 +1265,7 @@ function CalendarPage() {
         sub="Time-blocked plan for each day. Tap any day to expand its rail."
       />
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 8 }}>
+      <div className="cal-week-7">
         {DAYS.map((d, i) => (
           <button key={i} onClick={() => setExpandedDay(i)} style={{
             border: `1px solid ${expandedDay === i ? 'var(--gold)' : 'var(--border)'}`,
@@ -1272,18 +1370,18 @@ function ActivityRow({ a, i, total }) {
             <div style={{ fontSize: 15, fontWeight: 500 }}>{a.title}</div>
             {a.duration && <div className="mono" style={{ fontSize: 10.5, color: 'var(--ink-3)', marginTop: 2 }}>{a.duration}</div>}
           </div>
-          {a.note && (
-            <Icon name={open ? 'chevron-down' : 'chevron-right'} size={14} style={{ color: 'var(--ink-3)' }} />
+          {(a.note || a.link) && (
+            <Icon name={open ? 'chevron-down' : 'chevron-right'} size={14} style={{ color: a.link ? 'var(--gold)' : 'var(--ink-3)' }} />
           )}
         </div>
-        {open && a.note && (
+        {open && (a.note || a.link) && (
           <div style={{ marginTop: 12, paddingTop: 12,
             borderTop: '1px dashed var(--border)',
             fontSize: 13, color: 'var(--ink-2)', lineHeight: 1.5,
             paddingLeft: 50 }}>
             {a.note}
-            {a.official && a.link && (
-              <div style={{ marginTop: 8, display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+            {a.link && (
+              <div style={{ marginTop: a.note ? 8 : 0, display: 'inline-flex', alignItems: 'center', gap: 6 }}>
                 <a href={a.link} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--gold)', fontSize: 12, display: 'inline-flex', alignItems: 'center', gap: 4, textDecoration: 'none' }}>
                   Open on disneyworld.com <Icon name="external" size={11} />
                 </a>
@@ -1311,7 +1409,7 @@ function ParksPage() {
         sub="One card per park. Atmosphere, rides, and the height tracker live here."
       />
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 10 }}>
+      <div className="park-tabs">
         {Object.values(PARKS).map(p => (
           <button key={p.id} onClick={() => setParkId(p.id)} style={{
             border: `1px solid ${parkId === p.id ? `var(--${p.id})` : 'var(--border)'}`,
@@ -1364,7 +1462,7 @@ function ParksPage() {
 
 function RideList({ park }) {
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 12 }}>
+    <div className="ride-grid">
       {park.rides.map((r, i) => (
         <div key={i} className="card" style={{ padding: 18, display: 'flex', gap: 14 }}>
           <div style={{ width: 48, height: 48, borderRadius: 10,
@@ -1374,7 +1472,16 @@ function RideList({ park }) {
             <Icon name="pin" size={18} />
           </div>
           <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ fontSize: 15, fontWeight: 500 }}>{r.name}</div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+              <div style={{ fontSize: 15, fontWeight: 500 }}>{r.name}</div>
+              {r.link && (
+                <a href={r.link} target="_blank" rel="noopener noreferrer"
+                  title="Open on disneyworld.disney.go.com"
+                  style={{ color: 'var(--ink-3)', display: 'inline-flex', alignItems: 'center' }}>
+                  <Icon name="external" size={12} />
+                </a>
+              )}
+            </div>
             <div style={{ fontSize: 12.5, color: 'var(--ink-3)', marginTop: 4, lineHeight: 1.5 }}>{r.notes}</div>
           </div>
           <div style={{ textAlign: 'right', flexShrink: 0 }}>
@@ -1552,7 +1659,16 @@ function DiningPage() {
         {DINING.map((d, i) => (
           <div key={i} className="card" style={{ padding: 20, position: 'relative', overflow: 'hidden' }}>
             <div className="mono-tiny" style={{ color: 'var(--gold)' }}>{d.when.toUpperCase()}</div>
-            <div className="display" style={{ fontSize: 24, marginTop: 8 }}>{d.name}</div>
+            <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginTop: 8 }}>
+              <div className="display" style={{ fontSize: 24 }}>{d.name}</div>
+              {d.link && (
+                <a href={d.link} target="_blank" rel="noopener noreferrer"
+                  title="Open on disneyworld.disney.go.com"
+                  style={{ color: 'var(--ink-3)', display: 'inline-flex', alignItems: 'center' }}>
+                  <Icon name="external" size={13} />
+                </a>
+              )}
+            </div>
             <div style={{ fontSize: 13.5, color: 'var(--ink-2)', marginTop: 10, lineHeight: 1.5 }}>{d.vibe}</div>
             <div style={{ marginTop: 14, display: 'flex', alignItems: 'center', gap: 10, paddingTop: 14, borderTop: '1px dashed var(--border)' }}>
               <div className="mono-tiny">Kid score</div>
@@ -1595,7 +1711,7 @@ function ChecklistPage() {
     <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
       <PageHeader eyebrow={`${done} of ${total} complete`} title="Checklist" sub="Grouped by responsibility. Check as you go — saved locally." />
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr', gap: 20 }}>
+      <div className="checklist-2col">
         <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
           {CHECKLIST.map(g => (
             <div key={g.group} className="card" style={{ padding: 20 }}>
@@ -1622,11 +1738,14 @@ function ChecklistPage() {
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             {DEADLINES.map((d, i) => (
               <div key={i} style={{
-                display: 'grid', gridTemplateColumns: '16px 90px 1fr', alignItems: 'center', gap: 12,
+                display: 'grid', gridTemplateColumns: '16px 90px 1fr auto', alignItems: 'center', gap: 12,
                 padding: '12px 0', borderBottom: i < DEADLINES.length - 1 ? '1px solid var(--border)' : 'none' }}>
                 <div style={{ width: 10, height: 10, borderRadius: '50%', background: d.done ? 'oklch(0.72 0.14 150)' : 'var(--border-strong)' }} />
                 <div className="mono" style={{ fontSize: 11, color: 'var(--ink-3)' }}>{d.date.slice(5)}</div>
                 <div style={{ fontSize: 13, color: d.done ? 'var(--ink-3)' : 'var(--ink)', textDecoration: d.done ? 'line-through' : 'none' }}>{d.label}</div>
+                {d.time
+                  ? <div className="mono" style={{ fontSize: 10.5, color: 'var(--gold)', whiteSpace: 'nowrap' }}>{d.time}</div>
+                  : <div />}
               </div>
             ))}
           </div>
@@ -1649,7 +1768,7 @@ function PackingPage() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
       <PageHeader eyebrow={`${done} of ${total} packed`} title="Packing" sub="Park-day bag, villa kit, and the easy-to-forget items." />
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 18 }}>
+      <div className="pack-grid-3">
         {PACKING.map(g => {
           const gDone = g.items.filter(i => state[`${g.group}-${i}`]).length;
           return (
