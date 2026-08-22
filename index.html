@@ -585,14 +585,15 @@ const HEIGHT_KIDS = CREW.filter(c => c.role === 'kid');
 
 const CHECKLIST = [
   { group: 'Mayeauxs · priority', items: [
-    { id: 'm1', label: 'Install My Disney Experience app',         done: false },
-    { id: 'm2', label: 'Create MDE accounts (Beau & Clare)',       done: false },
-    { id: 'm3', label: 'Connect family to Thomas as Friend',       done: false },
-    { id: 'm4', label: 'Delegate booking authority to Thomas',     done: false },
+    { id: 'm1', label: 'Install My Disney Experience app',         done: true },
+    { id: 'm2', label: 'Create MDE accounts (Beau & Clare)',       done: true },
+    { id: 'm3', label: 'Connect family to Thomas as Friend',       done: true },
+    { id: 'm4', label: 'Delegate booking authority to Thomas',     done: true },
     { id: 'm5', label: 'Upload photos for park passes',            done: false },
     { id: 'm6', label: 'Confirm dining preferences (allergies)',   done: false },
   ]},
   { group: 'Both families', items: [
+    { id: 'b8', label: 'Park tickets purchased and linked to MDE', done: true },
     { id: 'b1', label: 'Pack comfortable shoes (broken in)',       done: false },
     { id: 'b2', label: 'Confirm pet sitters',                      done: false },
     { id: 'b3', label: 'Buy stroller fans',                        done: false },
@@ -612,14 +613,14 @@ const CHECKLIST = [
 const DEADLINES = [
   { date: '2026-12-01', label: 'Booking-prep review · build Dec 8 priority list', time: '9:00 AM ET', done: false },
   { date: '2026-12-08', label: 'Dining reservations open · 60-day window',         time: '6:00 AM ET', done: false },
-  { date: '2027-01-07', label: 'Lightning Lane window opens · 30 days out',                            done: false },
+  { date: '2027-01-07', label: 'Sitter + special experiences · 30 days out',                            done: false },
   { date: '2027-01-23', label: 'Final dining modifications · 14 days out',                             done: false },
   { date: '2027-01-30', label: 'DVC Lightning Lane Multi Pass · 7-day window',                         done: false },
   { date: '2027-02-05', label: 'Final prep · pack cars, charge devices',                               done: false },
   { date: '2027-02-06', label: 'Arrival day · drive begins',                                           done: false },
 ];
 
-const LAST_UPDATED = '2026-05-25';
+const LAST_UPDATED = '2026-08-21';
 
 const PACKING = [
   { group: 'Park bag',         items: ['Stroller fan', 'Water bottles (×2)', 'Snack pouches', 'Poncho (×9)', 'Sunscreen stick', 'Moleskin', 'Portable battery', 'Sharpie', 'Ziplocs', "Kids' headphones"] },
@@ -639,13 +640,13 @@ const DINING = [
 ];
 
 const ACCOUNT_STEPS = [
-  { title: 'Download My Disney Experience',     detail: 'iOS App Store / Google Play. Both adults in the Mayeaux family.',                  done: false },
-  { title: 'Create MDE accounts',               detail: 'Beau and Clare each create their own. Use email you check daily.',                 done: false },
-  { title: 'Add adult profiles',                detail: 'Both adults add themselves with photo + DOB.',                                      done: false },
-  { title: 'Add the three kids as profiles',    detail: 'Emma, Ava, Mia — photo + date of birth required.',                                 done: false },
-  { title: 'Connect to the Danels',             detail: "Use Thomas's sharing link. Both families must be in the same Friends list.",      done: false },
-  { title: 'Delegate booking authority',        detail: 'In Family & Friends settings, grant Thomas "Plan & Share" so he can book for all.', done: false },
-  { title: 'Confirm park ticket assignments',   detail: 'Tickets are pre-purchased. Each profile needs one assigned.',                      done: false },
+  { title: 'Download My Disney Experience',     detail: 'iOS App Store / Google Play. Both adults in the Mayeaux family.',                  done: true },
+  { title: 'Create MDE accounts',               detail: 'Beau and Clare each create their own. Use email you check daily.',                 done: true },
+  { title: 'Add adult profiles',                detail: 'Both adults add themselves with photo + DOB.',                                      done: true },
+  { title: 'Add the three kids as profiles',    detail: 'Emma, Ava, Mia — photo + date of birth required.',                                 done: true },
+  { title: 'Connect to the Danels',             detail: "Use Thomas's sharing link. Both families must be in the same Friends list.",      done: true },
+  { title: 'Delegate booking authority',        detail: 'In Family & Friends settings, grant Thomas "Plan & Share" so he can book for all.', done: true },
+  { title: 'Confirm park ticket assignments',   detail: 'Tickets purchased May 25. Each profile still needs its ticket assigned.',          done: false },
   { title: 'Set up MagicMobile / MagicBand+',   detail: 'Choose digital or physical. Order MagicBand+ ~30 days before trip.',               done: false },
   { title: 'Upload photos for PhotoPass',       detail: 'Optional but worth it. Shared album at end of trip.',                              done: false },
   { title: 'Test mobile check-in',              detail: 'Set up notifications so you skip the front desk on Saturday.',                     done: false },
@@ -955,9 +956,9 @@ function Overview({ heroVariant, onNav }) {
 
       <div className="ov-actions">
         <ActionCard
-          title="Mayeauxs · finish account setup"
-          sub="MDE accounts, Friends-list link, booking authority. Needed before Dec 8."
-          cta="Resume setup"
+          title="Mayeauxs · remaining account steps"
+          sub="MDE accounts, Friends-list, and booking authority are done. Next: confirm park-ticket assignments."
+          cta="Continue setup"
           accent
           onClick={() => onNav('account')}
         />
@@ -1133,7 +1134,7 @@ function CDUnit({ n, label, big, muted }) {
 function UpNext({ onNav }) {
   const upcoming = [
     { date: 'Tue · Dec 08', label: 'Dining + experiences open',      mono: 'T-60d' },
-    { date: 'Thu · Jan 07', label: 'Lightning Lane · 30 days out',   mono: 'T-30d' },
+    { date: 'Thu · Jan 07', label: 'Sitter + special experiences',   mono: 'T-30d' },
     { date: 'Sat · Jan 30', label: 'LL Multi Pass + check-in',       mono: 'T-7d' },
     { date: 'Sat · Feb 06', label: 'Depart Louisiana · 06:30',       mono: 'Day 1' },
   ];
