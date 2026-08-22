@@ -1,1 +1,1 @@
-probe ok 2026-08-21
+file:///workspace/disney-hub/index.html
